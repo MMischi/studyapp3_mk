@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -24,3 +24,38 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+/*
+link: https://ionicframework.com/docs/theming/colors
+
+    --ion-color-primary                 = Base color (Hex)
+    --ion-color-primary-rgb             = Base color (rgb)
+    --ion-color-primary-contrast        = Contrast color, should be visible on base color (Hex)
+    --ion-color-primary-contrast-rgb    = Contrast color, should be visible on base color (rgb)
+    --ion-color-primary-shade           = darker version of base color
+    --ion-color-primary-tint            = lighter version of base color
+*/
+
+:root {
+  --ion-color-primary: #a3c4de;
+  --ion-color-primary-rgb: rgb(163, 196, 222);
+  --ion-color-primary-contrast: #000000;
+  --ion-color-primary-contrast-rgb: rgb(0, 0, 0);
+  --ion-color-primary-shade: #4e708a;
+  --ion-color-primary-tint: #d8e8f5;
+
+  --ion-color-secondary: #dbf2cb;
+  --ion-color-secondary-rgb: rgb(201, 218, 189);
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: rgb(0, 0, 0);
+  --ion-color-secondary-shade: #a4ba94;
+  --ion-color-secondary-tint: #f0fbe9;
+
+  --ion-color-tertiary: #efac86;
+  --ion-color-tertiary-rgb: rgb(239, 172, 134);
+  --ion-color-tertiary-contrast: #000000;
+  --ion-color-tertiary-contrast-rgb: rgb(0, 0, 0);
+  --ion-color-tertiary-shade: #ed8e58;
+  --ion-color-tertiary-tint: #f7d6c3;
+}
+
