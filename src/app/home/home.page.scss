@@ -1,7 +1,20 @@
 ion-slides {
   height: 50vh;
 }
-
 ion-slide ion-card {
   height: 75%;
+}
+
+.card {
+  &.first {
+    background: var(--ion-color-primary-tint);
+  }
+
+  &.second {
+    background: var(--ion-color-secondary-tint);
+  }
+
+  &.third {
+    background: var(--ion-color-tertiary-tint);
+  }
 }
