@@ -1,10 +1,10 @@
 <ion-content>
-  <div>
+  <div class="greeting-area">
     <div class="decoration-primary deco-roundetBottomCorner"></div>
     <div class="decoration-tertiary deco-greeting">
       <div>
-        <h3>Willkommen</h3>
-        <h2>Bist du bereit loszulegen?</h2>
+        <ion-text><h3>Willkommen!</h3></ion-text>
+        <ion-text><h2>Bist du bereit loszulegen?</h2></ion-text>
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@
     <div *ngIf="learningKit.length > 0">
       <ion-list lines="none">
         <ion-item>
-          <h3>Wähle den Modus</h3>
+          <ion-text><h3>Wähle den Modus</h3></ion-text>
         </ion-item>
       </ion-list>
 
@@ -60,7 +60,11 @@
         <ion-slide>
           <ion-card class="card first">
             <ion-card-header>
-              <ion-card-title>Alles auf einem Blick</ion-card-title>
+              <ion-card-title>
+                <h4>
+                  Alles im Blick
+                </h4>
+              </ion-card-title>
             </ion-card-header>
 
             <ion-card-content>
@@ -75,7 +79,11 @@
         <ion-slide>
           <ion-card class="card second">
             <ion-card-header>
-              <ion-card-title>Lerne mit Sinn</ion-card-title>
+              <ion-card-title>
+                <h4>
+                  Lerne mit Sinn
+                </h4>
+              </ion-card-title>
             </ion-card-header>
 
             <ion-card-content>
@@ -90,7 +98,11 @@
         <ion-slide>
           <ion-card class="card third">
             <ion-card-header>
-              <ion-card-title>Teste dein Wissen</ion-card-title>
+              <ion-card-title>
+                <h4>
+                  Teste dein Wissen
+                </h4>
+              </ion-card-title>
             </ion-card-header>
 
             <ion-card-content>
