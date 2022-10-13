@@ -19,38 +19,35 @@
 }
 .deco-space {
   width: 30vw;
-  height: 50px;
+  min-height: 50px;
 
   margin: -0.5px;
 
   div {
     height: 110%;
-    width: 100vw;;
+    width: 100vw;
     background-color: #ffffff;
     border-top-left-radius: 50px;
   }
 }
 
-.content {
-  margin-top: 50px;
-
-  h3 {
-    padding: 0 20px;
+.content-area {
+  ion-button {
+    margin: 0 auto;
   }
 
   ion-slides {
-  padding: 0;
-  height: 35vh;
-  min-height: 200px;
+    padding: 0;
+    height: 30vh;
+    min-height: 150px;
 
-  ion-slide {
-    ion-card {
-      height: 95%;
+    ion-slide {
+      ion-card {
+        height: 95%;
+      }
     }
   }
 }
-}
-
 
 .card {
   &.first {
@@ -67,5 +64,39 @@
 
   ion-card-title {
     font-size: 1.2em;
+  }
+}
+
+.topic-area {
+  ion-list {
+    padding: 25px 0;
+    border-top-left-radius: 50px;
+  }
+}
+
+.deco-end {
+  position: fixed;
+  z-index: -10;
+  bottom: 0;
+
+  height: 50vh;
+  width: 100vw;
+
+  :first-child {
+    bottom: 30%;
+    height: 70%;
+
+    div {
+      height: 100%;
+      background-color: #ffffff;
+      border-top-left-radius: 0%;
+      border-bottom-right-radius: 30%;
+    }
+  }
+  
+  :last-child {
+    bottom: 0;
+    height: 100%;
+    border-top-left-radius: 80px;
   }
 }

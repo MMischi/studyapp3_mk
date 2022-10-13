@@ -7,56 +7,108 @@
         <h2>Bist du bereit loszulegen?</h2>
       </div>
     </div>
-    <div class="decoration-tertiary deco-space">
-      <div class="decoration-background"></div>
+  </div>
+
+  <div class="topic-area decoration-tertiary deco-space">
+    <div class="decoration-background">
+      <ion-list>
+        <ion-item>
+          <h3>Wähle das Thema</h3>
+        </ion-item>
+        <ion-item>
+          <ion-select
+            [compareWith]="compareWith"
+            placeholder="Lernset(s) auswählen"
+            (ionChange)="handleChange($event)"
+            [multiple]="true"
+          >
+            <ion-select-option *ngFor="let kit of learningKits" [value]="kit"
+              >{{ kit.name }}</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
+
+        <!--
+        <ion-item lines="none">
+          <ion-label>Current value: {{ currentFood | json }}</ion-label>
+        </ion-item>
+        -->
+      </ion-list>
     </div>
   </div>
 
-  <div class="content">
-    <h3>Wähle eine Kategorie</h3>
+  <div class="content-area">
+    <div *ngIf="learningKit.length == 0" class="ion-text-center">
+      <p>
+        Findest du dein Lernset nicht in der Liste?
+      </p>
 
-    <ion-slides pager="false" [options]="slideOpts">
-      <ion-slide>
-        <ion-card class="card first">
-          <ion-card-header>
-            <ion-card-title>Alles auf einem Blick</ion-card-title>
-          </ion-card-header>
+      <ion-button shape="round">
+        <ion-icon slot="start" name="folder-open-outline"></ion-icon>
+        Erstelle ein neues Lernset
+      </ion-button>
+    </div>
 
-          <ion-card-content>
-            <p>
-              Perfekt, wenn du dich neu mit neune Lerinhalten auseinandersetzen willst.
-            </p>
-          </ion-card-content>
-        </ion-card>
-      </ion-slide>
+    <div *ngIf="learningKit.length > 0">
+      <ion-list lines="none">
+        <ion-item>
+          <h3>Wähle den Modus</h3>
+        </ion-item>
+      </ion-list>
 
-      <ion-slide>
-        <ion-card class="card second">
-          <ion-card-header>
-            <ion-card-title>Lerne mit Sinn</ion-card-title>
-          </ion-card-header>
+      <ion-slides pager="false" [options]="slideOpts">
+        <ion-slide>
+          <ion-card class="card first">
+            <ion-card-header>
+              <ion-card-title>Alles auf einem Blick</ion-card-title>
+            </ion-card-header>
 
-          <ion-card-content>
-            <p>
-              Perfekt, wenn du Lerinhalte ins Langzeitgedächtnis überführen möchtest.
-            </p>
-          </ion-card-content>
-        </ion-card>
-      </ion-slide>
+            <ion-card-content>
+              <p>
+                Perfekt, wenn du dich neu mit neune Lerinhalten
+                auseinandersetzen willst.
+              </p>
+            </ion-card-content>
+          </ion-card>
+        </ion-slide>
 
-      <ion-slide>
-        <ion-card class="card third">
-          <ion-card-header>
-            <ion-card-title>Teste dein Wissen</ion-card-title>
-          </ion-card-header>
+        <ion-slide>
+          <ion-card class="card second">
+            <ion-card-header>
+              <ion-card-title>Lerne mit Sinn</ion-card-title>
+            </ion-card-header>
 
-          <ion-card-content>
-            <p>
-              Perfekt, um dein Wissen in einer Prüfungssituation auf die Probe zu stellen. 
-            </p>
-          </ion-card-content>
-        </ion-card>
-      </ion-slide>
-    </ion-slides>
+            <ion-card-content>
+              <p>
+                Perfekt, wenn du Lerinhalte ins Langzeitgedächtnis überführen
+                möchtest.
+              </p>
+            </ion-card-content>
+          </ion-card>
+        </ion-slide>
+
+        <ion-slide>
+          <ion-card class="card third">
+            <ion-card-header>
+              <ion-card-title>Teste dein Wissen</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <p>
+                Perfekt, um dein Wissen in einer Prüfungssituation auf die Probe
+                zu stellen.
+              </p>
+            </ion-card-content>
+          </ion-card>
+        </ion-slide>
+      </ion-slides>
+    </div>
+  </div>
+
+  <div class="deco-end">
+    <div class="decoration-secondary">
+      <div></div>
+    </div>
+    <div class="decoration-secondary"></div>
   </div>
 </ion-content>
