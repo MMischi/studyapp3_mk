@@ -36,11 +36,15 @@ link: https://ionicframework.com/docs/theming/colors
     --ion-color-primary-tint            = lighter version of base color
 */
 
+ion-content {
+  --padding-top: 50px;
+}
+
 :root {
   --ion-color-primary: #7895AC;
   --ion-color-primary-rgb: rgb(120, 149, 172);
-  --ion-color-primary-contrast: #000000;
-  --ion-color-primary-contrast-rgb: rgb(0, 0, 0);
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: rgb(255, 255, 255);
   --ion-color-primary-shade: #4E708A;
   --ion-color-primary-tint: #d8e8f5;
 
