@@ -1,36 +1,3 @@
-.deco-roundetBottomCorner {
-  z-index: 10000;
-  height: 15vh;
-
-  border-bottom-right-radius: 50px;
-}
-.deco-greeting {
-  width: 85vw;
-  margin-top: -12vh;
-  padding: 25px 0;
-
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px;
-
-  div {
-    padding: 0 20px;
-  }
-}
-.deco-space {
-  width: 30vw;
-  min-height: 50px;
-
-  margin: -0.5px;
-
-  div {
-    height: 110%;
-    width: 100vw;
-    background-color: #ffffff;
-    border-top-left-radius: 50px;
-  }
-}
-
 .greeting-area {
   h2 {
     font-size: xx-large;
@@ -42,8 +9,47 @@
     margin-bottom: 0;
     opacity: 0.6;
   }
+
+  .deco-roundetBottomCorner {
+    z-index: 10000;
+    height: 15vh;
+  
+    border-bottom-right-radius: 50px;
+  }
+
+  .deco-greeting {
+    width: 85vw;
+    margin-top: -12vh;
+    padding: 25px 0;
+  
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+  
+    div {
+      padding: 0 20px;
+    }
+  }
 }
 
+.topic-area {
+  width: 30vw;
+  min-height: 50px;
+
+  margin: -0.5px;
+
+  div {
+    height: 110%;
+    width: 100vw;
+    background-color: #ffffff;
+    border-top-left-radius: 50px;
+  }
+
+  ion-list {
+    padding: 20px 0;
+    border-top-left-radius: 50px;
+  }
+}
 .content-area {
   ion-button {
     margin: 0 auto;
@@ -80,13 +86,36 @@
   }
 }
 
-.topic-area {
-  ion-list {
-    padding: 20px 0;
-    border-top-left-radius: 50px;
+.deco-end {
+  z-index: -10;
+
+  position: absolute;
+  height: 20vh;
+  width: 100vw;
+  bottom: 10vh;
+
+  div {
+    background-color: var(--ion-background-color, #fff);
+    
+    z-index: -9;
+    height: 100%;
+    width: 100vw;
+
+    border-bottom-right-radius: 60%;
   }
 }
+.deco-line {
+  z-index: -10;
 
+  position: absolute;
+  height: 10vh;
+  width: 100vw;
+  bottom: 0;
+
+  border-top-left-radius: 30%;
+}
+
+/*
 .deco-end {
   position: fixed;
   z-index: -10;
@@ -98,11 +127,13 @@
   :first-child {
     bottom: 30%;
     height: 70%;
+    width: 100%;
 
-    div {
+    .deco-define {
       height: 100%;
-      background-color: #ffffff;
-      border-top-left-radius: 0%;
+      width: 100%;
+
+      border-top-left-radius: 0px;
       border-bottom-right-radius: 30%;
     }
   }
@@ -113,3 +144,4 @@
     border-top-left-radius: 80px;
   }
 }
+*/
