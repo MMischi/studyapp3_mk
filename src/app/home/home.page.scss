@@ -1,9 +1,56 @@
-ion-slides {
-  height: 50vh;
+.deco-roundetBottomCorner {
+  z-index: 10000;
+  height: 15vh;
+
+  border-bottom-right-radius: 50px;
 }
-ion-slide ion-card {
-  height: 75%;
+.deco-greeting {
+  width: 85vw;
+  margin-top: -10vh;
+  padding: 25px 0;
+
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+
+  div {
+    padding: 0 20px;
+  }
 }
+.deco-space {
+  width: 30vw;
+  height: 50px;
+
+  margin: -0.5px;
+
+  div {
+    height: 110%;
+    width: 100vw;;
+    background-color: #ffffff;
+    border-top-left-radius: 50px;
+  }
+}
+
+.content {
+  margin-top: 50px;
+
+  h3 {
+    padding: 0 20px;
+  }
+
+  ion-slides {
+  padding: 0;
+  height: 35vh;
+  min-height: 200px;
+
+  ion-slide {
+    ion-card {
+      height: 95%;
+    }
+  }
+}
+}
+
 
 .card {
   &.first {
@@ -16,5 +63,9 @@ ion-slide ion-card {
 
   &.third {
     background: var(--ion-color-tertiary-tint);
+  }
+
+  ion-card-title {
+    font-size: 1.2em;
   }
 }

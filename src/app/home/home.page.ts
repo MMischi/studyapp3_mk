@@ -8,7 +8,7 @@ import { Component } from "@angular/core";
 export class HomePage {
   slideOpts = {
     slidesPerView: 1.5,
-    spaceBetween: 0,
+    spaceBetween: -10,
 
     initialSlide: 1,
     centeredSlides: true,

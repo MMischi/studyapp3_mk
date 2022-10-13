@@ -1,43 +1,62 @@
 <ion-content>
-  <ion-slides pager="true" [options]="slideOpts">
-    <ion-slide>
-      <ion-card class="card first">
-        <ion-card-header>
-          <ion-card-title>Lesen</ion-card-title>
-        </ion-card-header>
+  <div>
+    <div class="decoration-primary deco-roundetBottomCorner"></div>
+    <div class="decoration-tertiary deco-greeting">
+      <div>
+        <h3>Willkommen</h3>
+        <h2>Bist du bereit loszulegen?</h2>
+      </div>
+    </div>
+    <div class="decoration-tertiary deco-space">
+      <div class="decoration-background"></div>
+    </div>
+  </div>
 
-        <ion-card-content>
-          Keep close to Nature's heart... and break clear away, once in awhile,
-          and climb a mountain or spend a week in the woods. Wash your spirit
-          clean.
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
+  <div class="content">
+    <h3>Wähle eine Kategorie</h3>
 
-    <ion-slide>
-      <ion-card class="card second">
-        <ion-card-header>
-          <ion-card-title>Lernen</ion-card-title>
-        </ion-card-header>
+    <ion-slides pager="false" [options]="slideOpts">
+      <ion-slide>
+        <ion-card class="card first">
+          <ion-card-header>
+            <ion-card-title>Alles auf einem Blick</ion-card-title>
+          </ion-card-header>
 
-        <ion-card-content>
-          Keep close to Nature's heart... and break clear away, once in awhile.
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
+          <ion-card-content>
+            <p>
+              Perfekt, wenn du dich neu mit neune Lerinhalten auseinandersetzen willst.
+            </p>
+          </ion-card-content>
+        </ion-card>
+      </ion-slide>
 
-    <ion-slide>
-      <ion-card class="card third">
-        <ion-card-header>
-          <ion-card-title>Prüfen</ion-card-title>
-        </ion-card-header>
+      <ion-slide>
+        <ion-card class="card second">
+          <ion-card-header>
+            <ion-card-title>Lerne mit Sinn</ion-card-title>
+          </ion-card-header>
 
-        <ion-card-content>
-          Keep close to Nature's heart... and break clear away, once in awhile,
-          and climb a mountain or spend a week in the woods. Wash your spirit
-          clean.
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
-  </ion-slides>
+          <ion-card-content>
+            <p>
+              Perfekt, wenn du Lerinhalte ins Langzeitgedächtnis überführen möchtest.
+            </p>
+          </ion-card-content>
+        </ion-card>
+      </ion-slide>
+
+      <ion-slide>
+        <ion-card class="card third">
+          <ion-card-header>
+            <ion-card-title>Teste dein Wissen</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <p>
+              Perfekt, um dein Wissen in einer Prüfungssituation auf die Probe zu stellen. 
+            </p>
+          </ion-card-content>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+  </div>
 </ion-content>
