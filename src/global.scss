@@ -42,20 +42,51 @@ ion-content {
 
 .decoration-primary {
   background-color: var(--ion-color-primary);
+
+  &.tint {
+    background-color: var(--ion-color-primary-tint);
+  }
+  &.shade {
+    background-color: var(--ion-color-primary-shade);
+  }
 }
 .decoration-secondary {
   background-color: var(--ion-color-secondary);
+
+  &.tint {
+    background-color: var(--ion-color-secondary-tint);
+  }
+  &.shade {
+    background-color: var(--ion-color-secondary-shade);
+  }
 }
 .decoration-tertiary {
   background-color: var(--ion-color-tertiary);
+
+  &.tint {
+    background-color: var(--ion-color-tertiary-tint);
+  }
+  &.shade {
+    background-color: var(--ion-color-tertiary-shade);
+  }
+}
+.decoration-fourth {
+  background-color: var(--ion-color-fourth);
+
+  &.tint {
+    background-color: var(--ion-color-fourth-tint);
+  }
+  &.shade {
+    background-color: var(--ion-color-secofourthndary-shade);
+  }
 }
 .decoration-background {
   background-color: var(--ion-background-color);
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap");
 :root {
-  --ion-font-family: 'Rubik', sans-serif;
+  --ion-font-family: "Rubik", sans-serif;
 
   --ion-color-primary: #7895ac;
   --ion-color-primary-rgb: rgb(120, 149, 172);
@@ -77,6 +108,13 @@ ion-content {
   --ion-color-tertiary-contrast-rgb: rgb(0, 0, 0);
   --ion-color-tertiary-shade: #ed8e58;
   --ion-color-tertiary-tint: #f7d6c3;
+
+  --ion-color-fourth: #ffefa3;
+  --ion-color-fourth-rgb: rgb(255, 239, 163);
+  --ion-color-fourth-contrast: #000000;
+  --ion-color-fourth-contrast-rgb: rgb(0, 0, 0);
+  --ion-color-fourth-shade: #ffdf49;
+  --ion-color-fourth-tint: #fff8d5;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -102,6 +140,13 @@ ion-content {
       --ion-color-tertiary-contrast-rgb: rgb(255, 255, 255);
       --ion-color-tertiary-shade: #f7d6c3;
       --ion-color-tertiary-tint: #ed8e58;
+
+      --ion-color-fourth: #ffefa3;
+      --ion-color-fourth-rgb: rgb(255, 239, 163);
+      --ion-color-fourth-contrast: #000000;
+      --ion-color-fourth-contrast-rgb: rgb(0, 0, 0);
+      --ion-color-fourth-shade: #ffdf49;
+      --ion-color-fourth-tint: #fff8d5;
     }
   }
 }

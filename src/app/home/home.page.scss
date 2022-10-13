@@ -96,9 +96,12 @@
 
   div {
     background-color: var(--ion-background-color, #fff);
-    
+
+    position: absolute;
+    bottom: 0px;
+
     z-index: -9;
-    height: 100%;
+    height: 110%;
     width: 100vw;
 
     border-bottom-right-radius: 60%;
@@ -115,33 +118,3 @@
   border-top-left-radius: 30%;
 }
 
-/*
-.deco-end {
-  position: fixed;
-  z-index: -10;
-  bottom: 0;
-
-  height: 50vh;
-  width: 100vw;
-
-  :first-child {
-    bottom: 30%;
-    height: 70%;
-    width: 100%;
-
-    .deco-define {
-      height: 100%;
-      width: 100%;
-
-      border-top-left-radius: 0px;
-      border-bottom-right-radius: 30%;
-    }
-  }
-  
-  :last-child {
-    bottom: 0;
-    height: 100%;
-    border-top-left-radius: 80px;
-  }
-}
-*/
