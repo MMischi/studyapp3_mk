@@ -25,4 +25,38 @@
   <div class="decoration-tertiary deco-space">
     <div class="decoration-background"></div>
   </div>
+
+  <div class="content-area">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Benenne dein Lernset:</ion-label>
+        <ion-input placeholder="Die Geschichte über Cookies"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <div>
+      <ion-card>
+        <ion-card-content>
+          <ion-list lines="full">
+            <ion-item class="ion-no-padding">
+              <ion-label position="stacked">Frage:</ion-label>
+              <ion-textarea autoGrow="true" rows="1"></ion-textarea>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+              <ion-label position="stacked">Antwort:</ion-label>
+              <ion-textarea autoGrow="true" rows="1"></ion-textarea>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div class="ion-text-center">
+      <p>Noch eine Lernkarte?</p>
+
+      <ion-button shape="round" routerLink="/create-studykit">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
 </ion-content>
