@@ -9,7 +9,14 @@ export class CreateStudykitPage implements OnInit {
 
   constructor() { }
 
+  studycard_amount = 0;
+
   ngOnInit() {
+  }
+
+  addStudycard() {
+    this.studycard_amount++;
+    console.log(this.studycard_amount);
   }
 
 }

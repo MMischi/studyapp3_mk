@@ -35,7 +35,7 @@
     </ion-list>
 
     <div>
-      <ion-card>
+      <ion-card *ngFor="let _ of [].constructor(studycard_amount+1)">
         <ion-card-content>
           <ion-list lines="full">
             <ion-item class="ion-no-padding">
@@ -45,6 +45,7 @@
             <ion-item class="ion-no-padding">
               <ion-label position="stacked">Antwort:</ion-label>
               <ion-textarea autoGrow="true" rows="1"></ion-textarea>
+              <!-- add possibility for adding multiple choice -->
             </ion-item>
           </ion-list>
         </ion-card-content>
@@ -54,7 +55,7 @@
     <div class="ion-text-center">
       <p>Noch eine Lernkarte?</p>
 
-      <ion-button shape="round" routerLink="/create-studykit">
+      <ion-button shape="round" (click)="addStudycard()">
         <ion-icon slot="icon-only" name="add"></ion-icon>
       </ion-button>
     </div>
