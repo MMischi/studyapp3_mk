@@ -36,6 +36,10 @@ link: https://ionicframework.com/docs/theming/colors
     --ion-color-primary-tint            = lighter version of base color
 */
 
+ion-content {
+  --padding-bottom: 20px;
+}
+
 .decoration-primary {
   background-color: var(--ion-color-primary);
 
