@@ -6,15 +6,17 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class DataService {
 
-  private _storage: Storage | null = null;
+  private DATA_STORAGE = 'studyapp_storage';
 
   constructor(private storage: Storage) {
     this.init();
   }
 
   async init() {
-    // If using, define drivers here: await this.storage.defineDriver(/*...*/);
-    const storage = await this.storage.create();
-    this._storage = storage;
+    await this.storage.create();
+  }
+
+  async getData() {
+    return (await this.storage.get(this.DATA_STORAGE)) || [];
   }
 }
