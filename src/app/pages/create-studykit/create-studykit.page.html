@@ -3,16 +3,16 @@
     <ion-buttons slot="start">
       <ion-back-button text="" defaultHref="home"></ion-back-button>
     </ion-buttons>
-
-    <ion-buttons slot="primary">
-      <ion-button>
-        <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-fab vertical="top" horizontal="end" edge slot="fixed">
+    <ion-fab-button color="secondary">
+      <ion-icon name="checkmark-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
   <div class="greeting-area">
     <div class="decoration-primary deco-roundetBottomCorner"></div>
     <div class="decoration-tertiary deco-header">
