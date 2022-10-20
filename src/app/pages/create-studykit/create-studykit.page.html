@@ -35,14 +35,25 @@
     </ion-list>
 
     <div>
-      <ion-card *ngFor="let _ of [].constructor(studycard_amount+1)">
+      <ion-card *ngFor="let studycard of studycards">
         <ion-card-content>
           <ion-list lines="full">
+            <ion-item class="ion-no-padding">
+              <ion-label>Art der Frage</ion-label>
+              <ion-select placeholder="..." (ionChange)="handleChange($event, studycard.id)">
+                <ion-select-option value="multiple"
+                  >Multiple Choice</ion-select-option
+                >
+                <ion-select-option value="text">Text</ion-select-option>
+              </ion-select>
+            </ion-item>
+
             <ion-item class="ion-no-padding">
               <ion-label position="stacked">Frage:</ion-label>
               <ion-textarea autoGrow="true" rows="1"></ion-textarea>
             </ion-item>
-            <ion-item class="ion-no-padding">
+
+            <ion-item *ngIf="studycard.type == 'text'" class="ion-no-padding">
               <ion-label position="stacked">Antwort:</ion-label>
               <ion-textarea autoGrow="true" rows="1"></ion-textarea>
               <!-- add possibility for adding multiple choice -->
