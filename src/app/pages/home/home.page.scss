@@ -2,12 +2,11 @@
   h2 {
     font-size: xx-large;
     margin-top: 5px;
-    opacity: 0.75;
   }
   h3 {
     font-size: large;
     margin-bottom: 0;
-    opacity: 0.6;
+    opacity: 0.89;
   }
 
   .deco-roundetBottomCorner {
@@ -39,7 +38,7 @@
   margin: -0.5px;
 
   div {
-    height: 110%;
+    min-height: 65px;
     width: 100vw;
     background-color: #ffffff;
     border-top-left-radius: 50px;
