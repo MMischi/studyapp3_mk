@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 
 import { v4 as uuidv4 } from 'uuid';
@@ -36,5 +37,21 @@ export class CreateStudykitPage implements OnInit {
   checkCondition(index) {
     let card_info = this.cardType.split('_');
     return card_info[0] == "text" && card_info[1] == index;
+  }
+
+  newAnswerAtEnter(studycard_id: String) {
+
+  }
+
+  newAnswer(studycard_id: String) {
+    const index = this.studycards.findIndex(item => item.id === studycard_id);
+
+    let answer: Answer = {
+      id: uuidv4(),
+      text: "",
+      isRight: undefined,
+    };
+
+    this.studycards[index].answers.push(answer);
   }
 }

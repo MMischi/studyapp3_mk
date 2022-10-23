@@ -40,7 +40,10 @@
           <ion-list lines="full">
             <ion-item class="ion-no-padding">
               <ion-label>Art der Frage</ion-label>
-              <ion-select placeholder="..." (ionChange)="handleChange($event, studycard.id)">
+              <ion-select
+                placeholder="..."
+                (ionChange)="handleChange($event, studycard.id)"
+              >
                 <ion-select-option value="multiple"
                   >Multiple Choice</ion-select-option
                 >
@@ -56,7 +59,24 @@
             <ion-item *ngIf="studycard.type == 'text'" class="ion-no-padding">
               <ion-label position="stacked">Antwort:</ion-label>
               <ion-textarea autoGrow="true" rows="1"></ion-textarea>
-              <!-- add possibility for adding multiple choice -->
+            </ion-item>
+
+            <ion-item
+              *ngIf="studycard.type == 'multiple'"
+              class="ion-no-padding"
+            >
+              <ion-label position="stacked">Antworten:</ion-label>
+              <ion-item *ngFor="let answer of studycard.answers" (click)="newAnswerAtEnter(studycard.id)">
+                <ion-checkbox slot="start"></ion-checkbox>
+                <ion-input placeholder="Antwort"></ion-input>
+              </ion-item>
+
+              <ion-item class="addAnswer" (click)="newAnswer(studycard.id)">
+                <ion-icon name="add-circle-outline"></ion-icon>
+                <ion-text>
+                  Antwortmöglichkeit hinzufügen 
+                </ion-text>
+              </ion-item>
             </ion-item>
           </ion-list>
         </ion-card-content>
