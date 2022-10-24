@@ -62,14 +62,17 @@
             </ion-item>
 
             <ion-item
-              *ngIf="studycard.type == 'multiple'"
+              *ngIf="studycard.type == 'multiple';"
               class="ion-no-padding"
             >
               <ion-label position="stacked">Antworten:</ion-label>
-              <ion-item *ngFor="let answer of studycard.answers" (keyup.enter)="newAnswer(studycard.id)">
-                <ion-checkbox slot="start"></ion-checkbox>
-                <ion-input placeholder="Antwort" [(ngModel)]="answer.text"></ion-input>
-              </ion-item>
+
+              <div id="answers-box">
+                <ion-item *ngFor="let answer of studycard.answers" (keyup.enter)="newAnswer(studycard.id)">
+                  <ion-checkbox slot="start"></ion-checkbox>
+                  <ion-input placeholder="Antwort" [(ngModel)]="answer.text"></ion-input>
+                </ion-item>
+              </div>
 
               <ion-item class="addAnswer" (click)="newAnswer(studycard.id)">
                 <ion-icon name="add-circle-outline"></ion-icon>

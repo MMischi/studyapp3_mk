@@ -37,7 +37,7 @@ export class CreateStudykitPage implements OnInit {
       repetitionTimes: 0,
       type: "",
       question: "",
-      answers: []
+      answers: [],
     };
     this.studycards.push(card);
   }
@@ -45,6 +45,10 @@ export class CreateStudykitPage implements OnInit {
   handleChange(ev, studycard_id) {
     const index = this.studycards.findIndex(item => item.id === studycard_id);
     this.studycards[index].type = ev.target.value;
+
+    if (ev.target.value == "multiple") {
+      this.newAnswer(studycard_id);
+    }
   }
 
   checkCondition(index) {
@@ -62,5 +66,14 @@ export class CreateStudykitPage implements OnInit {
     };
 
     this.studycards[index].answers.push(answer);
+    setTimeout(this.setFocusOnLastElement, 0);
+  }
+
+  setFocusOnLastElement() {
+    let answersBox = document.getElementById("answers-box");
+    let lastIonItem = answersBox.lastElementChild;
+    let input = lastIonItem.lastElementChild.getElementsByTagName("input")[0] as HTMLElement || null;
+
+    input.focus();
   }
 }
