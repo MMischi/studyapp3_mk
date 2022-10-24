@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
+import { Studykit } from "src/app/services/_interfaces/studykit";
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -13,7 +14,19 @@ export class CreateStudykitPage implements OnInit {
   constructor() {}
 
   cardType: string = "";
-  studycards: Card[] = [];
+  studycards: Card[] = [{
+    id: uuidv4(),
+      lastLearnedOn: new Date(),
+      repetitionTimes: 0,
+      type: "",
+      question: "",
+      answers: []
+  }];
+  studykit: Studykit = {
+    id: uuidv4(),
+    title: "",
+    cards: this.studycards,
+  };
 
   ngOnInit() { }
 
@@ -38,11 +51,7 @@ export class CreateStudykitPage implements OnInit {
     let card_info = this.cardType.split('_');
     return card_info[0] == "text" && card_info[1] == index;
   }
-
-  newAnswerAtEnter(studycard_id: String) {
-
-  }
-
+  
   newAnswer(studycard_id: String) {
     const index = this.studycards.findIndex(item => item.id === studycard_id);
 

@@ -30,7 +30,7 @@
     <ion-list>
       <ion-item>
         <ion-label position="stacked">Benenne dein Lernset:</ion-label>
-        <ion-input placeholder="Die Geschichte über Cookies"></ion-input>
+        <ion-input placeholder="Die Geschichte über Cookies" [(ngModel)]="this.studykit.title"></ion-input>
       </ion-item>
     </ion-list>
 
@@ -53,12 +53,12 @@
 
             <ion-item class="ion-no-padding">
               <ion-label position="stacked">Frage:</ion-label>
-              <ion-textarea autoGrow="true" rows="1"></ion-textarea>
+              <ion-textarea autoGrow="true" rows="1" [(ngModel)]="studycard.question"></ion-textarea>
             </ion-item>
 
             <ion-item *ngIf="studycard.type == 'text'" class="ion-no-padding">
               <ion-label position="stacked">Antwort:</ion-label>
-              <ion-textarea autoGrow="true" rows="1"></ion-textarea>
+              <ion-textarea autoGrow="true" rows="1" [(ngModel)]="studycard.answers[0]"></ion-textarea>
             </ion-item>
 
             <ion-item
@@ -66,9 +66,9 @@
               class="ion-no-padding"
             >
               <ion-label position="stacked">Antworten:</ion-label>
-              <ion-item *ngFor="let answer of studycard.answers" (click)="newAnswerAtEnter(studycard.id)">
+              <ion-item *ngFor="let answer of studycard.answers" (keyup.enter)="newAnswer(studycard.id)">
                 <ion-checkbox slot="start"></ion-checkbox>
-                <ion-input placeholder="Antwort"></ion-input>
+                <ion-input placeholder="Antwort" [(ngModel)]="answer.text"></ion-input>
               </ion-item>
 
               <ion-item class="addAnswer" (click)="newAnswer(studycard.id)">
