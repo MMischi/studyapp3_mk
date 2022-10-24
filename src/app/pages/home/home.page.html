@@ -33,16 +33,10 @@
             [multiple]="true"
           >
             <ion-select-option *ngFor="let kit of learningKits" [value]="kit"
-              >{{ kit.name }}</ion-select-option
+              >{{ kit.title }}</ion-select-option
             >
           </ion-select>
         </ion-item>
-        
-        <!--
-        <ion-item lines="none">
-          <ion-label>Current value: {{ currentFood | json }}</ion-label>
-        </ion-item>
-        -->
       </ion-list>
     </div>
   </div>

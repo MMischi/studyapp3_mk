@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { DataService } from "src/app/services/data.service";
 
 @Component({
   selector: "app-home",
@@ -17,23 +18,10 @@ export class HomePage {
     speed: 400,
   };
 
-  constructor() {}
+  constructor(private service: DataService) {}
 
   learningKit = [];
-  learningKits = [
-    {
-      id: 1,
-      name: 'Geschichte',
-    },
-    {
-      id: 2,
-      name: 'Informatik',
-    },
-    {
-      id: 3,
-      name: 'Marketing',
-    },
-  ];
+  learningKits = this.service._testData;
 
   ngOnInit() {
     console.log(this.learningKit);

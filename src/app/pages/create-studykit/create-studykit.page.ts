@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { DataService } from "src/app/services/data.service";
 import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
@@ -11,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
   styleUrls: ["./create-studykit.page.scss"],
 })
 export class CreateStudykitPage implements OnInit {
-  constructor() {}
+  constructor(private service: DataService) {}
 
   cardType: string = "";
   studycards: Card[] = [{
@@ -75,5 +76,10 @@ export class CreateStudykitPage implements OnInit {
     let input = lastIonItem.lastElementChild.getElementsByTagName("input")[0] as HTMLElement || null;
 
     input.focus();
+  }
+
+  saveStudykit() {
+    console.log(this.studykit);
+    this.service._testData.push(this.studykit);
   }
 }
