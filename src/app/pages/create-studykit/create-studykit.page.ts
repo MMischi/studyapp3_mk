@@ -92,22 +92,19 @@ export class CreateStudykitPage implements OnInit {
     console.log(this.studykit);
     let isKitValide = this.isStudykitValide();
 
-    console.log("isKitValide: " + isKitValide);
-
     if (isKitValide == true) {
       this.service._testData.push(this.studykit);
     }
   }
 
   isStudykitValide(): boolean {
-    if (this.checkIfTitle() && this.checkCards()) {
+    if (this.hasTitleSet() && this.areCardsComplete()) {
       return true;
     } else {
       return false;
     }
   }
-
-  checkIfTitle(): boolean {
+  hasTitleSet(): boolean {
     if (this.studykit.title !== "") {
       return true;
     } else {
@@ -115,10 +112,23 @@ export class CreateStudykitPage implements OnInit {
       return false;
     }
   }
+  hasTypeSet(): boolean {
+    if (this.studykit.cards.filter(elem => elem.type === "").length > 0) {
+      // kann man überlegen, ob man das trotzdem speichern lässt - man muss nur überlegen, wie man damit umgeht
+      this.presentToast("bottom", "light", "Mindestens eine Lernkarte ist unvollständig.");
+      return false;
+    } else {
+      return true;
+    }
+  }
 
-  checkCards() {
+  areCardsComplete() {
+    if(this.hasTypeSet()) {
+      return true;
+    } else {
+      false;
+    }
     // this.checkIfQuestion();
-    // this.checkIfType();
     // this.checkIfMinAnswer();
 
     return true;
