@@ -69,7 +69,7 @@
 
               <div id="answers-box">
                 <ion-item *ngFor="let answer of studycard.answers" (keyup.enter)="newAnswer(studycard.id)">
-                  <ion-checkbox slot="start"></ion-checkbox>
+                  <ion-checkbox slot="start" [(ngModel)]="answer.isRight"></ion-checkbox>
                   <ion-input placeholder="Antwort" [(ngModel)]="answer.text"></ion-input>
                 </ion-item>
               </div>
@@ -89,7 +89,7 @@
     <div class="ion-text-center">
       <p>Noch eine Lernkarte?</p>
 
-      <ion-button shape="round" (click)="addStudycard()">
+      <ion-button shape="round">
         <ion-icon slot="icon-only" name="add"></ion-icon>
       </ion-button>
     </div>

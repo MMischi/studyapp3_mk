@@ -4,7 +4,7 @@ import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
 
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 @Component({
   selector: "app-create-studykit",
@@ -15,21 +15,23 @@ export class CreateStudykitPage implements OnInit {
   constructor(private service: DataService) {}
 
   cardType: string = "";
-  studycards: Card[] = [{
-    id: uuidv4(),
+  studycards: Card[] = [
+    {
+      id: uuidv4(),
       lastLearnedOn: new Date(),
       repetitionTimes: 0,
       type: "",
       question: "",
-      answers: []
-  }];
+      answers: [],
+    },
+  ];
   studykit: Studykit = {
     id: uuidv4(),
     title: "",
     cards: this.studycards,
   };
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   addStudycard() {
     let card: Card = {
@@ -44,7 +46,7 @@ export class CreateStudykitPage implements OnInit {
   }
 
   handleChange(ev, studycard_id) {
-    const index = this.studycards.findIndex(item => item.id === studycard_id);
+    const index = this.studycards.findIndex((item) => item.id === studycard_id);
     this.studycards[index].type = ev.target.value;
 
     if (ev.target.value == "multiple") {
@@ -53,17 +55,17 @@ export class CreateStudykitPage implements OnInit {
   }
 
   checkCondition(index) {
-    let card_info = this.cardType.split('_');
+    let card_info = this.cardType.split("_");
     return card_info[0] == "text" && card_info[1] == index;
   }
-  
+
   newAnswer(studycard_id: String) {
-    const index = this.studycards.findIndex(item => item.id === studycard_id);
+    const index = this.studycards.findIndex((item) => item.id === studycard_id);
 
     let answer: Answer = {
       id: uuidv4(),
       text: "",
-      isRight: undefined,
+      isRight: false,
     };
 
     this.studycards[index].answers.push(answer);
@@ -73,13 +75,46 @@ export class CreateStudykitPage implements OnInit {
   setFocusOnLastElement() {
     let answersBox = document.getElementById("answers-box");
     let lastIonItem = answersBox.lastElementChild;
-    let input = lastIonItem.lastElementChild.getElementsByTagName("input")[0] as HTMLElement || null;
+    let input =
+      (lastIonItem.lastElementChild.getElementsByTagName(
+        "input"
+      )[0] as HTMLElement) || null;
 
     input.focus();
   }
 
   saveStudykit() {
     console.log(this.studykit);
-    this.service._testData.push(this.studykit);
+    let isKitValide = this.isStudykitValide();
+
+    console.log("isKitValide: " + isKitValide);
+
+    if (isKitValide == true) {
+      this.service._testData.push(this.studykit);
+    }
+  }
+
+  isStudykitValide(): boolean {
+    if (this.checkIfTitle() && this.checkCards()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkIfTitle(): boolean {
+    if (this.studykit.title !== "") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkCards() {
+    // this.checkIfQuestion();
+    // this.checkIfType();
+    // this.checkIfMinAnswer();
+
+    return true;
   }
 }
