@@ -4,6 +4,8 @@ import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
 
+import { ToastController } from "@ionic/angular";
+
 import { v4 as uuidv4 } from "uuid";
 
 @Component({
@@ -12,7 +14,10 @@ import { v4 as uuidv4 } from "uuid";
   styleUrls: ["./create-studykit.page.scss"],
 })
 export class CreateStudykitPage implements OnInit {
-  constructor(private service: DataService) {}
+  constructor(
+    private service: DataService,
+    private toastController: ToastController
+  ) {}
 
   cardType: string = "";
   studycards: Card[] = [
@@ -106,6 +111,7 @@ export class CreateStudykitPage implements OnInit {
     if (this.studykit.title !== "") {
       return true;
     } else {
+      this.presentToast("bottom", "light", "Kein Titel vorhanden.");
       return false;
     }
   }
@@ -116,5 +122,20 @@ export class CreateStudykitPage implements OnInit {
     // this.checkIfMinAnswer();
 
     return true;
+  }
+
+  async presentToast(
+    position: "top" | "middle" | "bottom",
+    color: "danger" | "warning" | "primary" | "light",
+    msg: string
+  ) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 1500,
+      position: position,
+      color: color,
+    });
+
+    await toast.present();
   }
 }
