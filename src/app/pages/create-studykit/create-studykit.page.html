@@ -7,7 +7,13 @@
 </ion-header>
 
 <ion-content>
-  <ion-fab vertical="top" horizontal="end" edge slot="fixed" (click)="saveStudykit()">
+  <ion-fab
+    vertical="top"
+    horizontal="end"
+    edge
+    slot="fixed"
+    (click)="saveStudykit()"
+  >
     <ion-fab-button color="secondary">
       <ion-icon name="checkmark-outline"></ion-icon>
     </ion-fab-button>
@@ -28,9 +34,15 @@
 
   <div class="content-area">
     <ion-list>
-      <ion-item>
+      <ion-item class="studykit_name">
         <ion-label position="stacked">Benenne dein Lernset:</ion-label>
-        <ion-input placeholder="Die Geschichte über Cookies" [(ngModel)]="this.studykit.title"></ion-input>
+        <ion-input
+          placeholder="Die Geschichte über Cookies"
+          [(ngModel)]="this.studykit.title"
+          required
+        >
+        </ion-input>
+        <ion-note slot="error">Gib deinem Lernset einen Namen.</ion-note>
       </ion-item>
     </ion-list>
 
@@ -53,12 +65,20 @@
 
             <ion-item class="ion-no-padding">
               <ion-label position="stacked">Frage:</ion-label>
-              <ion-textarea autoGrow="true" rows="1" [(ngModel)]="studycard.question"></ion-textarea>
+              <ion-textarea
+                autoGrow="true"
+                rows="1"
+                [(ngModel)]="studycard.question"
+              ></ion-textarea>
             </ion-item>
 
             <ion-item *ngIf="studycard.type == 'text'" class="ion-no-padding">
               <ion-label position="stacked">Antwort:</ion-label>
-              <ion-textarea autoGrow="true" rows="1" [(ngModel)]="studycard.answers[0]"></ion-textarea>
+              <ion-textarea
+                autoGrow="true"
+                rows="1"
+                [(ngModel)]="studycard.answers[0]"
+              ></ion-textarea>
             </ion-item>
 
             <ion-item
@@ -68,17 +88,24 @@
               <ion-label position="stacked">Antworten:</ion-label>
 
               <div id="answers-box">
-                <ion-item *ngFor="let answer of studycard.answers" (keyup.enter)="newAnswer(studycard.id)">
-                  <ion-checkbox slot="start" [(ngModel)]="answer.isRight"></ion-checkbox>
-                  <ion-input placeholder="Antwort" [(ngModel)]="answer.text"></ion-input>
+                <ion-item
+                  *ngFor="let answer of studycard.answers"
+                  (keyup.enter)="newAnswer(studycard.id)"
+                >
+                  <ion-checkbox
+                    slot="start"
+                    [(ngModel)]="answer.isRight"
+                  ></ion-checkbox>
+                  <ion-input
+                    placeholder="Antwort"
+                    [(ngModel)]="answer.text"
+                  ></ion-input>
                 </ion-item>
               </div>
 
               <ion-item class="addAnswer" (click)="newAnswer(studycard.id)">
                 <ion-icon name="add-circle-outline"></ion-icon>
-                <ion-text>
-                  Antwortmöglichkeit hinzufügen 
-                </ion-text>
+                <ion-text> Antwortmöglichkeit hinzufügen </ion-text>
               </ion-item>
             </ion-item>
           </ion-list>

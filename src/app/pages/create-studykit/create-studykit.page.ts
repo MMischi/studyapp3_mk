@@ -111,7 +111,7 @@ export class CreateStudykitPage implements OnInit {
     if (this.studykit.title !== "") {
       return true;
     } else {
-      this.presentToast("bottom", "light", "Kein Titel vorhanden.");
+      this.presentToast("bottom", "danger", "Benenne dein Lernset vor dem Speichern.");
       return false;
     }
   }
