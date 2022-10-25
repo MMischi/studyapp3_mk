@@ -130,16 +130,22 @@ export class CreateStudykitPage implements OnInit {
       return true;
     }
   }
+  hasAllAnswer() {
+    if (this.studykit.cards.filter(elem => elem.answers.length > 0).length > 0 && this.studykit.cards.filter(elem => elem.answers[0].text === "").length > 0) {
+      // kann man überlegen, ob man das trotzdem speichern lässt - man muss nur überlegen, wie man damit umgeht
+      this.presentToast("bottom", "light", "Mindestens eine Lernkarte ist unvollständig.");
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   areCardsComplete() {
-    if(this.hasTypeSet() && this.hasAllQuestionsSet()) {
+    if(this.hasTypeSet() && this.hasAllQuestionsSet() && this.hasAllAnswer()) {
       return true;
     } else {
       false;
     }
-    // this.checkIfMinAnswer();
-
-    return true;
   }
 
   async presentToast(
