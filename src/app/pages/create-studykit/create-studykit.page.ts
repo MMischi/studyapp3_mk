@@ -4,7 +4,7 @@ import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
 
-import { ToastController } from "@ionic/angular";
+import { AlertController, ToastController } from "@ionic/angular";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -16,9 +16,11 @@ import { v4 as uuidv4 } from "uuid";
 export class CreateStudykitPage implements OnInit {
   constructor(
     private service: DataService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private alertController: AlertController
   ) {}
 
+  errorMsgContent: string = "";
   cardType: string = "";
   studycards: Card[] = [
     {
@@ -88,52 +90,63 @@ export class CreateStudykitPage implements OnInit {
     input.focus();
   }
 
-  saveStudykit() {
-    console.log(this.studykit);
-    let isKitValide = this.isStudykitValide();
-
-    if (isKitValide == true) {
-      this.service._testData.push(this.studykit);
-    }
-  }
-
   isStudykitValide(): boolean {
-    if (this.hasTitleSet() && this.areCardsComplete()) {
-      return true;
-    } else {
+    if (!this.hasTitleSet()) {
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Benenne dein Lernset vor dem Speichern."
+      );
       return false;
+    } else if (!this.areCardsComplete()) {
+      this.presentAlert(
+        "Lernset nicht vollständig!",
+        `Bei einer erstellten Lernkarte ${this.errorMsgContent}. Möchtest du das Lernset so speichern?`
+      );
+    } else {
+      this.saveStudykit();
     }
   }
   hasTitleSet(): boolean {
-    if (this.studykit.title !== "") {
-      return true;
-    } else {
-      this.presentToast("bottom", "danger", "Benenne dein Lernset vor dem Speichern.");
-      return false;
-    }
+    return this.studykit.title !== "";
   }
   hasTypeSet(): boolean {
-    if (this.studykit.cards.filter(elem => elem.type === "").length > 0) {
-      // kann man überlegen, ob man das trotzdem speichern lässt - man muss nur überlegen, wie man damit umgeht
-      this.presentToast("bottom", "light", "Mindestens eine Lernkarte ist unvollständig.");
+    if (this.studykit.cards.filter((elem) => elem.type === "").length > 0) {
+      this.errorMsgContent += "ist nicht die Art der Frage angegeben";
       return false;
     } else {
       return true;
     }
   }
   hasAllQuestionsSet() {
-    if (this.studykit.cards.filter(elem => elem.question === "").length > 0) {
-      // kann man überlegen, ob man das trotzdem speichern lässt - man muss nur überlegen, wie man damit umgeht
-      this.presentToast("bottom", "light", "Mindestens eine Lernkarte ist unvollständig.");
+    if (this.studykit.cards.filter((elem) => elem.question === "").length > 0) {
+      this.errorMsgContent += "ist keine Frage vorhanden";
       return false;
     } else {
       return true;
     }
   }
   hasAllAnswer() {
-    if (this.studykit.cards.filter(elem => elem.answers.length > 0).length > 0 && this.studykit.cards.filter(elem => elem.answers[0].text === "").length > 0) {
-      // kann man überlegen, ob man das trotzdem speichern lässt - man muss nur überlegen, wie man damit umgeht
-      this.presentToast("bottom", "light", "Mindestens eine Lernkarte ist unvollständig.");
+    let hasText: number = 0;
+    let isError: boolean;
+
+    for (let card of this.studykit.cards) {
+      for (let answer of card.answers) {
+        if (answer.text !== "") { hasText++ }
+      }
+
+      if (hasText > 0) { 
+        isError = false;
+        hasText = 0;
+      } else {
+        isError = true;
+        hasText = 0;
+        break;
+      }
+    }
+
+    if (isError === true) { 
+      this.errorMsgContent += "sind keine Antworten enthalten";
       return false;
     } else {
       return true;
@@ -141,11 +154,15 @@ export class CreateStudykitPage implements OnInit {
   }
 
   areCardsComplete() {
-    if(this.hasTypeSet() && this.hasAllQuestionsSet() && this.hasAllAnswer()) {
+    if (this.hasTypeSet() && this.hasAllQuestionsSet() && this.hasAllAnswer()) {
       return true;
     } else {
       false;
     }
+  }
+
+  saveStudykit() {
+    this.service._testData.push(this.studykit);
   }
 
   async presentToast(
@@ -161,5 +178,31 @@ export class CreateStudykitPage implements OnInit {
     });
 
     await toast.present();
+  }
+
+  async presentAlert(header: string, msg: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: msg,
+      buttons: [
+        {
+          text: 'Lernset überarbeiten',
+          role: 'cancel',
+          handler: () => {
+            this.errorMsgContent = "";
+          },
+        },
+        {
+          text: 'Lernset speichern',
+          role: 'confirm',
+          handler: () => {
+            this.errorMsgContent = "";
+            this.saveStudykit();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }
