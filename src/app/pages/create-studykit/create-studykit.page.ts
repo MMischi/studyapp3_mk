@@ -8,6 +8,7 @@ import { AlertController, ToastController } from "@ionic/angular";
 
 import { v4 as uuidv4 } from "uuid";
 import { ActivatedRoute } from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-create-studykit",
@@ -17,6 +18,7 @@ import { ActivatedRoute } from "@angular/router";
 export class CreateStudykitPage implements OnInit {
   constructor(
     private service: DataService,
+    private router: Router,
     private route: ActivatedRoute,
     private toastController: ToastController,
     private alertController: AlertController
@@ -219,11 +221,14 @@ export class CreateStudykitPage implements OnInit {
       let studysetIndex = this.service._testData.findIndex((elem) => elem.id == this.studykit.id);
       this.service._testData[studysetIndex] = this.studykit;
     }
+
+    this.router.navigate(['/home']);
+    this.presentToast("bottom", "success", "Lernset wurde gespeichert.")
   }
 
   async presentToast(
     position: "top" | "middle" | "bottom",
-    color: "danger" | "warning" | "primary" | "light",
+    color: "danger" | "warning" | "primary" | "light" | "success",
     msg: string
   ) {
     const toast = await this.toastController.create({
