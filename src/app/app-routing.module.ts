@@ -15,6 +15,18 @@ const routes: Routes = [
     path: 'create-studykit',
     loadChildren: () => import('./pages/create-studykit/create-studykit.module').then( m => m.CreateStudykitPageModule)
   },
+  {
+    path: 'create-studykit/:id',
+    loadChildren: () => import('./pages/create-studykit/create-studykit.module').then( m => m.CreateStudykitPageModule)
+  },
+  {
+    path: 'menu',
+    loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
+  },
+  {
+    path: 'studykit-overview',
+    loadChildren: () => import('./pages/studykit-overview/studykit-overview.module').then( m => m.StudykitOverviewPageModule)
+  },
 ];
 
 @NgModule({

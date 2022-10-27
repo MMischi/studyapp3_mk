@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="studykits.length > 0">
+    <ion-item *ngFor="let studykit of studykits" routerLink="/create-studykit/{{ studykit.id }}">
+      {{ studykit.title }}
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="studykits.length == 0">
+    <p>
+      Erstelle dein erstes Lernset jetzt!
+    </p>
+
+    <ion-button shape="round" routerLink="/create-studykit">
+      <ion-icon slot="start" name="folder-open-outline"></ion-icon>
+      Erstelle ein neues Lernset
+    </ion-button>
+  </div>
+</ion-content>
