@@ -44,7 +44,12 @@
   ion-icon {
     margin-right: 5px;
   }
-  ion-text {
-    font-size: 0.9rem;
-  }
+}
+
+ion-text.small {
+  font-size: 0.9rem;
+}
+
+.info-area {
+  padding-top: 10px;
 }

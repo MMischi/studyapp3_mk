@@ -21,6 +21,7 @@ export class CreateStudykitPage implements OnInit {
   ) {}
 
   errorMsgContent: string = "";
+  delCardId: string = "";
   cardType: string = "";
   studycards: Card[] = [
     {
@@ -79,6 +80,26 @@ export class CreateStudykitPage implements OnInit {
     setTimeout(this.setFocusOnLastElement, 0);
   }
 
+  requestDeleteCard(card_id: string) {
+    this.delCardId = card_id;
+
+    this.presentAlert(
+      "Lernkarte löschen",
+      "Möchtest du die Lernkarte wirklich löschen?",
+      "Abbrechen",
+      "Löschen",
+      null,
+      this.deleteCard
+    );
+  }
+
+  deleteCard() {
+    this.studycards.splice(
+      this.studycards.map((elem) => elem.id).indexOf(this.delCardId),
+      1
+    );
+  }
+
   deleteAnswerEntry(card_id: string, answer_id: string) {
     this.studycards
       .filter((elem) => elem.id === card_id)[0]
@@ -114,7 +135,11 @@ export class CreateStudykitPage implements OnInit {
     } else if (!this.areCardsComplete()) {
       this.presentAlert(
         "Lernset nicht vollständig!",
-        `Bei einer erstellten Lernkarte ${this.errorMsgContent}. Möchtest du das Lernset so speichern?`
+        `Bei einer erstellten Lernkarte ${this.errorMsgContent}. Möchtest du das Lernset so speichern?`,
+        "Lernset überarbeiten",
+        "Lernset speichern",
+        null,
+        this.saveStudykit
       );
     } else {
       this.saveStudykit();
@@ -195,24 +220,28 @@ export class CreateStudykitPage implements OnInit {
     await toast.present();
   }
 
-  async presentAlert(header: string, msg: string) {
+  async presentAlert(
+    header: string,
+    msg: string,
+    opt1: string,
+    opt2: string,
+    func1,
+    func2
+  ) {
     const alert = await this.alertController.create({
       header: header,
       message: msg,
       buttons: [
         {
-          text: "Lernset überarbeiten",
-          role: "cancel",
+          text: opt1,
           handler: () => {
-            this.errorMsgContent = "";
+            if (func1 !== null) { func1(); }
           },
         },
         {
-          text: "Lernset speichern",
-          role: "confirm",
+          text: opt2,
           handler: () => {
-            this.errorMsgContent = "";
-            this.saveStudykit();
+            if (func2 !== null) { func2(); }
           },
         },
       ],
