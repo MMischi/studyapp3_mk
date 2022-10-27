@@ -16,4 +16,8 @@ export class StudykitOverviewPage implements OnInit {
   ngOnInit() {
   }
 
+  deleteStudyset(studykit_id: string) {
+    const studykitIndex = this.service._testData.findIndex((elem) => elem.id === studykit_id);
+    this.service._testData.splice(studykitIndex, 1);
+  }
 }

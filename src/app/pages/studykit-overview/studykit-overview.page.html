@@ -8,9 +8,15 @@
 
 <ion-content>
   <ion-list *ngIf="studykits.length > 0">
-    <ion-item *ngFor="let studykit of studykits" routerLink="/edit-studykit/{{ studykit.id }}">
-      {{ studykit.title }}
-    </ion-item>
+    <ion-item-sliding *ngFor="let studykit of studykits" routerLink="/edit-studykit/{{ studykit.id }}">
+      <ion-item>
+        <ion-label>{{ studykit.title }}</ion-label>
+      </ion-item>
+  
+      <ion-item-options>
+        <ion-item-option (click)="deleteStudyset(studykit.id)" color="danger">Delete</ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
   <div *ngIf="studykits.length == 0">
