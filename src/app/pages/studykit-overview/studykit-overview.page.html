@@ -8,7 +8,7 @@
 
 <ion-content>
   <ion-list *ngIf="studykits.length > 0">
-    <ion-item *ngFor="let studykit of studykits" routerLink="/create-studykit/{{ studykit.id }}">
+    <ion-item *ngFor="let studykit of studykits" routerLink="/edit-studykit/{{ studykit.id }}">
       {{ studykit.title }}
     </ion-item>
   </ion-list>

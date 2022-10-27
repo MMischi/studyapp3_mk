@@ -23,7 +23,11 @@
     <div class="decoration-primary deco-roundetBottomCorner"></div>
     <div class="decoration-tertiary deco-header">
       <div>
-        <ion-text><h3>Lernset erstellen</h3></ion-text>
+        <ion-text
+          ><h3>
+            Lernset <span *ngIf="!isEdit">erstellen</span><span *ngIf="isEdit">bearbeiten</span>
+          </h3></ion-text
+        >
       </div>
     </div>
   </div>
@@ -100,19 +104,33 @@
                     placeholder="Antwort"
                     [(ngModel)]="answer.text"
                   ></ion-input>
-                  <ion-icon name="trash-outline" color="danger" slot="end" (click)="deleteAnswerEntry(studycard.id, answer.id)"></ion-icon>
+                  <ion-icon
+                    name="trash-outline"
+                    color="danger"
+                    slot="end"
+                    (click)="deleteAnswerEntry(studycard.id, answer.id)"
+                  ></ion-icon>
                 </ion-item>
               </div>
 
               <ion-item class="addAnswer" (click)="newAnswer(studycard.id)">
                 <ion-icon name="add-circle-outline"></ion-icon>
-                <ion-text class="small"> Antwortmöglichkeit hinzufügen </ion-text>
+                <ion-text class="small">
+                  Antwortmöglichkeit hinzufügen
+                </ion-text>
               </ion-item>
             </ion-item>
 
             <ion-item class="info-area ion-no-padding">
-              <ion-text class="small" color="medium">Lernrunde: {{ studycard.repetitionTimes }}</ion-text>
-              <ion-icon name="trash-outline" color="danger" slot="end" (click)="requestDeleteCard(studycard.id)"></ion-icon>
+              <ion-text class="small" color="medium"
+                >Lernrunde: {{ studycard.repetitionTimes }}</ion-text
+              >
+              <ion-icon
+                name="trash-outline"
+                color="danger"
+                slot="end"
+                (click)="requestDeleteCard(studycard.id)"
+              ></ion-icon>
             </ion-item>
           </ion-list>
         </ion-card-content>

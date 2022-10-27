@@ -7,6 +7,7 @@ import { Studykit } from "src/app/services/_interfaces/studykit";
 import { AlertController, ToastController } from "@ionic/angular";
 
 import { v4 as uuidv4 } from "uuid";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-create-studykit",
@@ -16,10 +17,12 @@ import { v4 as uuidv4 } from "uuid";
 export class CreateStudykitPage implements OnInit {
   constructor(
     private service: DataService,
+    private route: ActivatedRoute,
     private toastController: ToastController,
     private alertController: AlertController
   ) {}
 
+  isEdit: boolean = false;
   errorMsgContent: string = "";
   delCardId: string = "";
   cardType: string = "";
@@ -39,7 +42,15 @@ export class CreateStudykitPage implements OnInit {
     cards: this.studycards,
   };
 
-  ngOnInit() {}
+  ngOnInit() {
+    const routeParam = this.route.snapshot.paramMap.get('id');
+    
+    if (routeParam !== null) {
+      this.isEdit = true;
+      this.studykit = this.service._testData.filter((elem) => elem.id == routeParam)[0];
+      this.studycards = this.service._testData.filter((elem) => elem.id == routeParam)[0].cards;
+    }
+  }
 
   addStudycard() {
     let card: Card = {
@@ -202,7 +213,12 @@ export class CreateStudykitPage implements OnInit {
   }
 
   saveStudykit() {
-    this.service._testData.push(this.studykit);
+    if (!this.isEdit) {
+      this.service._testData.push(this.studykit);
+    } else if (this.isEdit) {
+      let studysetIndex = this.service._testData.findIndex((elem) => elem.id == this.studykit.id);
+      this.service._testData[studysetIndex] = this.studykit;
+    }
   }
 
   async presentToast(

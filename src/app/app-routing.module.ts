@@ -16,7 +16,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/create-studykit/create-studykit.module').then( m => m.CreateStudykitPageModule)
   },
   {
-    path: 'create-studykit/:id',
+    path: 'edit-studykit/:id',
     loadChildren: () => import('./pages/create-studykit/create-studykit.module').then( m => m.CreateStudykitPageModule)
   },
   {
