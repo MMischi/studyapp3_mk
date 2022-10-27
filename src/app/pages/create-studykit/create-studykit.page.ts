@@ -82,12 +82,11 @@ export class CreateStudykitPage implements OnInit {
   setFocusOnLastElement() {
     let answersBox = document.getElementById("answers-box");
     let lastIonItem = answersBox.lastElementChild;
-    let input =
-      (lastIonItem.lastElementChild.getElementsByTagName(
-        "input"
-      )[0] as HTMLElement) || null;
+    let ionInput = lastIonItem.getElementsByClassName("native-input")[0] as HTMLElement;
 
-    input.focus();
+    console.log(ionInput);
+
+    ionInput.focus();
   }
 
   isStudykitValide(): boolean {
