@@ -94,7 +94,9 @@ export class CreateStudykitPage implements OnInit {
   setFocusOnLastElement() {
     let answersBox = document.getElementById("answers-box");
     let lastIonItem = answersBox.lastElementChild;
-    let ionInput = lastIonItem.getElementsByClassName("native-input")[0] as HTMLElement;
+    let ionInput = lastIonItem.getElementsByClassName(
+      "native-input"
+    )[0] as HTMLElement;
 
     console.log(ionInput);
 
@@ -143,10 +145,12 @@ export class CreateStudykitPage implements OnInit {
 
     for (let card of this.studykit.cards) {
       for (let answer of card.answers) {
-        if (answer.text !== "") { hasText++ }
+        if (answer.text !== "") {
+          hasText++;
+        }
       }
 
-      if (hasText > 0) { 
+      if (hasText > 0) {
         isError = false;
         hasText = 0;
       } else {
@@ -156,7 +160,7 @@ export class CreateStudykitPage implements OnInit {
       }
     }
 
-    if (isError === true) { 
+    if (isError === true) {
       this.errorMsgContent += "sind keine Antworten enthalten";
       return false;
     } else {
@@ -197,15 +201,15 @@ export class CreateStudykitPage implements OnInit {
       message: msg,
       buttons: [
         {
-          text: 'Lernset überarbeiten',
-          role: 'cancel',
+          text: "Lernset überarbeiten",
+          role: "cancel",
           handler: () => {
             this.errorMsgContent = "";
           },
         },
         {
-          text: 'Lernset speichern',
-          role: 'confirm',
+          text: "Lernset speichern",
+          role: "confirm",
           handler: () => {
             this.errorMsgContent = "";
             this.saveStudykit();
