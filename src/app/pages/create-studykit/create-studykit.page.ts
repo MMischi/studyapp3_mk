@@ -79,6 +79,18 @@ export class CreateStudykitPage implements OnInit {
     setTimeout(this.setFocusOnLastElement, 0);
   }
 
+  deleteAnswerEntry(card_id: string, answer_id: string) {
+    this.studycards
+      .filter((elem) => elem.id === card_id)[0]
+      .answers.splice(
+        this.studycards
+          .filter((elem) => elem.id === card_id)[0]
+          .answers.map((elem) => elem.id)
+          .indexOf(answer_id),
+        1
+      );
+  }
+
   setFocusOnLastElement() {
     let answersBox = document.getElementById("answers-box");
     let lastIonItem = answersBox.lastElementChild;

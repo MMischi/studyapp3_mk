@@ -100,6 +100,7 @@
                     placeholder="Antwort"
                     [(ngModel)]="answer.text"
                   ></ion-input>
+                  <ion-icon name="trash-outline" color="danger" slot="end" (click)="deleteAnswerEntry(studycard.id, answer.id)"></ion-icon>
                 </ion-item>
               </div>
 
