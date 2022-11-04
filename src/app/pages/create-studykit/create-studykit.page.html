@@ -25,7 +25,8 @@
       <div>
         <ion-text
           ><h3>
-            Lernset <span *ngIf="!isEdit">erstellen</span><span *ngIf="isEdit">bearbeiten</span>
+            Lernset <span *ngIf="!isEdit">erstellen</span
+            ><span *ngIf="isEdit">bearbeiten</span>
           </h3></ion-text
         >
       </div>
@@ -85,11 +86,10 @@
               ></ion-textarea>
             </ion-item>
 
-            <ion-item
-              *ngIf="studycard.type == 'multiple';"
-              class="ion-no-padding"
-            >
-              <ion-label position="stacked">Antworten:</ion-label>
+            <div *ngIf="studycard.type == 'multiple';" class="ion-no-padding">
+              <ion-item>
+                <ion-label position="stacked">Antworten:</ion-label>
+              </ion-item>
 
               <div id="answers-box">
                 <ion-item
@@ -119,12 +119,13 @@
                   Antwortmöglichkeit hinzufügen
                 </ion-text>
               </ion-item>
-            </ion-item>
+            </div>
 
             <ion-item class="info-area ion-no-padding">
               <ion-text class="small" color="medium"
                 >Lernrunde: {{ studycard.repetitionTimes }}</ion-text
               >
+
               <ion-icon
                 name="trash-outline"
                 color="danger"
