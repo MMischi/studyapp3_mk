@@ -21,7 +21,7 @@
 
   <div class="topic-area decoration-tertiary">
     <div class="decoration-background">
-      <ion-list *ngIf="learningKits.length > 0">
+      <ion-list *ngIf="studykits.length > 0">
         <ion-item>
           <h3>Wähle das Thema</h3>
         </ion-item>
@@ -32,7 +32,7 @@
             (ionChange)="handleChange($event)"
             [multiple]="true"
           >
-            <ion-select-option *ngFor="let kit of learningKits" [value]="kit"
+            <ion-select-option *ngFor="let kit of studykits" [value]="kit"
               >{{ kit.title }}</ion-select-option
             >
           </ion-select>
@@ -42,12 +42,12 @@
   </div>
 
   <div class="content-area">
-    <div *ngIf="learningKit.length == 0" class="ion-text-center">
-      <p *ngIf="learningKits.length == 0">
+    <div *ngIf="studykit.length == 0" class="ion-text-center">
+      <p *ngIf="studykits.length == 0">
         Erstelle dein erstes Lernset jetzt!
       </p>
 
-      <p *ngIf="learningKits.length > 0">
+      <p *ngIf="studykits.length > 0">
         Findest du dein Lernset nicht in der Liste?
       </p>
 
@@ -57,7 +57,7 @@
       </ion-button>
     </div>
 
-    <div *ngIf="learningKit.length > 0">
+    <div *ngIf="studykit.length > 0">
       <ion-list lines="none">
         <ion-item>
           <ion-text><h3>Wähle den Modus</h3></ion-text>

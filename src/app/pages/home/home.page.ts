@@ -20,8 +20,8 @@ export class HomePage {
 
   constructor(private service: DataService) {}
 
-  learningKit = [];
-  learningKits = this.service._testData;
+  studykit = [];
+  studykits = [];
 
   ngOnInit() { }
 
@@ -38,6 +38,6 @@ export class HomePage {
   }
 
   handleChange(ev) {
-    this.learningKit = ev.target.value;
+    this.studykit = ev.target.value;
   }
 }
