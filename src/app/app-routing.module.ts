@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'studykit-overview',
     loadChildren: () => import('./pages/studykit-overview/studykit-overview.module').then( m => m.StudykitOverviewPageModule)
   },
+  {
+    path: 'simple-learn',
+    loadChildren: () => import('./pages/read-studycard/read-studycard.module').then( m => m.ReadStudycardPageModule)
+  },
 ];
 
 @NgModule({
