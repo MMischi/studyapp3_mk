@@ -11,13 +11,16 @@ export class StudykitOverviewPage implements OnInit {
 
   constructor(private service: DataService) { }
 
-  studykits: Studykit[] = this.service._testData; 
+  studykits: Studykit[] = []; 
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  async ionViewWillEnter() {
+    this.studykits = await this.service.getAllStudykits();
   }
 
-  deleteStudyset(studykit_id: string) {
-    const studykitIndex = this.service._testData.findIndex((elem) => elem.id === studykit_id);
-    this.service._testData.splice(studykitIndex, 1);
+  async deleteStudyset(studykitId: string) {
+    await this.service.deleteStudykit(studykitId);
+    this.studykits = await this.service.getAllStudykits();
   }
 }
