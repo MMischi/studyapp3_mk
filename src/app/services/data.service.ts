@@ -50,7 +50,7 @@ export class DataService {
    * @returns Promise<Studykit[]>
    */
   async getAllStudykits(): Promise<Studykit[]> {
-    return await this.storage.get(this.STUDYKIT_DATA_STORAGE);
+    return this.getData(this.STUDYKIT_DATA_STORAGE);
   }
   /**
    * get one studykit by id
