@@ -56,12 +56,22 @@
 
   ion-slides {
     padding: 0;
-    height: 30vh;
-    min-height: 150px;
 
     ion-slide {
+      height: 150px;
+
       ion-card {
-        height: 95%;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        ion-card-header {
+          width: 100%;
+          padding: 20px;
+          margin: auto 0;
+        }
       }
     }
   }
@@ -69,15 +79,18 @@
 
 .card {
   &.first {
-    background: var(--ion-color-primary-tint);
+    border: solid 10px var(--ion-color-primary);
+    background-color: var(--ion-color-primary-tint);
   }
 
   &.second {
-    background: var(--ion-color-secondary-tint);
+    border: solid 10px var(--ion-color-secondary);
+    background-color: var(--ion-color-secondary-tint);
   }
 
   &.third {
-    background: var(--ion-color-tertiary-tint);
+    border: solid 10px var(--ion-color-tertiary);
+    background-color: var(--ion-color-tertiary-tint);
   }
 
   ion-card-title {
