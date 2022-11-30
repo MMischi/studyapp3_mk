@@ -102,7 +102,7 @@ export class CreateStudykitPage implements OnInit {
       "Abbrechen",
       "Löschen",
       null,
-      this.deleteCard
+      'deleteCard',
     );
   }
 
@@ -152,7 +152,7 @@ export class CreateStudykitPage implements OnInit {
         "Lernset überarbeiten",
         "Lernset speichern",
         null,
-        this.saveStudykit
+        'saveKit',
       );
     } else {
       this.saveStudykit();
@@ -246,8 +246,8 @@ export class CreateStudykitPage implements OnInit {
     msg: string,
     opt1: string,
     opt2: string,
-    func1,
-    func2
+    func1Name: string,
+    func2Name: string,
   ) {
     const alert = await this.alertController.create({
       header: header,
@@ -256,13 +256,27 @@ export class CreateStudykitPage implements OnInit {
         {
           text: opt1,
           handler: () => {
-            if (func1 !== null) { func1(); }
+            switch (func1Name) {
+              case 'saveKit': 
+                this.saveStudykit();
+                break;
+              case 'deleteCard':
+                this.deleteCard();
+                break;
+            }
           },
         },
         {
           text: opt2,
           handler: () => {
-            if (func2 !== null) { func2(); }
+            switch (func2Name) {
+              case 'saveKit': 
+                this.saveStudykit();
+                break;
+              case 'deleteCard':
+                this.deleteCard();
+                break;
+            }
           },
         },
       ],

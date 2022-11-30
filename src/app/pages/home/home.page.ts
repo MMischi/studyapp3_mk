@@ -23,9 +23,7 @@ export class HomePage {
   learningKit = [];
   learningKits = this.service._testData;
 
-  ngOnInit() {
-    console.log(this.learningKit);
-  }
+  ngOnInit() { }
 
   compareWith(o1, o2) {
     if (!o1 || !o2) {
