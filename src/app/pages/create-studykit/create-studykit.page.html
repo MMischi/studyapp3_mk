@@ -12,7 +12,7 @@
     horizontal="end"
     edge
     slot="fixed"
-    (click)="isStudykitValide()"
+    (click)="handleStudykitSaving()"
   >
     <ion-fab-button color="secondary">
       <ion-icon name="checkmark-outline"></ion-icon>
@@ -25,8 +25,8 @@
       <div>
         <ion-text
           ><h3>
-            Lernset <span *ngIf="!isEdit">erstellen</span
-            ><span *ngIf="isEdit">bearbeiten</span>
+            Lernset <span *ngIf="!isStudikitEdited">erstellen</span
+            ><span *ngIf="isStudikitEdited">bearbeiten</span>
           </h3></ion-text
         >
       </div>
@@ -59,7 +59,7 @@
               <ion-label>Art der Frage</ion-label>
               <ion-select
                 placeholder="..."
-                (ionChange)="handleChange($event, studycard.id)"
+                (ionChange)="setCardType($event, studycard.id)"
               >
                 <ion-select-option value="multiple"
                   >Multiple Choice</ion-select-option
@@ -94,7 +94,7 @@
               <div id="answers-box">
                 <ion-item
                   *ngFor="let answer of studycard.answers"
-                  (keyup.enter)="newAnswer(studycard.id)"
+                  (keyup.enter)="addNewAnswer(studycard.id)"
                 >
                   <ion-checkbox
                     slot="start"
@@ -113,7 +113,7 @@
                 </ion-item>
               </div>
 
-              <ion-item class="addAnswer" (click)="newAnswer(studycard.id)">
+              <ion-item class="addAnswer" (click)="addNewAnswer(studycard.id)">
                 <ion-icon name="add-circle-outline"></ion-icon>
                 <ion-text class="small">
                   Antwortmöglichkeit hinzufügen

@@ -1,14 +1,16 @@
 import { Component, OnInit } from "@angular/core";
+import { v4 as uuidv4 } from "uuid";
+
 import { DataService } from "src/app/services/data.service";
+
 import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
 
 import { AlertController, ToastController } from "@ionic/angular";
 
-import { v4 as uuidv4 } from "uuid";
 import { ActivatedRoute } from "@angular/router";
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-create-studykit",
@@ -24,7 +26,7 @@ export class CreateStudykitPage implements OnInit {
     private alertController: AlertController
   ) {}
 
-  isEdit: boolean = false;
+  isStudikitEdited: boolean = false;
   errorMsgContent: string = "";
   delCardId: string = "";
   cardType: string = "";
@@ -45,15 +47,30 @@ export class CreateStudykitPage implements OnInit {
   };
 
   ngOnInit() {
-    const routeParam = this.route.snapshot.paramMap.get('id');
-    
-    if (routeParam !== null) {
-      this.isEdit = true;
-      this.studykit = this.service._testData.filter((elem) => elem.id == routeParam)[0];
-      this.studycards = this.service._testData.filter((elem) => elem.id == routeParam)[0].cards;
+    const routeParamStudykitId = this.route.snapshot.paramMap.get("id");
+
+    if (routeParamStudykitId !== null) {
+      this.isStudikitEdited = true;
+      this.setStudykitValues(routeParamStudykitId);
     }
   }
 
+  /**
+   * Sets values for studykit (title and cards) by studykit id
+   * @param {string} studykitId - id of studyset
+   */
+  setStudykitValues(studykitId: string) {
+    this.studykit = this.service._testData.filter(
+      (elem) => elem.id == studykitId
+    )[0];
+    this.studycards = this.service._testData.filter(
+      (elem) => elem.id == studykitId
+    )[0].cards;
+  }
+
+  /**
+   * add empty studycard to current used studycards
+   */
   addStudycard() {
     let card: Card = {
       id: uuidv4(),
@@ -66,35 +83,41 @@ export class CreateStudykitPage implements OnInit {
     this.studycards.push(card);
   }
 
-  handleChange(ev, studycard_id) {
-    const index = this.studycards.findIndex((item) => item.id === studycard_id);
+  /**
+   * set studycard type by studycard-id. If multiple is set an answer will be created.
+   * @param {any} ev - given event (clickevent)
+   * @param {string} studycardId - id of studycard
+   */
+  setCardType(ev: any, studycardId: string) {
+    const index = this.studycards.findIndex((item) => item.id === studycardId);
     this.studycards[index].type = ev.target.value;
 
     if (ev.target.value == "multiple") {
-      this.newAnswer(studycard_id);
+      this.addNewAnswer(studycardId);
     }
   }
 
-  checkCondition(index) {
-    let card_info = this.cardType.split("_");
-    return card_info[0] == "text" && card_info[1] == index;
-  }
-
-  newAnswer(studycard_id: String) {
-    const index = this.studycards.findIndex((item) => item.id === studycard_id);
-
+  /**
+   * add new answer to studycard
+   * @param {string} studycardId - id of studycard
+   */
+  addNewAnswer(studycardId: String) {
+    const index = this.studycards.findIndex((item) => item.id === studycardId);
     let answer: Answer = {
       id: uuidv4(),
       text: "",
       isRight: false,
     };
-
     this.studycards[index].answers.push(answer);
     setTimeout(this.setFocusOnLastElement, 0);
   }
 
-  requestDeleteCard(card_id: string) {
-    this.delCardId = card_id;
+  /**
+   * calls dialog to confirme delete card
+   * @param {string} cardId - id of studycard
+   */
+  requestDeleteCard(cardId: string) {
+    this.delCardId = cardId;
 
     this.presentAlert(
       "Lernkarte löschen",
@@ -102,10 +125,13 @@ export class CreateStudykitPage implements OnInit {
       "Abbrechen",
       "Löschen",
       null,
-      'deleteCard',
+      "deleteCard"
     );
   }
 
+  /**
+   * delete card by studycard-id (id has to be set at this.delCardId)
+   */
   deleteCard() {
     this.studycards.splice(
       this.studycards.map((elem) => elem.id).indexOf(this.delCardId),
@@ -113,18 +139,26 @@ export class CreateStudykitPage implements OnInit {
     );
   }
 
-  deleteAnswerEntry(card_id: string, answer_id: string) {
+  /**
+   * delete answer by id from studycard-id
+   * @param {string} cardId - id of card
+   * @param {string} answerId - id of answer
+   */
+  deleteAnswerEntry(cardId: string, answerId: string) {
     this.studycards
-      .filter((elem) => elem.id === card_id)[0]
+      .filter((elem) => elem.id === cardId)[0]
       .answers.splice(
         this.studycards
-          .filter((elem) => elem.id === card_id)[0]
+          .filter((elem) => elem.id === cardId)[0]
           .answers.map((elem) => elem.id)
-          .indexOf(answer_id),
+          .indexOf(answerId),
         1
       );
   }
 
+  /**
+   * set element focuse on latest answer element
+   */
   setFocusOnLastElement() {
     let answersBox = document.getElementById("answers-box");
     let lastIonItem = answersBox.lastElementChild;
@@ -137,14 +171,16 @@ export class CreateStudykitPage implements OnInit {
     ionInput.focus();
   }
 
-  isStudykitValide(): boolean {
-    if (!this.hasTitleSet()) {
+  /**
+   * checks if studykit is valide and save it or display error
+   */
+  handleStudykitSaving() {
+    if (!this.hasTitle()) {
       this.presentToast(
         "bottom",
         "danger",
         "Benenne dein Lernset vor dem Speichern."
       );
-      return false;
     } else if (!this.areCardsComplete()) {
       this.presentAlert(
         "Lernset nicht vollständig!",
@@ -152,16 +188,24 @@ export class CreateStudykitPage implements OnInit {
         "Lernset überarbeiten",
         "Lernset speichern",
         null,
-        'saveKit',
+        "saveKit"
       );
     } else {
       this.saveStudykit();
     }
   }
-  hasTitleSet(): boolean {
+  /**
+   * checks if studykit has title
+   * @returns boolean
+   */
+  hasTitle(): boolean {
     return this.studykit.title !== "";
   }
-  hasTypeSet(): boolean {
+  /**
+   * checks if card type is everywhere present
+   * @returns boolean
+   */
+  hasType(): boolean {
     if (this.studykit.cards.filter((elem) => elem.type === "").length > 0) {
       this.errorMsgContent += "ist nicht die Art der Frage angegeben";
       return false;
@@ -169,7 +213,11 @@ export class CreateStudykitPage implements OnInit {
       return true;
     }
   }
-  hasAllQuestionsSet() {
+  /**
+   * checks if question is everywhere present
+   * @returns boolean
+   */
+  hasAllQuestions() {
     if (this.studykit.cards.filter((elem) => elem.question === "").length > 0) {
       this.errorMsgContent += "ist keine Frage vorhanden";
       return false;
@@ -177,7 +225,11 @@ export class CreateStudykitPage implements OnInit {
       return true;
     }
   }
-  hasAllAnswer() {
+  /**
+   * checks if answer(s) is/are everywhere present
+   * @returns boolean
+   */
+  hasAllAnswer(): boolean {
     let hasText: number = 0;
     let isError: boolean;
 
@@ -206,26 +258,41 @@ export class CreateStudykitPage implements OnInit {
     }
   }
 
-  areCardsComplete() {
-    if (this.hasTypeSet() && this.hasAllQuestionsSet() && this.hasAllAnswer()) {
+  /**
+   * checks is all values of every studycard is set
+   * @returns
+   */
+  areCardsComplete(): boolean {
+    if (this.hasType() && this.hasAllQuestions() && this.hasAllAnswer()) {
       return true;
     } else {
       false;
     }
   }
 
+  /**
+   * saves studykit
+   */
   saveStudykit() {
-    if (!this.isEdit) {
+    if (!this.isStudikitEdited) {
       this.service._testData.push(this.studykit);
-    } else if (this.isEdit) {
-      let studysetIndex = this.service._testData.findIndex((elem) => elem.id == this.studykit.id);
+    } else if (this.isStudikitEdited) {
+      let studysetIndex = this.service._testData.findIndex(
+        (elem) => elem.id == this.studykit.id
+      );
       this.service._testData[studysetIndex] = this.studykit;
     }
 
-    this.router.navigate(['/home']);
-    this.presentToast("bottom", "success", "Lernset wurde gespeichert.")
+    this.router.navigate(["/home"]);
+    this.presentToast("bottom", "success", "Lernset wurde gespeichert.");
   }
 
+  /**
+   * show toast
+   * @param {string} position - "top" | "middle" | "bottom"
+   * @param {string} color - "danger" | "warning" | "primary" | "light" | "success"
+   * @param {string} msg - individual
+   */
   async presentToast(
     position: "top" | "middle" | "bottom",
     color: "danger" | "warning" | "primary" | "light" | "success",
@@ -241,39 +308,48 @@ export class CreateStudykitPage implements OnInit {
     await toast.present();
   }
 
+  /**
+   * show modal/dialog
+   * @param {string} header - individual
+   * @param {string} msg - individual
+   * @param {string} optionText1 - individual
+   * @param {string} optionText2 - individual
+   * @param {string} funcName1 - function which is called at option 1 (may need to be added)
+   * @param {string} funcName2 - function which is called at option 2 (may need to be added)
+   */
   async presentAlert(
     header: string,
     msg: string,
-    opt1: string,
-    opt2: string,
-    func1Name: string,
-    func2Name: string,
+    optionText1: string,
+    optionText2: string,
+    funcName1: string,
+    funcName2: string
   ) {
     const alert = await this.alertController.create({
       header: header,
       message: msg,
       buttons: [
         {
-          text: opt1,
+          text: optionText1,
           handler: () => {
-            switch (func1Name) {
-              case 'saveKit': 
+            switch (funcName1) {
+              case "saveKit":
                 this.saveStudykit();
                 break;
-              case 'deleteCard':
+              case "deleteCard":
                 this.deleteCard();
                 break;
             }
           },
         },
         {
-          text: opt2,
+          text: optionText2,
           handler: () => {
-            switch (func2Name) {
-              case 'saveKit': 
+            switch (funcName2) {
+              case "saveKit":
                 this.saveStudykit();
                 break;
-              case 'deleteCard':
+              case "deleteCard":
                 this.deleteCard();
                 break;
             }
