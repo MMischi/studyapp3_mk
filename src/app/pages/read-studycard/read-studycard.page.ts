@@ -1,15 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { DataService } from "src/app/services/data.service";
+import { Card } from "src/app/services/_interfaces/card";
+import { Studykit } from "src/app/services/_interfaces/studykit";
 
 @Component({
-  selector: 'app-read-studycard',
-  templateUrl: './read-studycard.page.html',
-  styleUrls: ['./read-studycard.page.scss'],
+  selector: "app-read-studycard",
+  templateUrl: "./read-studycard.page.html",
+  styleUrls: ["./read-studycard.page.scss"],
 })
 export class ReadStudycardPage implements OnInit {
+  constructor(private service: DataService, private route: ActivatedRoute) {}
 
-  constructor() { }
+  studycards: Card[] = [
+    {
+      id: "",
+      lastLearnedOn: new Date(),
+      repetitionTimes: 0,
+      type: "",
+      question: "",
+      answers: [],
+    },
+  ];
+  studykit: Studykit = {
+    id: "",
+    title: "",
+    cards: this.studycards,
+  };; 
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  async ionViewWillEnter() {
+    const routeParamStudykitId = this.route.snapshot.paramMap.get("id");
+    if (routeParamStudykitId !== null) {
+      this.studykit = await this.service.getStudykitById(routeParamStudykitId);
+    }
   }
-
 }
