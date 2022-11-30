@@ -273,14 +273,11 @@ export class CreateStudykitPage implements OnInit {
   /**
    * saves studykit
    */
-  saveStudykit() {
+  async saveStudykit() {
     if (!this.isStudikitEdited) {
-      this.service._testData.push(this.studykit);
+      await this.service.storeStudykit(this.studykit);
     } else if (this.isStudikitEdited) {
-      let studysetIndex = this.service._testData.findIndex(
-        (elem) => elem.id == this.studykit.id
-      );
-      this.service._testData[studysetIndex] = this.studykit;
+      await this.service.updateStudykit(this.studykit);
     }
 
     this.router.navigate(["/home"]);
