@@ -59,13 +59,9 @@ export class CreateStudykitPage implements OnInit {
    * Sets values for studykit (title and cards) by studykit id
    * @param {string} studykitId - id of studyset
    */
-  setStudykitValues(studykitId: string) {
-    this.studykit = this.service._testData.filter(
-      (elem) => elem.id == studykitId
-    )[0];
-    this.studycards = this.service._testData.filter(
-      (elem) => elem.id == studykitId
-    )[0].cards;
+  async setStudykitValues(studykitId: string) {
+    this.studykit = await this.service.getStudykitById(studykitId);
+    this.studycards = this.studykit.cards;
   }
 
   /**
