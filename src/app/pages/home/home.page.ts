@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { DataService } from "src/app/services/data.service";
+import { Studykit } from "src/app/services/_interfaces/studykit";
 
 @Component({
   selector: "app-home",
@@ -20,8 +21,8 @@ export class HomePage {
 
   constructor(private service: DataService) {}
 
-  studykit = [];
-  studykits = [];
+  studykit: Studykit;
+  studykits: Studykit[] = [];
 
   ngOnInit() { }
 
@@ -30,13 +31,7 @@ export class HomePage {
   }
 
   compareWith(o1, o2) {
-    if (!o1 || !o2) {
-      return o1 === o2;
-    }
-    if (Array.isArray(o2)) {
-      return o2.some((o) => o.id === o1.id);
-    }
-    return o1.id === o2.id;
+    return o1 && o2 ? o1.id === o2.id : o1 === o2;
   }
 
   handleChange(ev) {

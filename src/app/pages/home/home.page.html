@@ -30,7 +30,6 @@
             [compareWith]="compareWith"
             placeholder="Lernset(s) auswählen"
             (ionChange)="handleChange($event)"
-            [multiple]="true"
           >
             <ion-select-option *ngFor="let kit of studykits" [value]="kit"
               >{{ kit.title }}</ion-select-option
@@ -42,7 +41,7 @@
   </div>
 
   <div class="content-area">
-    <div *ngIf="studykit.length == 0" class="ion-text-center">
+    <div *ngIf="studykit === undefined" class="ion-text-center">
       <p *ngIf="studykits.length == 0">
         Erstelle dein erstes Lernset jetzt!
       </p>
@@ -57,7 +56,7 @@
       </ion-button>
     </div>
 
-    <div *ngIf="studykit.length > 0">
+    <div *ngIf="studykit !== undefined">
       <ion-list lines="none">
         <ion-item>
           <ion-text><h3>Wähle den Modus</h3></ion-text>
@@ -65,7 +64,7 @@
       </ion-list>
 
       <ion-slides pager="false" [options]="slideOpts">
-        <ion-slide routerLink="/simple-learn/{{ studykit[0].id }}">
+        <ion-slide routerLink="/simple-learn/{{ studykit.id }}">
           <ion-card class="card first">
             <ion-card-header>
               <ion-card-title>
