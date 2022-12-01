@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ studykit.title }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="question-area">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Frage</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content> {{ cardToShow.question }} </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div class="answer-area">
+    <div *ngIf="cardToShow.type === 'text'">
+      <ion-list>
+        <ion-item>
+          <ion-textarea placeholder="Meine Antwort" rows="5"></ion-textarea>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div *ngIf="cardToShow.type === 'multiple'">
+      <ion-list>
+        <ion-item *ngFor="let answer of cardToShow.answers">
+          <ion-checkbox slot="start"></ion-checkbox>
+          <ion-label>{{ answer.text }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
+  <div class="check-area">
+    <ion-button expand="block" shape="round">Antwort überprüfen</ion-button>
+  </div>
+</ion-content>
