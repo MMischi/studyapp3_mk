@@ -1,9 +1,55 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>read-studycard</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>{{ studykit.title }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="home"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="question-area">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Frage</ion-card-subtitle>
+      </ion-card-header>
 
+      <ion-card-content> {{ cardToShow.question }} </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div class="answer-area">
+    <div *ngIf="cardToShow.type === 'text'">
+      <ion-list>
+        <ion-item> {{ cardToShow.answers[0] }} </ion-item>
+      </ion-list>
+    </div>
+
+    <div *ngIf="cardToShow.type === 'multiple'">
+      <ion-list>
+        <div *ngFor="let answer of cardToShow.answers">
+          <ion-item *ngIf="answer.isRight === true">
+            <ion-icon
+              color="success"
+              name="checkmark-circle-outline"
+              slot="start"
+            ></ion-icon>
+            <ion-label>{{ answer.text }}</ion-label>
+          </ion-item>
+        </div>
+      </ion-list>
+    </div>
+  </div>
+
+  <div class="check-area">
+    <ion-button fill="outline" shape="round" (click)="decreaseCardIndex()">
+      <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+      Zurück
+    </ion-button>
+
+    <ion-button shape="round" (click)="increaseCardIndex()">
+      <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      Weiter
+    </ion-button>
+  </div>
 </ion-content>
