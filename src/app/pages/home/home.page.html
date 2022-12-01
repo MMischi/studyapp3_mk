@@ -64,19 +64,20 @@
       </ion-list>
 
       <ion-slides pager="false" [options]="slideOpts">
-        <ion-slide routerLink="/simple-learn/{{ studykit.id }}">
+        <ion-slide routerLink="/read-studycard/{{ studykit.id }}">
           <ion-card class="card first">
             <ion-card-header>
               <ion-card-title>
                 <h4>
                   Einfaches Lernen
                 </h4>
+                <ion-text color="medium">-- comming soon --</ion-text>
               </ion-card-title>
             </ion-card-header>
           </ion-card>
         </ion-slide>
 
-        <ion-slide>
+        <ion-slide routerLink="/learn-studycard/{{ studykit.id }}">
           <ion-card class="card second">
             <ion-card-header>
               <ion-card-title>

@@ -28,8 +28,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/studykit-overview/studykit-overview.module').then( m => m.StudykitOverviewPageModule)
   },
   {
-    path: 'simple-learn/:id',
+    path: 'read-studycard/:id',
     loadChildren: () => import('./pages/read-studycard/read-studycard.module').then( m => m.ReadStudycardPageModule)
+  },
+  {
+    path: 'learn-studycard/:id',
+    loadChildren: () => import('./pages/learn-studycard/learn-studycard.module').then( m => m.LearnStudycardPageModule)
   },
 ];
 
