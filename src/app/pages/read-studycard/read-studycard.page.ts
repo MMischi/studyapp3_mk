@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { DataService } from "src/app/services/data.service";
 import { Card } from "src/app/services/_interfaces/card";
@@ -14,7 +14,8 @@ export class ReadStudycardPage implements OnInit {
   constructor(
     private service: DataService,
     private route: ActivatedRoute,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private router: Router
   ) {}
 
   studycards: Card[] = [
@@ -64,6 +65,7 @@ export class ReadStudycardPage implements OnInit {
       this.cardToShow = this.studykit.cards[this.cardIndex];
     } else {
       this.presentToast("bottom", "success", "Du hast alle Lernkarten von diesem Set gelernt");
+      this.router.navigate(['/home'])
     }
   }
   decreaseCardIndex() {
