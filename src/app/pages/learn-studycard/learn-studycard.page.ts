@@ -21,6 +21,7 @@ export class LearnStudycardPage implements OnInit {
     private router: Router
   ) {}
 
+  studycardsToShow: Card[] = [];
   studycards: Card[] = [
     {
       id: "",
@@ -62,19 +63,20 @@ export class LearnStudycardPage implements OnInit {
     const routeParamStudykitId = this.route.snapshot.paramMap.get("id");
     if (routeParamStudykitId !== null) {
       this.studykit = await this.service.getStudykitById(routeParamStudykitId);
+      this.studycardsToShow = this.studykit.cards.filter((card: Card) => card.nextLearnDate <= new Date());
       this.cardSortIndexes = this.generateRandomNumber();
       this.cardIndex = this.cardSortIndexes[this.indexOfUserCard];
-      this.cardToShow = this.studykit.cards[this.cardIndex];
+      this.cardToShow = this.studycardsToShow[this.cardIndex];
     }
 
     this.isShowAnswer = false;
   }
 
   increaseCardIndex() {
-    if (this.indexOfUserCard < this.studykit.cards.length - 1) {
+    if (this.indexOfUserCard < this.studycardsToShow.length - 1) {
       this.indexOfUserCard++;
       this.cardIndex = this.cardSortIndexes[this.indexOfUserCard];
-      this.cardToShow = this.studykit.cards[this.cardIndex];
+      this.cardToShow = this.studycardsToShow[this.cardIndex];
     } else {
       this.presentToast(
         "bottom",
@@ -94,7 +96,7 @@ export class LearnStudycardPage implements OnInit {
   }
   generateNumbers(): number[] {
     let result: number[] = [];
-    for (let i = 0; i < this.studykit.cards.length; i++) {
+    for (let i = 0; i < this.studycardsToShow.length; i++) {
       result.push(i);
     }
     return result;

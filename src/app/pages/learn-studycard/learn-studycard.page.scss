@@ -20,3 +20,16 @@
 
     width: 100%;
 }
+
+.noCards {
+    div {
+        height: 100%;
+        padding: 20px;
+        display: flex;
+
+        p {
+            text-align: center;
+            margin: auto 0;
+        }
+    }
+}

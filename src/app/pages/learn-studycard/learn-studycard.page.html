@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="studycardsToShow.length > 0">
   <div class="question-area">
     <ion-card *ngIf="!isShowAnswer || cardToShow.type === 'multiple'">
       <ion-card-header>
@@ -90,5 +90,11 @@
     <ion-button expand="block" shape="round" (click)="increaseCardIndex()"
       >Weiter</ion-button
     >
+  </div>
+</ion-content>
+
+<ion-content *ngIf="studycardsToShow.length === 0" class="noCards">
+  <div>
+    <p>Du musst heute nichts mehr für dieses Studyset lernen!</p>
   </div>
 </ion-content>
