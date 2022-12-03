@@ -47,6 +47,9 @@ export class QuizStudycardPage implements OnInit {
   answerSimilarity: Number = 0;
   checkedAnswersId: String[] = [];
 
+  arrayOfIsRight: boolean[] = [];
+  arrayOfWrongCards: Card[] = [];
+
   constructor(private service: DataService, private route: ActivatedRoute) {}
 
   ngOnInit() {}
@@ -92,7 +95,9 @@ export class QuizStudycardPage implements OnInit {
       this.indexOfUserCard++;
       this.cardIndex = this.cardSortIndexes[this.indexOfUserCard];
       this.cardToShow = this.studykit.cards[this.cardIndex];
-    } 
+    } else if (this.indexOfUserCard < this.studykit.cards.length) {
+      console.log(this.arrayOfIsRight);
+    }
 
     this.textAnswer = "";
   }
@@ -105,6 +110,7 @@ export class QuizStudycardPage implements OnInit {
       isValide = this.checkTextAnswer();
     }
 
+    this.rememberAnswers(isValide);
     this.increaseCardIndex();
   }
 
@@ -146,6 +152,14 @@ export class QuizStudycardPage implements OnInit {
       );
     } else {
       this.checkedAnswersId.push(item.id);
+    }
+  }
+
+  rememberAnswers(answerIsValide: boolean) {
+    this.arrayOfIsRight.push(answerIsValide);
+
+    if (answerIsValide) {
+      this.arrayOfWrongCards.push(this.cardToShow);
     }
   }
 }
