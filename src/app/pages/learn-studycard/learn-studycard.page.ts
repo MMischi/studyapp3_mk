@@ -6,6 +6,8 @@ import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
 
+import stringSimilarity from "../../../../node_modules/string-similarity";
+
 @Component({
   selector: "app-learn-studycard",
   templateUrl: "./learn-studycard.page.html",
@@ -48,7 +50,9 @@ export class LearnStudycardPage implements OnInit {
   };
 
   isShowAnswer: boolean = false;
+  textAnswer: String = "";
   checkedAnswersId: String[] = [];
+  answerSimilarity: Number = 0;
 
   ngOnInit() {}
 
@@ -110,9 +114,17 @@ export class LearnStudycardPage implements OnInit {
     let isValide: boolean = false;
     if (this.cardToShow.type === 'multiple') {
       isValide = this.checkMultipleAnswer();
+    } else if (this.cardToShow.type === 'text') {
+      isValide = this.checkTextAnswer();
     }
 
     this.processResult(isValide);
+  }
+
+  checkTextAnswer(): boolean {
+    this.answerSimilarity = stringSimilarity.compareTwoStrings(this.textAnswer, this.cardToShow.answers[0]) * 100;
+    this.answerSimilarity = parseFloat(this.answerSimilarity.toFixed(2));
+    return this.answerSimilarity >= 70 ? true : false;
   }
 
   checkMultipleAnswer(): boolean {

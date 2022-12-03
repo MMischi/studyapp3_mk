@@ -9,20 +9,51 @@
 
 <ion-content>
   <div class="question-area">
-    <ion-card>
+    <ion-card *ngIf="!isShowAnswer || cardToShow.type === 'multiple'">
       <ion-card-header>
         <ion-card-subtitle>Frage</ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content> {{ cardToShow.question }} </ion-card-content>
     </ion-card>
+
+    <ion-card *ngIf="isShowAnswer && cardToShow.type === 'text'">
+      <ion-card-header>
+        <ion-card-subtitle>Antwort</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content> {{ cardToShow.answers[0] }} </ion-card-content>
+    </ion-card>
   </div>
 
   <div class="answer-area">
     <div *ngIf="cardToShow.type === 'text'">
       <ion-list>
+        <ion-item *ngIf="isShowAnswer">
+          <ion-text
+            *ngIf="answerSimilarity < 70"
+            color="danger"
+            class="text-small"
+          >
+            {{ answerSimilarity }}% Textähnlichkeit - Antwort nicht
+            richtig</ion-text
+          >
+          <ion-text
+            *ngIf="answerSimilarity >= 70"
+            color="success"
+            class="text-small"
+          >
+            {{ answerSimilarity }}% Textähnlichkeit - Antwort richtig</ion-text
+          >
+        </ion-item>
+
         <ion-item>
-          <ion-textarea placeholder="Meine Antwort" rows="5"></ion-textarea>
+          <ion-textarea
+            placeholder="Meine Antwort"
+            rows="5"
+            [(ngModel)]="textAnswer"
+            [attr.disabled]="isShowAnswer"
+          ></ion-textarea>
         </ion-item>
       </ion-list>
     </div>
