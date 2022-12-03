@@ -107,6 +107,27 @@ export class LearnStudycardPage implements OnInit {
 
   checkAnswer() {
     this.isShowAnswer = true;
+    let isValide: boolean = false;
+    if (this.cardToShow.type === 'multiple') {
+      isValide = this.checkMultipleAnswer();
+    }
+
+    this.processResult(isValide);
+  }
+
+  checkMultipleAnswer(): boolean {
+    let isRightList: boolean[] = this.cardToShow.answers.map((elem: Answer) => this.isChecked(elem));
+    return isRightList.every((elem: boolean) => elem === true);
+  }
+
+  processResult(isValide: boolean) {
+    isValide ? this.processSuccess() : this.processFail();
+  }
+  processSuccess() {
+    this.presentToast("bottom", "success", "Richtig beantwortet. Weiter so!");
+  }
+  processFail() {
+    this.presentToast("bottom", "danger", "Nicht richtig beantwortet. Beim nächsten Mal klappts besser!");
   }
 
   isChecked(answerElement: Answer): boolean {
