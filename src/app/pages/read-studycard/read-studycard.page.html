@@ -42,7 +42,12 @@
   </div>
 
   <div class="check-area">
-    <ion-button fill="outline" shape="round" (click)="decreaseCardIndex()">
+    <ion-button
+      fill="outline"
+      shape="round"
+      (click)="decreaseCardIndex()"
+      [attr.disabled]="indexOfUserCard == 0"
+    >
       <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
       Zurück
     </ion-button>

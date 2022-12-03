@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { ToastController } from "@ionic/angular";
 import { DataService } from "src/app/services/data.service";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
@@ -10,7 +11,11 @@ import { Studykit } from "src/app/services/_interfaces/studykit";
   styleUrls: ["./read-studycard.page.scss"],
 })
 export class ReadStudycardPage implements OnInit {
-  constructor(private service: DataService, private route: ActivatedRoute) {}
+  constructor(
+    private service: DataService,
+    private route: ActivatedRoute,
+    private toastController: ToastController
+  ) {}
 
   studycards: Card[] = [
     {
@@ -53,9 +58,13 @@ export class ReadStudycardPage implements OnInit {
   }
 
   increaseCardIndex() {
-    this.indexOfUserCard++;
-    this.cardIndex = this.cardSortIndexes[this.indexOfUserCard];
-    this.cardToShow = this.studykit.cards[this.cardIndex];
+    if (this.indexOfUserCard < this.studykit.cards.length - 1) {
+      this.indexOfUserCard++;
+      this.cardIndex = this.cardSortIndexes[this.indexOfUserCard];
+      this.cardToShow = this.studykit.cards[this.cardIndex];
+    } else {
+      this.presentToast("bottom", "success", "Du hast alle Lernkarten von diesem Set gelernt");
+    }
   }
   decreaseCardIndex() {
     this.indexOfUserCard--;
@@ -85,5 +94,26 @@ export class ReadStudycardPage implements OnInit {
     }
 
     return result;
+  }
+
+  /**
+   * show toast
+   * @param {string} position - "top" | "middle" | "bottom"
+   * @param {string} color - "danger" | "warning" | "primary" | "light" | "success"
+   * @param {string} msg - individual
+   */
+  async presentToast(
+    position: "top" | "middle" | "bottom",
+    color: "danger" | "warning" | "primary" | "light" | "success",
+    msg: string
+  ) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 1500,
+      position: position,
+      color: color,
+    });
+
+    await toast.present();
   }
 }
