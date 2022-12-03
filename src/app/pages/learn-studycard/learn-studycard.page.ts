@@ -88,7 +88,6 @@ export class LearnStudycardPage implements OnInit {
   }
 
   checkAnswer() {
-    console.log('press');
     this.isShowAnswer = true;
   }
 }
