@@ -84,6 +84,7 @@ export class LearnStudycardPage implements OnInit {
       this.router.navigate(["/home"]);
     }
 
+    this.textAnswer = "";
     this.isShowAnswer = false;
   }
 
@@ -139,9 +140,29 @@ export class LearnStudycardPage implements OnInit {
   }
   processSuccess() {
     this.presentToast("bottom", "success", "Richtig beantwortet. Weiter so!");
+    this.cardToShow.repetitionTimes++;
+    this.updateCardProperties();
   }
   processFail() {
     this.presentToast("bottom", "danger", "Nicht richtig beantwortet. Beim nächsten Mal klappts besser!");
+    this.cardToShow.repetitionTimes = 0;
+    this.updateCardProperties();
+  }
+  updateCardProperties() {
+    console.log(this.cardToShow);
+    this.cardToShow.lastLearnedOn = new Date();
+    let today = new Date();
+    this.cardToShow.nextLearnDate.setDate(today.getDate() + this.getRepititionLearnDate());
+    this.service.updateStudykit(this.studykit);
+  }
+  getRepititionLearnDate(): number {
+    switch (this.cardToShow.repetitionTimes) {
+      case 0: return 1;
+      case 1: return 1;
+      case 2: return 2; 
+      case 3: return 4;
+      case 4: return 7;
+    }
   }
 
   isChecked(answerElement: Answer): boolean {
