@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ToastController } from "@ionic/angular";
 import { DataService } from "src/app/services/data.service";
 import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
@@ -11,7 +12,12 @@ import { Studykit } from "src/app/services/_interfaces/studykit";
   styleUrls: ["./learn-studycard.page.scss"],
 })
 export class LearnStudycardPage implements OnInit {
-  constructor(private service: DataService, private route: ActivatedRoute) {}
+  constructor(
+    private service: DataService,
+    private route: ActivatedRoute,
+    private toastController: ToastController,
+    private router: Router
+  ) {}
 
   studycards: Card[] = [
     {
@@ -59,9 +65,18 @@ export class LearnStudycardPage implements OnInit {
   }
 
   increaseCardIndex() {
-    this.indexOfUserCard++;
-    this.cardIndex = this.cardSortIndexes[this.indexOfUserCard];
-    this.cardToShow = this.studykit.cards[this.cardIndex];
+    if (this.indexOfUserCard < this.studykit.cards.length - 1) {
+      this.indexOfUserCard++;
+      this.cardIndex = this.cardSortIndexes[this.indexOfUserCard];
+      this.cardToShow = this.studykit.cards[this.cardIndex];
+    } else {
+      this.presentToast(
+        "bottom",
+        "success",
+        "Du hast alle Lernkarten von diesem Set gelernt"
+      );
+      this.router.navigate(["/home"]);
+    }
 
     this.isShowAnswer = false;
   }
@@ -95,7 +110,8 @@ export class LearnStudycardPage implements OnInit {
   }
 
   isChecked(answerElement: Answer): boolean {
-    let isInAnswerCheckedList = this.checkIfAnswerIsInAnswerCheckedList(answerElement);
+    let isInAnswerCheckedList =
+      this.checkIfAnswerIsInAnswerCheckedList(answerElement);
 
     if (!isInAnswerCheckedList && !answerElement.isRight) {
       return true;
@@ -123,4 +139,24 @@ export class LearnStudycardPage implements OnInit {
     }
   }
 
+  /**
+   * show toast
+   * @param {string} position - "top" | "middle" | "bottom"
+   * @param {string} color - "danger" | "warning" | "primary" | "light" | "success"
+   * @param {string} msg - individual
+   */
+  async presentToast(
+    position: "top" | "middle" | "bottom",
+    color: "danger" | "warning" | "primary" | "light" | "success",
+    msg: string
+  ) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 1500,
+      position: position,
+      color: color,
+    });
+
+    await toast.present();
+  }
 }
