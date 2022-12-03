@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { DataService } from "src/app/services/data.service";
+import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
 
@@ -40,7 +41,8 @@ export class LearnStudycardPage implements OnInit {
     answers: [],
   };
 
-  isShowAnswer = false;
+  isShowAnswer: boolean = false;
+  checkedAnswersId: String[] = [];
 
   ngOnInit() {}
 
@@ -52,6 +54,7 @@ export class LearnStudycardPage implements OnInit {
       this.cardIndex = this.cardSortIndexes[this.indexOfUserCard];
       this.cardToShow = this.studykit.cards[this.cardIndex];
     }
+
     this.isShowAnswer = false;
   }
 
@@ -90,4 +93,34 @@ export class LearnStudycardPage implements OnInit {
   checkAnswer() {
     this.isShowAnswer = true;
   }
+
+  isChecked(answerElement: Answer): boolean {
+    let isInAnswerCheckedList = this.checkIfAnswerIsInAnswerCheckedList(answerElement);
+
+    if (!isInAnswerCheckedList && !answerElement.isRight) {
+      return true;
+    } else if (isInAnswerCheckedList && !answerElement.isRight) {
+      return false;
+    } else if (isInAnswerCheckedList && answerElement.isRight) {
+      return true;
+    } else if (!isInAnswerCheckedList && answerElement.isRight) {
+      return false;
+    }
+  }
+  checkIfAnswerIsInAnswerCheckedList(answerElement: Answer) {
+    return this.checkedAnswersId.filter((value) => value === answerElement.id)
+      .length > 0
+      ? true
+      : false;
+  }
+  onChange(item: Answer) {
+    if (this.checkedAnswersId.includes(item.id)) {
+      this.checkedAnswersId = this.checkedAnswersId.filter(
+        (value) => value != item.id
+      );
+    } else {
+      this.checkedAnswersId.push(item.id);
+    }
+  }
+
 }
