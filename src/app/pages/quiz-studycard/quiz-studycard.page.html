@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="studykit.cards.length > 0">
+<ion-content *ngIf="!showResult">
   <div class="question-area">
     <ion-card>
       <ion-card-header>
@@ -47,11 +47,65 @@
 
   <div class="navigation-area">
     <ion-button
+      *ngIf="studykit.cards.length - 1 > indexOfUserCard"
       color="tertiary"
       expand="block"
       shape="round"
       (click)="checkAnswer()"
       >Weiter</ion-button
+    >
+    <ion-button
+      *ngIf="studykit.cards.length - 1 === indexOfUserCard"
+      color="tertiary"
+      expand="block"
+      shape="round"
+      (click)="checkAnswer()"
+      >Abschließen</ion-button
+    >
+  </div>
+</ion-content>
+
+<ion-content *ngIf="showResult" class="result-page">
+  <div class="result">
+    <p>Du hast</p>
+    <div class="points">
+      <h1>{{ countRightAnswers() }}</h1>
+      <span>von {{ arrayOfIsRight.length }}</span>
+    </div>
+    <p>richtig beantwortet</p>
+
+    <div *ngIf="countRightAnswers() >= arrayOfIsRight.length * 0.9">
+      Du bist top auf deine Prüfung vorbereitet!
+    </div>
+    <div *ngIf="countRightAnswers() <= arrayOfIsRight.length * 0.9 && countRightAnswers() >= arrayOfIsRight.length * 0.5">
+      Übe fleißig weiter, du bist fast am Ziel!
+    </div>
+    <div *ngIf="countRightAnswers() <= arrayOfIsRight.length * 0.5">
+      Lass nicht den Kopf hängen. Übe weiter, dann schaffst du es!
+    </div>
+  </div>
+
+  <ion-list>
+    <ion-item>
+      <h4>Diese Fragen solltest du dir noch einmal ansehen:</h4>
+    </ion-item>
+    <ion-item *ngFor="let card of arrayOfWrongCards"
+      >{{ card.question }}</ion-item
+    >
+  </ion-list>
+
+  <div class="button-area">
+    <ion-button
+      color="tertiary"
+      fill="outline"
+      expand="block"
+      shape="round"
+      routerLink="/read-studycard/{{studykit.id}}"
+      >Sie dir das Lernset an</ion-button
+    >
+
+    <ion-button color="tertiary" expand="block" shape="round" routerLink="/home"
+      >Fertig</ion-button
     >
   </div>
 </ion-content>

@@ -49,6 +49,8 @@ export class QuizStudycardPage implements OnInit {
 
   arrayOfIsRight: boolean[] = [];
   arrayOfWrongCards: Card[] = [];
+  showResult: boolean = false;
+id: any;
 
   constructor(private service: DataService, private route: ActivatedRoute) {}
 
@@ -57,13 +59,12 @@ export class QuizStudycardPage implements OnInit {
   async ionViewWillEnter() {
     const routeParamStudykitId = this.route.snapshot.paramMap.get("id");
     if (routeParamStudykitId !== null) {
+      this.showResult = false;
       this.studykit = await this.service.getStudykitById(routeParamStudykitId);
       this.cardSortIndexes = this.generateRandomNumber();
       this.cardIndex = this.cardSortIndexes[this.indexOfUserCard];
       this.cardToShow = this.studykit.cards[this.cardIndex];
     }
-
-    console.log(this.cardToShow);
   }
 
   generateRandomNumber() {
@@ -96,7 +97,8 @@ export class QuizStudycardPage implements OnInit {
       this.cardIndex = this.cardSortIndexes[this.indexOfUserCard];
       this.cardToShow = this.studykit.cards[this.cardIndex];
     } else if (this.indexOfUserCard < this.studykit.cards.length) {
-      console.log(this.arrayOfIsRight);
+      console.log(this.arrayOfWrongCards)
+      this.showResult = true;
     }
 
     this.textAnswer = "";
@@ -158,8 +160,12 @@ export class QuizStudycardPage implements OnInit {
   rememberAnswers(answerIsValide: boolean) {
     this.arrayOfIsRight.push(answerIsValide);
 
-    if (answerIsValide) {
+    if (!answerIsValide) {
       this.arrayOfWrongCards.push(this.cardToShow);
     }
+  }
+
+  countRightAnswers() {
+    return this.arrayOfIsRight.filter((elem) => elem === true).length;
   }
 }
