@@ -22,6 +22,7 @@ export class ReadStudycardPage implements OnInit {
     {
       id: "",
       lastLearnedOn: new Date(),
+      nextLearnDate: new Date(),
       repetitionTimes: 0,
       type: "",
       question: "",
@@ -40,6 +41,7 @@ export class ReadStudycardPage implements OnInit {
   cardToShow: Card = {
     id: "",
     lastLearnedOn: new Date(),
+    nextLearnDate: new Date(),
     repetitionTimes: 0,
     type: "",
     question: "",

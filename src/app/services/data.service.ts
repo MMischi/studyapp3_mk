@@ -14,6 +14,7 @@ export class DataService {
     cards: [{
       id: null,
       lastLearnedOn: undefined,
+      nextLearnDate: undefined,
       repetitionTimes: null,
       type: null,
       question: '',

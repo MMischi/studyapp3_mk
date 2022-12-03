@@ -34,6 +34,7 @@ export class CreateStudykitPage implements OnInit {
     {
       id: uuidv4(),
       lastLearnedOn: new Date(),
+      nextLearnDate: new Date(),
       repetitionTimes: 0,
       type: "",
       question: "",
@@ -71,6 +72,7 @@ export class CreateStudykitPage implements OnInit {
     let card: Card = {
       id: uuidv4(),
       lastLearnedOn: new Date(),
+      nextLearnDate: new Date(),
       repetitionTimes: 0,
       type: "",
       question: "",
