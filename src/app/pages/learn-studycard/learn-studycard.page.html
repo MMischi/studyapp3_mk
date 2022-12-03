@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="secondary">
     <ion-title>{{ studykit.title }}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button text="" defaultHref="home"></ion-back-button>
@@ -61,7 +61,11 @@
     <div *ngIf="cardToShow.type === 'multiple'">
       <ion-list>
         <ion-item *ngFor="let answer of cardToShow.answers">
-          <ion-checkbox slot="start" (click)="onChange(answer)"></ion-checkbox>
+          <ion-checkbox
+            slot="start"
+            color="secondary"
+            (click)="onChange(answer)"
+          ></ion-checkbox>
           <ion-label>{{ answer.text }}</ion-label>
           <ion-icon
             *ngIf="isShowAnswer && isChecked(answer)"
@@ -81,13 +85,21 @@
   </div>
 
   <div class="check-area" *ngIf="!isShowAnswer">
-    <ion-button expand="block" shape="round" (click)="checkAnswer()"
+    <ion-button
+      color="secondary"
+      expand="block"
+      shape="round"
+      (click)="checkAnswer()"
       >Antwort überprüfen</ion-button
     >
   </div>
 
   <div class="navigation-area" *ngIf="isShowAnswer">
-    <ion-button expand="block" shape="round" (click)="increaseCardIndex()"
+    <ion-button
+      color="secondary"
+      expand="block"
+      shape="round"
+      (click)="increaseCardIndex()"
       >Weiter</ion-button
     >
   </div>
