@@ -2,6 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 
+import {
+  getStudykitIdFromRout,
+  generateRandomizedIndexesOf,
+  getNextRandomizedCardFromStudykit,
+} from "../../services/_utils/helper";
 import { DataService } from "src/app/services/data.service";
 
 import { Answer } from "src/app/services/_interfaces/answer";
@@ -64,62 +69,73 @@ export class LearnStudycardPage implements OnInit {
   ngOnInit() {}
 
   async ionViewWillEnter() {
-    const routeParamStudykitId = getStudysetIdFromRout(this.route);
+    const routeParamStudykitId = getStudykitIdFromRout(this.route);
     if (routeParamStudykitId !== null) {
       this.studykit = await this.service.getStudykitById(routeParamStudykitId);
-      this.studycardsToShow = this.studykit.cards.filter((card: Card) => card.nextLearnDate <= new Date());
-      this.indexRandomized = this.generateRandomNumber();
-      this.indexFromRandomizedCardSet =
-        this.indexRandomized[this.indexOfShownCard];
+      await this.initLearning(routeParamStudykitId);
       this.cardToShow = this.studycardArray[this.indexFromRandomizedCardSet];
     }
-
     this.isShowAnswer = false;
   }
 
-  increaseIndexFromRandomizedCardSet() {
+  /**
+   * set initinal values to show right studycards
+   * @param { string } studykitId id of studykit
+   */
+  async initLearning(studykitId: string) {
+    this.studykit = await this.service.getStudykitById(studykitId);
+    this.studycardArray = this.studykit.cards.filter(
+      (card: Card) => card.nextLearnDate <= new Date()
+    );
+    this.indexRandomized = generateRandomizedIndexesOf(
+      this.studycardArray.length
+    );
+    this.indexFromRandomizedCardSet =
+      this.indexRandomized[this.indexOfShownCard];
+  }
+
+  /**
+   * direct to next studycard or redirect to home if it was last card
+   */
+  trySwitchToNextCard() {
     if (this.indexOfShownCard < this.studycardArray.length - 1) {
-      this.indexOfShownCard++;
-      this.indexFromRandomizedCardSet =
-        this.indexRandomized[this.indexOfShownCard];
-      this.cardToShow = this.studycardArray[this.indexFromRandomizedCardSet];
-    } else {
-      this.presentToast(
-        "bottom",
-        "success",
-        "Du hast alle Lernkarten von diesem Set gelernt"
+      this.cardToShow = getNextRandomizedCardFromStudykit(
+        this.studycardArray,
+        this.indexOfShownCard,
+        this.indexRandomized
       );
-      this.router.navigate(["/home"]);
+      this.indexOfShownCard++;
+    } else {
+      this.redirectToHome();
     }
+    this.resetShowAnswer();
+  }
 
-    this.answerOfTextarea = "";
+  /**
+   * redirects to home route
+   */
+  redirectToHome() {
+    this.presentToast(
+      "bottom",
+      "success",
+      "Du hast alle Lernkarten von diesem Set gelernt"
+    );
+    this.router.navigate(["/home"]);
+  }
+
+  /**
+   * resets every element, which contains answers
+   */
+  resetShowAnswer() {
     this.isShowAnswer = false;
+    this.answerSimilarity = 0;
+    this.answerOfTextarea = "";
+    this.checkedMultipleAnswerIdArray = [];
   }
 
-  generateRandomNumber() {
-    let arrayOfNumbersLengthStudykitCards: number[] = this.generateNumbers();
-    return this.generateRandomSequence(arrayOfNumbersLengthStudykitCards);
-  }
-  generateNumbers(): number[] {
-    let result: number[] = [];
-    for (let i = 0; i < this.studycardArray.length; i++) {
-      result.push(i);
-    }
-    return result;
-  }
-  generateRandomSequence(array: number[]): number[] {
-    let arrayToRandomize: number[] = array;
-    let result: number[] = [];
-
-    while (arrayToRandomize.length !== 0) {
-      let index = Math.floor(Math.random() * arrayToRandomize.length);
-      result.push(arrayToRandomize[index]);
-      arrayToRandomize.splice(index, 1);
-    }
-
-    return result;
-  }
-
+  /**
+   * gives feedback of answer check
+   */
   checkAnswer() {
     this.isShowAnswer = true;
     let isValide: boolean = false;
@@ -128,10 +144,13 @@ export class LearnStudycardPage implements OnInit {
     } else if (this.cardToShow.type === "text") {
       isValide = this.checkanswerOfTextarea();
     }
-
-    this.processResult(isValide);
+    this.handleResult(isValide);
   }
 
+  /**
+   * checks text answer
+   * @returns { boolean } true if answer is higher than 70% similar to answer of card
+   */
   checkanswerOfTextarea(): boolean {
     this.answerSimilarity =
       stringSimilarity.compareTwoStrings(
@@ -142,21 +161,37 @@ export class LearnStudycardPage implements OnInit {
     return this.answerSimilarity >= 70 ? true : false;
   }
 
+  /**
+   * checks all checkbox answers
+   * @returns { boolean } true if all answers are right
+   */
   checkMultipleAnswer(): boolean {
     let isRightList: boolean[] = this.cardToShow.answers.map((elem: Answer) =>
-      this.isChecked(elem)
+      this.isMultiplechoiceAnswerRight(elem)
     );
     return isRightList.every((elem: boolean) => elem === true);
   }
 
-  processResult(isValide: boolean) {
+  /**
+   * gives the user feedback if the answer(s) were correct
+   * @param { boolean } isValide if answer(s) are right (true) or false
+   */
+  handleResult(isValide: boolean) {
     isValide ? this.processSuccess() : this.processFail();
   }
+
+  /**
+   * gives feedback, that the answers are correct, and updates in local Storage
+   */
   processSuccess() {
     this.presentToast("bottom", "success", "Richtig beantwortet. Weiter so!");
     this.cardToShow.repetitionTimes++;
     this.updateCardProperties();
   }
+
+   /**
+   * gives feedback, that the answers are false, and updates in local Storage
+   */
   processFail() {
     this.presentToast(
       "bottom",
@@ -166,15 +201,22 @@ export class LearnStudycardPage implements OnInit {
     this.cardToShow.repetitionTimes = 0;
     this.updateCardProperties();
   }
-  updateCardProperties() {
-    console.log(this.cardToShow);
+
+  /**
+   * updates studycard in local storages 
+   */
+  async updateCardProperties() {
     this.cardToShow.lastLearnedOn = new Date();
     let today = new Date();
     this.cardToShow.nextLearnDate.setDate(
       today.getDate() + this.getRepititionLearnDate()
     );
-    this.service.updateStudykit(this.studykit);
+    await this.service.updateStudykit(this.studykit);
   }
+
+  /**
+   * @returns { number } after how many days a studycard should be learned again
+   */
   getRepititionLearnDate(): number {
     switch (this.cardToShow.repetitionTimes) {
       case 0:
@@ -190,7 +232,12 @@ export class LearnStudycardPage implements OnInit {
     }
   }
 
-  isChecked(answerElement: Answer): boolean {
+  /**
+   * checks if multiple choice answer is correct
+   * @param { Answer } answerElement 
+   * @returns { boolean } true if multiplechoice answer is right  
+   */
+  isMultiplechoiceAnswerRight(answerElement: Answer): boolean {
     let isInAnswerCheckedList =
       this.checkIfAnswerIsInAnswerCheckedList(answerElement);
 
@@ -204,19 +251,30 @@ export class LearnStudycardPage implements OnInit {
       return false;
     }
   }
-  checkIfAnswerIsInAnswerCheckedList(answerElement: Answer) {
+
+  /**
+   * checks if an answer element is checked
+   * @param { Answer } answerElement 
+   * @returns { boolean } true if answer is checked
+   */
+  checkIfAnswerIsInAnswerCheckedList(answerElement: Answer): boolean {
     return this.checkedMultipleAnswerIdArray.filter(
       (value) => value === answerElement.id
     ).length > 0
       ? true
       : false;
   }
-  onChange(item: Answer) {
-    if (this.checkedMultipleAnswerIdArray.includes(item.id)) {
+
+  /**
+   * write/drop answer id to an array
+   * @param { Answer } answer clicked answer
+   */
+  onChange(answer: Answer) {
+    if (this.checkedMultipleAnswerIdArray.includes(answer.id)) {
       this.checkedMultipleAnswerIdArray =
-        this.checkedMultipleAnswerIdArray.filter((value) => value != item.id);
+        this.checkedMultipleAnswerIdArray.filter((value) => value != answer.id);
     } else {
-      this.checkedMultipleAnswerIdArray.push(item.id);
+      this.checkedMultipleAnswerIdArray.push(answer.id);
     }
   }
 

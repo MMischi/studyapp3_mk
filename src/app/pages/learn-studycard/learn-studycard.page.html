@@ -68,13 +68,13 @@
           ></ion-checkbox>
           <ion-label>{{ answer.text }}</ion-label>
           <ion-icon
-            *ngIf="isShowAnswer && isChecked(answer)"
+            *ngIf="isShowAnswer && isMultiplechoiceAnswerRight(answer)"
             color="success"
             name="checkmark-circle-outline"
             slot="end"
           ></ion-icon>
           <ion-icon
-            *ngIf="isShowAnswer && !isChecked(answer)"
+            *ngIf="isShowAnswer && !isMultiplechoiceAnswerRight(answer)"
             color="danger"
             name="close-circle-outline"
             slot="end"
@@ -99,7 +99,7 @@
       color="secondary"
       expand="block"
       shape="round"
-      (click)="increaseIndexFromRandomizedCardSet()"
+      (click)="trySwitchToNextCard()"
       >Weiter</ion-button
     >
   </div>
