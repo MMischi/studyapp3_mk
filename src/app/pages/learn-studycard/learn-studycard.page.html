@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="studycardsToShow.length > 0">
+<ion-content *ngIf="studycardArray.length > 0">
   <div class="question-area">
     <ion-card *ngIf="!isShowAnswer || cardToShow.type === 'multiple'">
       <ion-card-header>
@@ -51,7 +51,7 @@
           <ion-textarea
             placeholder="Meine Antwort"
             rows="5"
-            [(ngModel)]="textAnswer"
+            [(ngModel)]="answerOfTextarea"
             [attr.disabled]="isShowAnswer"
           ></ion-textarea>
         </ion-item>
@@ -99,13 +99,13 @@
       color="secondary"
       expand="block"
       shape="round"
-      (click)="increaseCardIndex()"
+      (click)="increaseIndexFromRandomizedCardSet()"
       >Weiter</ion-button
     >
   </div>
 </ion-content>
 
-<ion-content *ngIf="studycardsToShow.length === 0" class="noCards">
+<ion-content *ngIf="studycardArray.length === 0" class="noCards">
   <div>
     <p>
       Du musst heute nichts mehr für dieses Studyset lernen. <br /><br />
