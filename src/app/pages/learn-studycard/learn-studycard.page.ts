@@ -86,7 +86,7 @@ export class LearnStudycardPage implements OnInit {
     this.studycardArray = this.getStudycardsWhereNextDateIsBeforeToday(
       this.studykit.cards
     );
-    this.studycardArray = randomizeStudycards(this.studycardArray);
+    this.studycardArray = randomizeStudycards(this.studykit.cards);
     this.cardToShow = this.studycardArray[this.cardIndex];
   }
 
@@ -202,7 +202,7 @@ export class LearnStudycardPage implements OnInit {
       today.getDate() +
         this.getNextLearnDateByRepetition(this.cardToShow.repetitionTimes)
     );
-    await this.service.updateStudykit(this.studykit);
+    await this.service.updateCardInStudykit(this.studykit.id, this.cardToShow);
   }
 
   /**
@@ -234,6 +234,7 @@ export class LearnStudycardPage implements OnInit {
    * @returns { boolean }
    */
   isAnswerAlsoChecked(answer: Answer): boolean {
+    console.log(this.checkedMultipleAnswerIdArray);
     return checkIfAnswerIdIsInAnswerCheckedList(
       answer.id,
       this.checkedMultipleAnswerIdArray

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
+import { Card } from './_interfaces/card';
 import { Studykit } from './_interfaces/studykit';
 
 @Injectable({
@@ -97,5 +98,18 @@ export class DataService {
    */
    async saveStudykits(studykits: Studykit[]) {
     this.storage.set(this.STUDYKIT_DATA_STORAGE, studykits);
+  }
+
+  /**
+   * updates card in studykit by id
+   * @param { string } studykitId 
+   * @param { Card } card 
+   */
+  async updateCardInStudykit(studykitId: string, card: Card) {
+    let allStudykits = await this.getAllStudykits();
+    let indexOfStudykit = allStudykits.findIndex((elem: Studykit) => elem.id === studykitId);
+    let indexOfCard = allStudykits[indexOfStudykit].cards.findIndex((elem: Card) => elem.id === card.id);
+    allStudykits[indexOfStudykit].cards[indexOfCard] = card;
+    this.saveStudykits(allStudykits);
   }
 }
