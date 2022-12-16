@@ -59,6 +59,7 @@
               <ion-label>Art der Frage</ion-label>
               <ion-select
                 placeholder="..."
+                value="{{studycard.type}}"
                 (ionChange)="setCardType($event, studycard.id)"
               >
                 <ion-select-option value="multiple"
