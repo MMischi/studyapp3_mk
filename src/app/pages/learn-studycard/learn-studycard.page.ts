@@ -4,16 +4,17 @@ import { ToastController } from "@ionic/angular";
 
 import {
   getStudykitIdFromRout,
-  generateRandomizedIndexesOf,
-  getNextRandomizedCardFromStudykit,
+  randomizeStudycards,
+  getStringSimilarity,
+  checkanswerOfTextarea,
+  checkMultipleAnswer,
+  checkIfAnswerIdIsInAnswerCheckedList,
 } from "../../services/_utils/helper";
 import { DataService } from "src/app/services/data.service";
 
 import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
-
-import stringSimilarity from "../../../../node_modules/string-similarity";
 
 @Component({
   selector: "app-learn-studycard",
@@ -46,10 +47,8 @@ export class LearnStudycardPage implements OnInit {
   };
 
   // values to describe shown cards
-  indexOfShownCard: number = 0; // index of card of card, which the user sees
-  indexFromRandomizedCardSet: number = 0; // index of card in randomized card set
+  cardIndex: number = 0; // index of card of card, which the user sees
   studycardArray: Card[] = []; // studycards of studykit
-  indexRandomized: number[] = []; // randomized index of studycards
   cardToShow: Card = {
     id: "",
     lastLearnedOn: new Date(),
@@ -62,49 +61,54 @@ export class LearnStudycardPage implements OnInit {
 
   // values to handle answer or question
   isShowAnswer: boolean = false; // whether to show the answers
-  answerSimilarity: Number = 0; // text similarity in percent
-  answerOfTextarea: String = ""; // text from textarea (card type: text)
-  checkedMultipleAnswerIdArray: String[] = []; // the array shows which answers are checked (card type: multiple)
+  answerSimilarity: number = 0; // text similarity in percent
+  answerOfTextarea: string = ""; // text from textarea (card type: text)
+  checkedMultipleAnswerIdArray: string[] = []; // the array containes checked answers (card type: multiple)
 
   ngOnInit() {}
 
   async ionViewWillEnter() {
-    const routeParamStudykitId = getStudykitIdFromRout(this.route);
-    if (routeParamStudykitId !== null) {
-      this.studykit = await this.service.getStudykitById(routeParamStudykitId);
-      await this.initLearning(routeParamStudykitId);
-      this.cardToShow = this.studycardArray[this.indexFromRandomizedCardSet];
+    const routeParam: string = getStudykitIdFromRout(this.route);
+    if (routeParam !== null) {
+      this.initLearning(routeParam);
     }
-    this.isShowAnswer = false;
   }
 
+  /* -------------------------------------- */
+  /* init learning */
+  /* -------------------------------------- */
   /**
-   * set initinal values to show right studycards
-   * @param { string } studykitId id of studykit
+   * Prepare studykit for learning
    */
   async initLearning(studykitId: string) {
+    this.isShowAnswer = false;
     this.studykit = await this.service.getStudykitById(studykitId);
-    this.studycardArray = this.studykit.cards.filter(
-      (card: Card) => card.nextLearnDate <= new Date()
+    this.studycardArray = this.getStudycardsWhereNextDateIsBeforeToday(
+      this.studykit.cards
     );
-    this.indexRandomized = generateRandomizedIndexesOf(
-      this.studycardArray.length
-    );
-    this.indexFromRandomizedCardSet =
-      this.indexRandomized[this.indexOfShownCard];
+    this.studycardArray = randomizeStudycards(this.studycardArray);
+    this.cardToShow = this.studycardArray[this.cardIndex];
   }
 
   /**
-   * direct to next studycard or redirect to home if it was last card
+   * Filters studycard where card property nextLearnDate <= today
+   * @param { Card[] } allCards
+   * @returns { Card[] } set of cards where nextLearnDate <= today
+   */
+  getStudycardsWhereNextDateIsBeforeToday(allCards: Card[]): Card[] {
+    return allCards.filter((card: Card) => card.nextLearnDate <= new Date());
+  }
+
+  /* -------------------------------------- */
+  /* navigation */
+  /* -------------------------------------- */
+  /**
+   * Navigate to the next card, or to /home if it was the last card
    */
   trySwitchToNextCard() {
-    if (this.indexOfShownCard < this.studycardArray.length - 1) {
-      this.cardToShow = getNextRandomizedCardFromStudykit(
-        this.studycardArray,
-        this.indexOfShownCard,
-        this.indexRandomized
-      );
-      this.indexOfShownCard++;
+    if (this.cardIndex < this.studycardArray.length - 1) {
+      this.cardIndex++;
+      this.cardToShow = this.studycardArray[this.cardIndex];
     } else {
       this.redirectToHome();
     }
@@ -112,7 +116,7 @@ export class LearnStudycardPage implements OnInit {
   }
 
   /**
-   * redirects to home route
+   * Redirects to home route
    */
   redirectToHome() {
     this.presentToast(
@@ -124,7 +128,7 @@ export class LearnStudycardPage implements OnInit {
   }
 
   /**
-   * resets every element, which contains answers
+   * Resets every element, which contains answers
    */
   resetShowAnswer() {
     this.isShowAnswer = false;
@@ -133,64 +137,51 @@ export class LearnStudycardPage implements OnInit {
     this.checkedMultipleAnswerIdArray = [];
   }
 
+  /* -------------------------------------- */
+  /* check answers */
+  /* -------------------------------------- */
   /**
-   * gives feedback of answer check
+   * Compares the inserted answers, with the saved answers
    */
   checkAnswer() {
     this.isShowAnswer = true;
+
     let isValide: boolean = false;
     if (this.cardToShow.type === "multiple") {
-      isValide = this.checkMultipleAnswer();
+      isValide = checkMultipleAnswer(
+        this.cardToShow,
+        this.checkedMultipleAnswerIdArray
+      );
     } else if (this.cardToShow.type === "text") {
-      isValide = this.checkanswerOfTextarea();
+      this.answerSimilarity = getStringSimilarity(
+        this.answerOfTextarea,
+        this.cardToShow.answers[0].toString()
+      );
+      isValide = checkanswerOfTextarea(this.answerSimilarity);
     }
     this.handleResult(isValide);
   }
 
   /**
-   * checks text answer
-   * @returns { boolean } true if answer is higher than 70% similar to answer of card
-   */
-  checkanswerOfTextarea(): boolean {
-    this.answerSimilarity =
-      stringSimilarity.compareTwoStrings(
-        this.answerOfTextarea,
-        this.cardToShow.answers[0]
-      ) * 100;
-    this.answerSimilarity = parseFloat(this.answerSimilarity.toFixed(2));
-    return this.answerSimilarity >= 70 ? true : false;
-  }
-
-  /**
-   * checks all checkbox answers
-   * @returns { boolean } true if all answers are right
-   */
-  checkMultipleAnswer(): boolean {
-    let isRightList: boolean[] = this.cardToShow.answers.map((elem: Answer) =>
-      this.isMultiplechoiceAnswerRight(elem)
-    );
-    return isRightList.every((elem: boolean) => elem === true);
-  }
-
-  /**
-   * gives the user feedback if the answer(s) were correct
-   * @param { boolean } isValide if answer(s) are right (true) or false
+   * Calls the suitable function to give feedback to the user if the answers are correct
+   * and updates card properties
+   * @param { boolean } isValide
    */
   handleResult(isValide: boolean) {
     isValide ? this.processSuccess() : this.processFail();
+    this.updateCardProperties();
   }
 
   /**
-   * gives feedback, that the answers are correct, and updates in local Storage
+   * Gives the user feedback that the answers are correct
    */
   processSuccess() {
     this.presentToast("bottom", "success", "Richtig beantwortet. Weiter so!");
     this.cardToShow.repetitionTimes++;
-    this.updateCardProperties();
   }
 
-   /**
-   * gives feedback, that the answers are false, and updates in local Storage
+  /**
+   * Gives the user feedback that the answers aren't correct
    */
   processFail() {
     this.presentToast(
@@ -199,26 +190,28 @@ export class LearnStudycardPage implements OnInit {
       "Nicht richtig beantwortet. Beim nächsten Mal klappts besser!"
     );
     this.cardToShow.repetitionTimes = 0;
-    this.updateCardProperties();
   }
 
   /**
-   * updates studycard in local storages 
+   * Updates studycard in local storages
    */
   async updateCardProperties() {
-    this.cardToShow.lastLearnedOn = new Date();
     let today = new Date();
+    this.cardToShow.lastLearnedOn = today;
     this.cardToShow.nextLearnDate.setDate(
-      today.getDate() + this.getRepititionLearnDate()
+      today.getDate() +
+        this.getNextLearnDateByRepetition(this.cardToShow.repetitionTimes)
     );
     await this.service.updateStudykit(this.studykit);
   }
 
   /**
-   * @returns { number } after how many days a studycard should be learned again
+   * Returns after how many days the card should be learned again
+   * @param { number } repetitionTime descibes how many times the map has already been repeated
+   * @returns { number } 
    */
-  getRepititionLearnDate(): number {
-    switch (this.cardToShow.repetitionTimes) {
+  getNextLearnDateByRepetition(repetitionTime: number): number {
+    switch (repetitionTime) {
       case 0:
         return 1;
       case 1:
@@ -232,44 +225,27 @@ export class LearnStudycardPage implements OnInit {
     }
   }
 
+  /* -------------------------------------- */
+  /* others */
+  /* -------------------------------------- */
   /**
-   * checks if multiple choice answer is correct
-   * @param { Answer } answerElement 
-   * @returns { boolean } true if multiplechoice answer is right  
+   * Checks whether the correct answer has also been marked 
+   * @param { Answer } answer correct answer
+   * @returns { boolean }
    */
-  isMultiplechoiceAnswerRight(answerElement: Answer): boolean {
-    let isInAnswerCheckedList =
-      this.checkIfAnswerIsInAnswerCheckedList(answerElement);
-
-    if (!isInAnswerCheckedList && !answerElement.isRight) {
-      return true;
-    } else if (isInAnswerCheckedList && !answerElement.isRight) {
-      return false;
-    } else if (isInAnswerCheckedList && answerElement.isRight) {
-      return true;
-    } else if (!isInAnswerCheckedList && answerElement.isRight) {
-      return false;
-    }
+  isAnswerAlsoChecked(answer: Answer): boolean {
+    return checkIfAnswerIdIsInAnswerCheckedList(
+      answer.id,
+      this.checkedMultipleAnswerIdArray
+    );
   }
 
   /**
-   * checks if an answer element is checked
-   * @param { Answer } answerElement 
-   * @returns { boolean } true if answer is checked
-   */
-  checkIfAnswerIsInAnswerCheckedList(answerElement: Answer): boolean {
-    return this.checkedMultipleAnswerIdArray.filter(
-      (value) => value === answerElement.id
-    ).length > 0
-      ? true
-      : false;
-  }
-
-  /**
-   * write/drop answer id to an array
+   * Writes/drops answer id to checkedMultipleAnswerIdArray
+   *    - array contains all answers marked by the user
    * @param { Answer } answer clicked answer
    */
-  onChange(answer: Answer) {
+  onStatusChange(answer: Answer) {
     if (this.checkedMultipleAnswerIdArray.includes(answer.id)) {
       this.checkedMultipleAnswerIdArray =
         this.checkedMultipleAnswerIdArray.filter((value) => value != answer.id);
@@ -279,10 +255,10 @@ export class LearnStudycardPage implements OnInit {
   }
 
   /**
-   * show toast
-   * @param {string} position - "top" | "middle" | "bottom"
-   * @param {string} color - "danger" | "warning" | "primary" | "light" | "success"
-   * @param {string} msg - individual
+   * Shows toast
+   * @param {string} position "top" | "middle" | "bottom"
+   * @param {string} color "danger" | "warning" | "primary" | "light" | "success"
+   * @param {string} msg individual
    */
   async presentToast(
     position: "top" | "middle" | "bottom",

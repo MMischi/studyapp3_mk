@@ -1,82 +1,99 @@
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 
-import { Card } from "src/app/services/_interfaces/card";
+import * as stringSimilarity from "string-similarity";
+
+import { Card } from "../_interfaces/card";
+import { Answer } from "../_interfaces/answer";
 
 /**
- * extract studykit id from route
+ * Extract studykit id from route
  * @param { ActivatedRoute } route
- * @returns { string } extrected id of studykit from route
+ * @returns { string } 
  */
 export function getStudykitIdFromRout(route: ActivatedRoute): string {
   return route.snapshot.paramMap.get("id");
 }
 
 /**
- * generates numbers between 0 and max randomized in an array
- * @param { number } max
- * @returns { number[] } amount=length randomized numbers (once each) between 0 and max
+ * Randomizes a set of cards
+ * @param { Card[] } cards 
+ * @returns { Card[] } 
  */
-export function generateRandomizedIndexesOf(max: number): number[] {
-  let arrayOfNumbers: number[] = generateNumbers(max);
-  return generateRandomSequence(arrayOfNumbers);
-}
+export function randomizeStudycards(cards: Card[]): Card[] {
+  let randomizedCardArray: Card[] = [];
 
-/**
- * generates array of numbers between 0 and max
- * @param { number } max
- * @returns { number[] } array of numbers between 0 and max
- */
-export function generateNumbers(max: number): number[] {
-  let result: number[] = [];
-  for (let i = 0; i < max; i++) {
-    result.push(i);
+  while (cards.length !== 0) {
+    let index = Math.floor(Math.random() * cards.length);
+    randomizedCardArray.push(cards[index]);
+    cards.splice(index, 1);
   }
-  return result;
+  return randomizedCardArray;
 }
 
 /**
- * randomizes numbers in array
- * @param { number[] } array array of numbers between 0 and length
- * @returns { number[] } randomized numbers (once each) between 0 and array length
+ * Returns how much is matched between two strings, in percent 
+ * @param { string } text1
+ * @param { string } text2
+ * @returns { number } 
  */
-export function generateRandomSequence(array: number[]): number[] {
-  let arrayToRandomize: number[] = array;
-  let result: number[] = [];
+export function getStringSimilarity(text1: string, text2: string): number {
+  let answerSimilarity = stringSimilarity.compareTwoStrings(text1, text2) * 100;
+  return parseFloat(answerSimilarity.toFixed(2));
+}
 
-  while (arrayToRandomize.length !== 0) {
-    let index = Math.floor(Math.random() * arrayToRandomize.length);
-    result.push(arrayToRandomize[index]); // write index to randomized array
-    arrayToRandomize.splice(index, 1); // drop written index of list
+/**
+ * Checks if the passed percentage value is above 70%
+ * @param { number } similarityPercent
+ * @returns { boolean } 
+ */
+export function checkanswerOfTextarea(similarityPercent: number): boolean {
+  return similarityPercent >= 70 ? true : false;
+}
+
+/**
+ * Checks if all multiple choice answers are correct
+ * @param { Car } card 
+ * @param { string[] } checkedAnswerIds all checked answers by user
+ * @returns 
+ */
+export function checkMultipleAnswer(card: Card, checkedAnswerIds: string[]): boolean {
+  let isRightList: boolean[] = card.answers.map((elem: Answer) =>
+    isMultiplechoiceAnswerRight(elem, checkedAnswerIds)
+  );
+  return isRightList.every((elem: boolean) => elem === true);
+}
+
+/**
+ * Returns whether the answer from the user is correct
+ * @param { Answer } answerElement 
+ * @param { string[] } checkedAnswers all checked answers by user
+ * @returns { boolean }
+ */
+export function isMultiplechoiceAnswerRight(answerElement: Answer, checkedAnswers: string[]): boolean {
+  let isInAnswerCheckedList: boolean =
+  checkIfAnswerIdIsInAnswerCheckedList(answerElement.id, checkedAnswers);
+
+  if (!isInAnswerCheckedList && !answerElement.isRight) {
+    return true;
+  } else if (isInAnswerCheckedList && !answerElement.isRight) {
+    return false;
+  } else if (isInAnswerCheckedList && answerElement.isRight) {
+    return true;
+  } else if (!isInAnswerCheckedList && answerElement.isRight) {
+    return false;
   }
-  return result;
 }
 
 /**
- * picks next element from studycardsArray, based on an given index from randomized numbers array
- * @param { Card[] } studycardsArray studycard array
- * @param { number } currentIdx current index
- * @param { number[] } randomizedNumberArray array of (randomized) numbers 
- * @returns { Card } next card with next index of (ranomized) numbers array 
+ * Returns whether the answer (id) is in a given list
+ * @param { string } answerId 
+ * @param { string[] } checkedAnswersIdArray
+ * @returns { boolean }
  */
-export function getNextRandomizedCardFromStudykit(
-  studycardsArray: Card[],
-  currentIdx: number,
-  randomizedNumberArray: number[]
-): Card {
-  return studycardsArray[
-    getNextNumberInRandomizedArray(currentIdx, randomizedNumberArray)
-  ];
-}
-
-/**
- * get next number of an numbers array
- * @param { number } currentIdx current position of index
- * @param { number[] } randomizedNumberArray array of (randomized) numbers 
- * @returns { number } next number of (randomized) numbers array 
- */
-export function getNextNumberInRandomizedArray(
-  currentIdx: number,
-  randomizedNumberArray: number[]
-): number {
-  return randomizedNumberArray[currentIdx + 1];
+export function checkIfAnswerIdIsInAnswerCheckedList(answerId: string, checkedAnswersIdArray: string[]): boolean {
+  return checkedAnswersIdArray.filter(
+    (value) => value === answerId
+  ).length > 0
+    ? true
+    : false;
 }

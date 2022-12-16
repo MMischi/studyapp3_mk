@@ -64,17 +64,17 @@
           <ion-checkbox
             slot="start"
             color="secondary"
-            (click)="onChange(answer)"
+            (click)="onStatusChange(answer)"
           ></ion-checkbox>
           <ion-label>{{ answer.text }}</ion-label>
           <ion-icon
-            *ngIf="isShowAnswer && isMultiplechoiceAnswerRight(answer)"
+            *ngIf="isShowAnswer && isAnswerAlsoChecked(answer)"
             color="success"
             name="checkmark-circle-outline"
             slot="end"
           ></ion-icon>
           <ion-icon
-            *ngIf="isShowAnswer && !isMultiplechoiceAnswerRight(answer)"
+            *ngIf="isShowAnswer && !isAnswerAlsoChecked(answer)"
             color="danger"
             name="close-circle-outline"
             slot="end"
