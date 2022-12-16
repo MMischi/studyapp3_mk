@@ -8,7 +8,7 @@ import {
   getStringSimilarity,
   checkanswerOfTextarea,
   checkMultipleAnswer,
-  checkIfAnswerIdIsInAnswerCheckedList,
+  isMultiplechoiceAnswerRight,
 } from "../../services/_utils/helper";
 import { DataService } from "src/app/services/data.service";
 
@@ -86,7 +86,7 @@ export class LearnStudycardPage implements OnInit {
     this.studycardArray = this.getStudycardsWhereNextDateIsBeforeToday(
       this.studykit.cards
     );
-    this.studycardArray = randomizeStudycards(this.studykit.cards);
+    this.studycardArray = randomizeStudycards(this.studycardArray);
     this.cardToShow = this.studycardArray[this.cardIndex];
   }
 
@@ -234,8 +234,8 @@ export class LearnStudycardPage implements OnInit {
    * @returns { boolean }
    */
   isAnswerAlsoChecked(answer: Answer): boolean {
-    return checkIfAnswerIdIsInAnswerCheckedList(
-      answer.id,
+    return isMultiplechoiceAnswerRight(
+      answer,
       this.checkedMultipleAnswerIdArray
     );
   }
