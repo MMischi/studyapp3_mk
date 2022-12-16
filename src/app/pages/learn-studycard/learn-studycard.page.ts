@@ -234,7 +234,6 @@ export class LearnStudycardPage implements OnInit {
    * @returns { boolean }
    */
   isAnswerAlsoChecked(answer: Answer): boolean {
-    console.log(this.checkedMultipleAnswerIdArray);
     return checkIfAnswerIdIsInAnswerCheckedList(
       answer.id,
       this.checkedMultipleAnswerIdArray
