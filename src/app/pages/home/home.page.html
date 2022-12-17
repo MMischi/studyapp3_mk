@@ -42,9 +42,7 @@
 
   <div class="content-area">
     <div *ngIf="studykit === undefined" class="ion-text-center">
-      <p *ngIf="studykits.length == 0">
-        Erstelle dein erstes Lernset jetzt!
-      </p>
+      <p *ngIf="studykits.length == 0">Erstelle dein erstes Lernset jetzt!</p>
 
       <p *ngIf="studykits.length > 0">
         Findest du dein Lernset nicht in der Liste?
@@ -68,23 +66,23 @@
           <ion-card class="card first">
             <ion-card-header>
               <ion-card-title>
-                <h4>
-                  Einfaches Lernen
-                </h4>
+                <h4>Einfaches Lernen</h4>
               </ion-card-title>
             </ion-card-header>
           </ion-card>
         </ion-slide>
 
-        <ion-slide routerLink="/learn-studycard/{{ studykit.id }}">
-          <ion-card class="card second">
+        <ion-slide
+          [routerLink]="isCardToLearn(studykit) ? '/learn-studycard/{{ studykit.id }}' : ''"
+        >
+          <ion-card class="card second" [disabled]="!isCardToLearn(studykit)">
             <ion-card-header>
               <ion-card-title>
-                <h4>
-                  Lerne mit dem Lernalgorithmus
-                </h4>
+                <h4>Lerne mit dem Lernalgorithmus</h4>
               </ion-card-title>
-              <ion-text *ngIf="!isCardToLearn(studykit)" color="medium">Du hast heute bereits gelernt</ion-text>
+              <ion-text *ngIf="!isCardToLearn(studykit)" color="medium"
+                >Du hast heute bereits gelernt</ion-text
+              >
             </ion-card-header>
           </ion-card>
         </ion-slide>
@@ -93,9 +91,7 @@
           <ion-card class="card third">
             <ion-card-header>
               <ion-card-title>
-                <h4>
-                  Prüfungsquiz
-                </h4>
+                <h4>Prüfungsquiz</h4>
               </ion-card-title>
             </ion-card-header>
           </ion-card>
@@ -104,7 +100,6 @@
     </div>
   </div>
 
-  
   <div>
     <div class="deco-end decoration-primary shade">
       <div></div>
