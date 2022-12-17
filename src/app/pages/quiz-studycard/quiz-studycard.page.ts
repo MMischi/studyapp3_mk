@@ -14,6 +14,17 @@ import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
 
+interface UserTextAnswer {
+  cardId: string;
+  userAnswer: string;
+  textSimilarty: number;
+}
+interface UserMultipleChoiceAnswer {
+  cardId: string;
+  checkedIdxs: string[];  
+}
+
+
 @Component({
   selector: "app-quiz-studycard",
   templateUrl: "./quiz-studycard.page.html",
@@ -59,6 +70,8 @@ export class QuizStudycardPage implements OnInit {
   // remember answers
   correctAnswers: Card[] = [];
   incorrectAnswers: Card[] = [];
+  userTextAnswers: UserTextAnswer[] = [];
+  userMultipleChoiceAnswers: UserMultipleChoiceAnswer[] = [];
 
   constructor(private service: DataService, private route: ActivatedRoute) {}
 
@@ -96,12 +109,21 @@ export class QuizStudycardPage implements OnInit {
         this.cardToShow,
         this.checkedMultipleAnswerIdArray
       );
+      this.userMultipleChoiceAnswers.push({
+        cardId: this.cardToShow.id,
+        checkedIdxs: this.checkedMultipleAnswerIdArray,
+      });
     } else if (this.cardToShow.type === "text") {
       this.answerSimilarity = getStringSimilarity(
         this.answerOfTextarea,
         this.cardToShow.answers[0].toString()
       );
       isValide = checkanswerOfTextarea(this.answerSimilarity);
+      this.userTextAnswers.push({
+        cardId: this.cardToShow.id,
+        userAnswer: this.answerOfTextarea,
+        textSimilarty: this.answerSimilarity,
+      });
     }
     this.handleResult(isValide);
   }
