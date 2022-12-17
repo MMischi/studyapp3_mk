@@ -1,35 +1,31 @@
 .question-area {
-    height: 45%;
+  height: 45%;
 
-    ion-card {
-        height: 90%;
-    }
-}
-
-.answer-area {
-    
+  ion-card {
+    height: 90%;
+  }
 }
 
 .navigation-area,
 .check-area {
-    position: absolute;
-    bottom: 0;
-    z-index: 1000;
+  position: absolute;
+  bottom: 0;
+  z-index: 1000;
 
-    padding: 20px;
+  padding: 20px;
 
-    width: 100%;
+  width: 100%;
 }
 
 .noCards {
-    div {
-        height: 100%;
-        padding: 20px;
-        display: flex;
+  div {
+    height: 100%;
+    padding: 20px;
+    display: flex;
 
-        p {
-            text-align: center;
-            margin: auto 0;
-        }
+    p {
+      text-align: center;
+      margin: auto 0;
     }
+  }
 }
