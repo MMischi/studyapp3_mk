@@ -25,7 +25,7 @@
           <ion-textarea
             placeholder="Meine Antwort"
             rows="5"
-            [(ngModel)]="textAnswer"
+            [(ngModel)]="answerOfTextarea"
           ></ion-textarea>
         </ion-item>
       </ion-list>
@@ -37,7 +37,7 @@
           <ion-checkbox
             slot="start"
             color="tertiary"
-            (click)="onChange(answer)"
+            (click)="onStatusChange(answer)"
           ></ion-checkbox>
           <ion-label>{{ answer.text }}</ion-label>
         </ion-item>
@@ -47,7 +47,7 @@
 
   <div class="navigation-area">
     <ion-button
-      *ngIf="studykit.cards.length - 1 > indexOfUserCard"
+      *ngIf="studycardArray.length - 1 > cardIndex"
       color="tertiary"
       expand="block"
       shape="round"
@@ -55,7 +55,7 @@
       >Weiter</ion-button
     >
     <ion-button
-      *ngIf="studykit.cards.length - 1 === indexOfUserCard"
+      *ngIf="studycardArray.length - 1 === cardIndex"
       color="tertiary"
       expand="block"
       shape="round"
@@ -69,18 +69,20 @@
   <div class="result">
     <p>Du hast</p>
     <div class="points">
-      <h1>{{ countRightAnswers() }}</h1>
-      <span>von {{ arrayOfIsRight.length }}</span>
+      <h1>{{ correctAnswers.length }}</h1>
+      <span>von {{ studycardArray.length }}</span>
     </div>
     <p>richtig beantwortet</p>
 
-    <div *ngIf="countRightAnswers() >= arrayOfIsRight.length * 0.9">
+    <div *ngIf="correctAnswers.length >= studycardArray.length * 0.9">
       Du bist top auf deine Prüfung vorbereitet!
     </div>
-    <div *ngIf="countRightAnswers() <= arrayOfIsRight.length * 0.9 && countRightAnswers() >= arrayOfIsRight.length * 0.5">
+    <div
+      *ngIf="correctAnswers.length <= studycardArray.length * 0.9 && correctAnswers.length >= studycardArray.length * 0.5"
+    >
       Übe fleißig weiter, du bist fast am Ziel!
     </div>
-    <div *ngIf="countRightAnswers() <= arrayOfIsRight.length * 0.5">
+    <div *ngIf="correctAnswers.length <= studycardArray.length * 0.5">
       Lass nicht den Kopf hängen. Übe weiter, dann schaffst du es!
     </div>
   </div>
@@ -89,7 +91,7 @@
     <ion-item>
       <h4>Diese Fragen solltest du dir noch einmal ansehen:</h4>
     </ion-item>
-    <ion-item *ngFor="let card of arrayOfWrongCards"
+    <ion-item *ngFor="let card of incorrectAnswers"
       >{{ card.question }}</ion-item
     >
   </ion-list>
