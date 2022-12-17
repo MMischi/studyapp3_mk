@@ -67,45 +67,106 @@
 
 <ion-content *ngIf="showResult" class="result-page">
   <div class="result">
-    <p>Du hast</p>
     <div class="points">
       <h1>{{ correctAnswers.length }}</h1>
-      <span>von {{ studycardArray.length }}</span>
+      <h1>/{{ studycardArray.length }}</h1>
     </div>
     <p>richtig beantwortet</p>
 
-    <div *ngIf="correctAnswers.length >= studycardArray.length * 0.9">
+    <div
+      *ngIf="correctAnswers.length >= studycardArray.length * 0.9"
+      class="motivation"
+    >
       Du bist top auf deine Prüfung vorbereitet!
     </div>
     <div
-      *ngIf="correctAnswers.length <= studycardArray.length * 0.9 && correctAnswers.length >= studycardArray.length * 0.5"
+      *ngIf="correctAnswers.length < studycardArray.length * 0.9 
+        && correctAnswers.length > studycardArray.length * 0.5"
+      class="motivation"
     >
       Übe fleißig weiter, du bist fast am Ziel!
     </div>
-    <div *ngIf="correctAnswers.length <= studycardArray.length * 0.5">
+    <div
+      *ngIf="correctAnswers.length <= studycardArray.length * 0.5"
+      class="motivation"
+    >
       Lass nicht den Kopf hängen. Übe weiter, dann schaffst du es!
     </div>
   </div>
 
-  <ion-list>
+  <ion-list *ngIf="incorrectAnswers.length > 0">
     <ion-item>
-      <h4>Diese Fragen solltest du dir noch einmal ansehen:</h4>
+      <ion-icon name="library-outline" color="warning" slot="start"></ion-icon>
+      <h6>Diese Fragen solltest du dir noch einmal ansehen:</h6>
     </ion-item>
-    <ion-item *ngFor="let card of incorrectAnswers"
-      >{{ card.question }}</ion-item
-    >
+    <ion-accordion-group>
+      <ion-accordion *ngFor="let card of incorrectAnswers">
+        <ion-item slot="header" lines="none">
+          <ion-label>{{ card.question }}</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content" *ngIf="card.type === 'text'">
+          {{ card.answers[0] }}
+        </div>
+        <div slot="content" *ngIf="card.type === 'multiple'">
+          <div *ngFor="let answer of card.answers">
+            <ion-item>
+              <ion-icon
+                *ngIf="answer.isRight"
+                name="checkmark-circle-outline"
+                color="success"
+                slot="start"
+              ></ion-icon>
+              <ion-icon
+                *ngIf="!answer.isRight"
+                name="close-circle-outline"
+                color="danger"
+                slot="start"
+              ></ion-icon>
+              <ion-label>{{ answer.text }}</ion-label>
+            </ion-item>
+          </div>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+  </ion-list>
+
+  <ion-list *ngIf="correctAnswers.length > 0">
+    <ion-item>
+      <ion-icon name="trophy-outline" color="success" slot="start"></ion-icon>
+      <h6>Diese Fragen hast du richtig beantwortet:</h6>
+    </ion-item>
+    <ion-accordion-group>
+      <ion-accordion *ngFor="let card of correctAnswers">
+        <ion-item slot="header" lines="none">
+          <ion-label>{{ card.question }}</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content" *ngIf="card.type === 'text'">
+          {{ card.answers[0] }}
+        </div>
+        <div slot="content" *ngIf="card.type === 'multiple'">
+          <div *ngFor="let answer of card.answers">
+            <ion-item>
+              <ion-icon
+                *ngIf="answer.isRight"
+                name="checkmark-circle-outline"
+                color="success"
+                slot="start"
+              ></ion-icon>
+              <ion-icon
+                *ngIf="!answer.isRight"
+                name="close-circle-outline"
+                color="danger"
+                slot="start"
+              ></ion-icon>
+              <ion-label>{{ answer.text }}</ion-label>
+            </ion-item>
+          </div>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
   </ion-list>
 
   <div class="button-area">
-    <ion-button
-      color="tertiary"
-      fill="outline"
-      expand="block"
-      shape="round"
-      routerLink="/read-studycard/{{studykit.id}}"
-      >Sie dir das Lernset an</ion-button
-    >
-
     <ion-button color="tertiary" expand="block" shape="round" routerLink="/home"
       >Fertig</ion-button
     >
