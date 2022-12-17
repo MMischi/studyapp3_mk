@@ -178,9 +178,24 @@ export class QuizStudycardPage implements OnInit {
     }
   }
 
-  getUserTextAnswer(cardId: string) {
-    return this.userTextAnswers.filter((elem: UserTextAnswer) => elem.cardId === cardId)[0];
+  /**
+   * Returns the user text answer (includes text and text similarity in %)
+   * @param { string } cardId
+   * @returns { UserTextAnswer }
+   */
+  getUserTextAnswer(cardId: string): UserTextAnswer {
+    return this.userTextAnswers.filter(
+      (elem: UserTextAnswer) => elem.cardId === cardId
+    )[0];
+  }
 
+  /**
+   * Returns whether the answer has been checked by the user
+   * @param { string } cardId in which the answer can be found
+   * @param { string } answerId answer id to compare if this answer can be found in a
+   *                            list of selected answers of the user
+   * @returns { boolean }
+   */
   isAnswerChecked(cardId: string, answerId: string): boolean {
     const userAnswers: string[] = this.userMultipleChoiceAnswers.filter(
       (elem: UserMultipleChoiceAnswer) => elem.cardId === cardId
