@@ -178,4 +178,8 @@ export class QuizStudycardPage implements OnInit {
       this.checkedMultipleAnswerIdArray.push(answer.id);
     }
   }
+
+  getUserTextAnswer(cardId: string) {
+    return this.userTextAnswers.filter((elem: UserTextAnswer) => elem.cardId === cardId)[0];
+  }
 }
