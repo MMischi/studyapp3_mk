@@ -1,6 +1,9 @@
 import { Component } from "@angular/core";
+
 import { DataService } from "src/app/services/data.service";
+
 import { Studykit } from "src/app/services/_interfaces/studykit";
+import { Card } from "src/app/services/_interfaces/card";
 
 @Component({
   selector: "app-home",
@@ -24,7 +27,7 @@ export class HomePage {
   studykit: Studykit;
   studykits: Studykit[] = [];
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   async ionViewWillEnter() {
     this.studykits = await this.service.getAllStudykits();
@@ -36,5 +39,14 @@ export class HomePage {
 
   handleChange(ev) {
     this.studykit = ev.target.value;
+  }
+
+  isCardToLearn(studykit: Studykit) {
+    return (
+      studykit.cards.filter(
+        (elem: Card) =>
+          elem.nextLearnDate.toDateString() <= new Date().toDateString()
+      ).length > 0
+    );
   }
 }

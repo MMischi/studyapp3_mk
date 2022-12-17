@@ -84,6 +84,7 @@
                   Lerne mit dem Lernalgorithmus
                 </h4>
               </ion-card-title>
+              <ion-text *ngIf="!isCardToLearn(studykit)" color="medium">Du hast heute bereits gelernt</ion-text>
             </ion-card-header>
           </ion-card>
         </ion-slide>
