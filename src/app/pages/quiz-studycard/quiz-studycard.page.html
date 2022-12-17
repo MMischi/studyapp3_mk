@@ -105,7 +105,14 @@
           <ion-label>{{ card.question }}</ion-label>
         </ion-item>
         <div class="ion-padding" slot="content" *ngIf="card.type === 'text'">
-          {{ card.answers[0] }}
+          <div>Richtige Antwort: {{ card.answers[0] }}</div>
+          <div>Deine Lösung: {{ getUserTextAnswer(card.id).userAnswer }}</div>
+          <div>
+            <ion-text color="danger"
+              >Textübereinstimmung: {{ getUserTextAnswer(card.id).textSimilarty
+              }}%</ion-text
+            >
+          </div>
         </div>
         <div slot="content" *ngIf="card.type === 'multiple'">
           <div *ngFor="let answer of card.answers">
@@ -141,7 +148,14 @@
           <ion-label>{{ card.question }}</ion-label>
         </ion-item>
         <div class="ion-padding" slot="content" *ngIf="card.type === 'text'">
-          {{ card.answers[0] }}
+          <div>Richtige Antwort: {{ card.answers[0] }}</div>
+          <div>Deine Lösung: {{ getUserTextAnswer(card.id).userAnswer }}</div>
+          <div>
+            <ion-text color="success"
+              >Textübereinstimmung: {{ getUserTextAnswer(card.id).textSimilarty
+              }}%</ion-text
+            >
+          </div>
         </div>
         <div slot="content" *ngIf="card.type === 'multiple'">
           <div *ngFor="let answer of card.answers">
