@@ -118,18 +118,32 @@
           <div *ngFor="let answer of card.answers">
             <ion-item>
               <ion-icon
-                *ngIf="answer.isRight"
-                name="checkmark-circle-outline"
-                color="success"
+                *ngIf="isAnswerChecked(card.id, answer.id)"
+                name="checkmark-outline"
+                color="primary"
                 slot="start"
               ></ion-icon>
               <ion-icon
-                *ngIf="!answer.isRight"
-                name="close-circle-outline"
-                color="danger"
+                *ngIf="!isAnswerChecked(card.id, answer.id)"
+                name="remove-outline"
+                color="primary"
                 slot="start"
               ></ion-icon>
               <ion-label>{{ answer.text }}</ion-label>
+              <ion-icon
+                *ngIf="answer.isRight === isAnswerChecked(card.id, answer.id) 
+                  || !answer.isRight === !isAnswerChecked(card.id, answer.id)"
+                name="checkmark-circle-outline"
+                color="success"
+                slot="end"
+              ></ion-icon>
+              <ion-icon
+                *ngIf="!answer.isRight === isAnswerChecked(card.id, answer.id) 
+                  || answer.isRight === !isAnswerChecked(card.id, answer.id)"
+                name="close-circle-outline"
+                color="danger"
+                slot="end"
+              ></ion-icon>
             </ion-item>
           </div>
         </div>
@@ -161,18 +175,32 @@
           <div *ngFor="let answer of card.answers">
             <ion-item>
               <ion-icon
-                *ngIf="answer.isRight"
-                name="checkmark-circle-outline"
-                color="success"
+                *ngIf="isAnswerChecked(card.id, answer.id)"
+                name="checkmark-outline"
+                color="primary"
                 slot="start"
               ></ion-icon>
               <ion-icon
-                *ngIf="!answer.isRight"
-                name="close-circle-outline"
-                color="danger"
+                *ngIf="!isAnswerChecked(card.id, answer.id)"
+                name="remove-outline"
+                color="primary"
                 slot="start"
               ></ion-icon>
               <ion-label>{{ answer.text }}</ion-label>
+              <ion-icon
+                *ngIf="answer.isRight === isAnswerChecked(card.id, answer.id) 
+                  || !answer.isRight === !isAnswerChecked(card.id, answer.id)"
+                name="checkmark-circle-outline"
+                color="success"
+                slot="end"
+              ></ion-icon>
+              <ion-icon
+                *ngIf="!answer.isRight === isAnswerChecked(card.id, answer.id) 
+                  || answer.isRight === !isAnswerChecked(card.id, answer.id)"
+                name="close-circle-outline"
+                color="danger"
+                slot="end"
+              ></ion-icon>
             </ion-item>
           </div>
         </div>
