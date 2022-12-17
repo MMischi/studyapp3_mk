@@ -96,7 +96,10 @@ export class LearnStudycardPage implements OnInit {
    * @returns { Card[] } set of cards where nextLearnDate <= today
    */
   getStudycardsWhereNextDateIsBeforeToday(allCards: Card[]): Card[] {
-    return allCards.filter((card: Card) => card.nextLearnDate <= new Date());
+    return allCards.filter(
+      (card: Card) =>
+        card.nextLearnDate.toDateString() <= new Date().toDateString()
+    );
   }
 
   /* -------------------------------------- */
