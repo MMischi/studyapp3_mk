@@ -211,7 +211,7 @@ export class LearnStudycardPage implements OnInit {
   /**
    * Returns after how many days the card should be learned again
    * @param { number } repetitionTime descibes how many times the map has already been repeated
-   * @returns { number } 
+   * @returns { number }
    */
   getNextLearnDateByRepetition(repetitionTime: number): number {
     switch (repetitionTime) {
@@ -232,7 +232,7 @@ export class LearnStudycardPage implements OnInit {
   /* others */
   /* -------------------------------------- */
   /**
-   * Checks whether the correct answer has also been marked 
+   * Checks whether the correct answer has also been marked
    * @param { Answer } answer correct answer
    * @returns { boolean }
    */
