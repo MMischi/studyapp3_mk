@@ -21,9 +21,8 @@ interface UserTextAnswer {
 }
 interface UserMultipleChoiceAnswer {
   cardId: string;
-  checkedIdxs: string[];  
+  checkedIdxs: string[];
 }
-
 
 @Component({
   selector: "app-quiz-studycard",
@@ -181,5 +180,11 @@ export class QuizStudycardPage implements OnInit {
 
   getUserTextAnswer(cardId: string) {
     return this.userTextAnswers.filter((elem: UserTextAnswer) => elem.cardId === cardId)[0];
+
+  isAnswerChecked(cardId: string, answerId: string): boolean {
+    const userAnswers: string[] = this.userMultipleChoiceAnswers.filter(
+      (elem: UserMultipleChoiceAnswer) => elem.cardId === cardId
+    )[0].checkedIdxs;
+    return userAnswers.filter((elem: string) => elem === answerId).length > 0;
   }
 }
