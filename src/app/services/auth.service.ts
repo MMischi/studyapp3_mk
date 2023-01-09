@@ -20,4 +20,12 @@ export class AuthService {
     }
   }
 
+  async login({ email, password }) {
+    try {
+      return await signInWithEmailAndPassword(this.auth, email, password);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
 }
