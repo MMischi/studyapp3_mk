@@ -1,9 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
+import {
+  Auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+} from "@angular/fire/auth";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
+  constructor(private auth: Auth) {}
 
-  constructor() { }
+  async register({ email, password }) {
+    try {
+      return await createUserWithEmailAndPassword(this.auth, email, password);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
 }
