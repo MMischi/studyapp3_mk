@@ -1,0 +1,69 @@
+.greeting-area {
+  .deco-roundetBottomCorner {
+    z-index: 10000;
+    height: 15vh;
+
+    border-bottom-right-radius: 50px;
+  }
+
+  .deco-greeting {
+    width: 85vw;
+    height: 15vh;
+    margin-top: -12vh;
+    padding: 25px 0;
+
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+
+    div {
+      padding: 0 20px;
+    }
+  }
+
+  :last-child {
+    width: 100vw;
+    height: 10vh;
+    min-height: 50px;
+    margin: -0.5px;
+
+    div {
+        width: 110%;
+        height: 105%;
+        background-color: #ffffff;
+        border-top-left-radius: 100px;
+    }
+  }
+}
+
+.deco-end {
+  z-index: -10;
+
+  position: absolute;
+  height: 20vh;
+  width: 100vw;
+  bottom: 10vh;
+
+  div {
+    background-color: var(--ion-background-color, #fff);
+
+    position: absolute;
+    bottom: 0px;
+
+    z-index: -9;
+    height: 110%;
+    width: 100vw;
+
+    border-bottom-right-radius: 60%;
+  }
+}
+.deco-line {
+  z-index: -10;
+
+  position: absolute;
+  height: 10vh;
+  width: 100vw;
+  bottom: 0;
+
+  border-top-left-radius: 30%;
+}
