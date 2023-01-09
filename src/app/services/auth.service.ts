@@ -28,4 +28,7 @@ export class AuthService {
     }
   }
 
+  async logout() {
+    return signOut(this.auth);
+  }
 }
