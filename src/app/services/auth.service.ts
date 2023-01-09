@@ -16,6 +16,7 @@ export class AuthService {
     try {
       return await createUserWithEmailAndPassword(this.auth, email, password);
     } catch (e) {
+      // TODO: error handling
       console.error(e);
     }
   }
@@ -24,6 +25,7 @@ export class AuthService {
     try {
       return await signInWithEmailAndPassword(this.auth, email, password);
     } catch (e) {
+      // TODO: error handling
       console.error(e);
     }
   }
