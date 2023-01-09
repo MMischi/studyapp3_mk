@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-create-account',
-  templateUrl: './create-account.page.html',
-  styleUrls: ['./create-account.page.scss'],
+  selector: 'app-register',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
 })
-export class CreateAccountPage implements OnInit {
+export class RegisterPage implements OnInit {
 
   user_nickname: string;
   user_email: string;
