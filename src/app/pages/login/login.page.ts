@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginPage implements OnInit {
 
   credentials: FormGroup;
+  login_unsuccessful: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -29,7 +30,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     this.credentials = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
-      password: ["", [Validators.required, Validators.minLength(6)]],
+      password: ["", [Validators.required]]
     });
   }
 
@@ -40,9 +41,7 @@ export class LoginPage implements OnInit {
       // login successfull
       this.router.navigateByUrl("/home", { replaceUrl: true });
     } else {
-      // TODO: error handling
-      console.error('something went wrong');
+      this.login_unsuccessful = true;
     }
   }
-
 }
