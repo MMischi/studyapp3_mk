@@ -8,21 +8,40 @@
   <div class="topic-area">
     <div class="decoration-background">
       <ion-text class="ion-text-center"><h1>Study App</h1></ion-text>
-      <ion-list>
-        <ion-item>
-          <ion-label position="floating">E-Mail</ion-label>
-          <ion-input type="email" [(ngModel)]="user_email"></ion-input>
-        </ion-item>
 
-        <ion-item>
-          <ion-label position="floating">Passwort</ion-label>
-          <ion-input type="password" [(ngModel)]="user_password"></ion-input>
-        </ion-item>
-      </ion-list>
+      <form [formGroup]="credentials" (ngSubmit)="login()">
+        <ion-list>
+          <ion-item>
+            <ion-input
+              type="email"
+              placeholder="E-Mail"
+              formControlName="email"
+            ></ion-input>
+            <ion-note
+              slot="error"
+              *ngIf="(email.dirty || email.touched) && email.errors"
+              >Kontrollieren Sie ob die Email-Adresse richtig ist.</ion-note
+            >
+          </ion-item>
 
-      <ion-button expand="block">Anmelden</ion-button>
-      <ion-text color="medium">Noch keinen Account?</ion-text>
-      <ion-button expand="block" fill="outline" routerLink="/register">Account erstellen</ion-button>
+          <ion-item>
+            <ion-input
+              type="password"
+              placeholder="Passwort"
+              formControlName="password"
+            ></ion-input>
+            <ion-note
+              slot="error"
+              *ngIf="(password.dirty || password.touched) && password.errors"
+              >Das Passwort muss mindestens 6 Zeichen haben.</ion-note
+            >
+          </ion-item>
+        </ion-list>
+
+        <ion-button type="submit" expand="block" [disabled]="!credentials.valid"
+          >Anmelden</ion-button
+        >
+      </form>
     </div>
   </div>
 
