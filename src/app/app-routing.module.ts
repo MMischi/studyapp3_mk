@@ -16,6 +16,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
   {
+    path: 'signin',
+    loadChildren: () => import('./pages/create-account/create-account.module').then( m => m.CreateAccountPageModule)
+  },
+  {
     path: 'create-studykit',
     loadChildren: () => import('./pages/create-studykit/create-studykit.module').then( m => m.CreateStudykitPageModule)
   },
