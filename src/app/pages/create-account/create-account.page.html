@@ -1,9 +1,43 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>createAccount</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <div class="greeting-area">
+    <div class="decoration-primary deco-roundetBottomCorner"></div>
+    <div class="decoration-tertiary deco-greeting"></div>
+    <div class="decoration-tertiary"><div></div></div>
+  </div>
 
+  <div class="topic-area">
+    <div class="decoration-background">
+      <ion-text class="ion-text-center"><h1>Study App</h1></ion-text>
+      <ion-list>
+        <ion-item>
+          <ion-label position="floating">Nickname</ion-label>
+          <ion-input type="email" [(ngModel)]="user_nickname"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">E-Mail</ion-label>
+          <ion-input type="email" [(ngModel)]="user_email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Passwort</ion-label>
+          <ion-input type="password" [(ngModel)]="user_password"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Passwort wiederholen</ion-label>
+          <ion-input type="password" [(ngModel)]="user_password_secure"></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <ion-button expand="block">Registrieren</ion-button>
+    </div>
+  </div>
+
+  <div>
+    <div class="deco-end decoration-primary shade">
+      <div></div>
+    </div>
+    <div class="deco-line decoration-primary shade"></div>
+  </div>
 </ion-content>

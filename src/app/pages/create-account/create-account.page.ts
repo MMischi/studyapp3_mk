@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateAccountPage implements OnInit {
 
+  user_nickname: string;
+  user_email: string;
+  user_password: string;
+  user_password_secure: string;
+
   constructor() { }
 
   ngOnInit() {
