@@ -37,6 +37,10 @@
             <ion-label>{{ answer.text }}</ion-label>
           </ion-item>
         </div>
+        
+        <ion-item *ngIf="areThereRightAnswers()">
+          <ion-text>Die Frage beinhaltet keine richtigen Antworten.</ion-text>
+        </ion-item>
       </ion-list>
     </div>
   </div>

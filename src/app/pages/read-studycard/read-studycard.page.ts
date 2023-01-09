@@ -10,6 +10,7 @@ import { DataService } from "../..//services/data.service";
 
 import { Card } from "../../services/_interfaces/card";
 import { Studykit } from "../../services/_interfaces/studykit";
+import { Answer } from "src/app/services/_interfaces/answer";
 
 @Component({
   selector: "app-read-studycard",
@@ -73,6 +74,8 @@ export class ReadStudycardPage implements OnInit {
     this.studykit = await this.service.getStudykitById(studykitId);
     this.studycardArray = randomizeStudycards(this.studykit.cards);
     this.cardToShow = this.studycardArray[this.cardIndex];
+
+    console.log(this.cardToShow);
   }
 
   /**
@@ -83,8 +86,12 @@ export class ReadStudycardPage implements OnInit {
       this.cardIndex++;
       this.cardToShow = this.studycardArray[this.cardIndex];
     } else {
-      this.presentToast("bottom", "success", "Du hast alle Lernkarten von diesem Set gelernt");
-      this.router.navigate(['/home'])
+      this.presentToast(
+        "bottom",
+        "success",
+        "Du hast alle Lernkarten von diesem Set gelernt"
+      );
+      this.router.navigate(["/home"]);
     }
   }
 
@@ -94,6 +101,15 @@ export class ReadStudycardPage implements OnInit {
   decreaseCardIndex() {
     this.cardIndex--;
     this.cardToShow = this.studycardArray[this.cardIndex];
+  }
+
+  /**
+   * Checks if there are right answers
+   * @returns boolean
+   */
+  areThereRightAnswers(): boolean {
+    const rightAnswers = this.cardToShow.answers.filter((elem: Answer) => elem.isRight === false);
+    return rightAnswers.length > 0;
   }
 
   /**
