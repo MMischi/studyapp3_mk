@@ -1,54 +1,66 @@
 <ion-content>
-  <div class="greeting-area">
-    <div class="decoration-primary deco-roundetBottomCorner"></div>
-    <div class="decoration-tertiary deco-greeting"></div>
-    <div class="decoration-tertiary"><div></div></div>
+  <div class="deco-start decoration-background">
+    <div class="decoration-primary"></div>
+    <div class="decoration-tertiary"></div>
+
+    <div class="balls">
+      <div class="decoration-secondary"></div>
+    </div>
   </div>
 
-  <div class="topic-area">
-    <div class="decoration-background">
-      <ion-text class="ion-text-center"><h1>Study App</h1></ion-text>
-
-      <form [formGroup]="credentials" (ngSubmit)="register()">
-        <ion-list>
-          <ion-item>
-            <ion-input
-              type="email"
-              placeholder="E-Mail"
-              formControlName="email"
-            ></ion-input>
-            <ion-note
-              slot="error"
-              *ngIf="(email.dirty || email.touched) && email.errors"
-              >Kontrollieren Sie ob die Email-Adresse richtig ist.</ion-note
-            >
-          </ion-item>
-
-          <ion-item>
-            <ion-input
-              type="password"
-              placeholder="Passwort"
-              formControlName="password"
-            ></ion-input>
-            <ion-note
-              slot="error"
-              *ngIf="(password.dirty || password.touched) && password.errors"
-              >Das Passwort muss mindestens 6 Zeichen haben.</ion-note
-            >
-          </ion-item>
-        </ion-list>
-
-        <ion-button type="submit" expand="block" [disabled]="!credentials.valid"
-          >Registrieren</ion-button
+  <div class="register-area">
+    <ion-card>
+      <ion-card-header>
+        <ion-text class="ion-text-center"><h1>Study App</h1></ion-text>
+        <ion-text class="ion-text-center" color="primary"
+          ><h3>Registriere dich jetzt</h3></ion-text
         >
-      </form>
-    </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form [formGroup]="credentials" (ngSubmit)="register()">
+          <ion-list>
+            <ion-item class="ion-no-padding">
+              <ion-label position="floating">E-Mail</ion-label>
+              <ion-input type="email" formControlName="email"></ion-input>
+              <ion-note
+                slot="error"
+                *ngIf="(email.dirty || email.touched) && email.errors"
+                >Kontrollieren sie Ihre E-Mail Adresse. Beipiel:
+                muster@mail.com</ion-note
+              >
+            </ion-item>
+
+            <ion-item class="ion-no-padding">
+              <ion-label position="floating">Passwort</ion-label>
+              <ion-input type="password" formControlName="password"></ion-input>
+              <ion-note
+                slot="error"
+                *ngIf="(password.dirty || password.touched) && password.errors"
+                >Das Feld darf nicht leer sein</ion-note
+              >
+            </ion-item>
+          </ion-list>
+
+          <ion-button
+            type="submit"
+            expand="block"
+            [disabled]="!credentials.valid"
+            >Anmelden</ion-button
+          >
+        </form>
+
+        <div class="ion-text-center">
+          <a routerLink="/login" color="primary"
+            >Du hast bereits einen Account?</a
+          >
+        </div>
+      </ion-card-content>
+    </ion-card>
   </div>
 
-  <div>
-    <div class="deco-end decoration-primary shade">
-      <div></div>
-    </div>
-    <div class="deco-line decoration-primary shade"></div>
+  <div class="deco-end decoration-background">
+    <div class="decoration-secondary shade"></div>
+    <div class="deco-line decoration-secondary shade"></div>
   </div>
 </ion-content>
