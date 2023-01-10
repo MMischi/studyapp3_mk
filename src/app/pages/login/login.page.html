@@ -8,50 +8,59 @@
     </div>
   </div>
 
-  <div class="content-area">
-    <div class="decoration-primary tint">
-      <div class="greeting-text">
+  <div class="login-area">
+    <ion-card>
+      <ion-card-header>
         <ion-text class="ion-text-center"><h1>Study App</h1></ion-text>
         <ion-text class="ion-text-center" color="primary"
           ><h3>Anmelden</h3></ion-text
         >
-      </div>
+      </ion-card-header>
 
-      <div *ngIf="login_unsuccessful" class="ion-text-center error">
-        <ion-text color="danger"
-          >Kein User mit diesen Anmeldedaten gefunden.</ion-text
-        >
-      </div>
+      <ion-card-content>
+        <div *ngIf="login_unsuccessful" class="ion-text-center error">
+          <ion-text color="danger"
+            >Kein User mit diesen Anmeldedaten gefunden.</ion-text
+          >
+        </div>
 
-      <form [formGroup]="credentials" (ngSubmit)="login()">
-        <ion-list>
-          <ion-item class="ion-no-padding">
-            <ion-label position="floating">E-Mail</ion-label>
-            <ion-input type="email" formControlName="email"></ion-input>
-            <ion-note
-              slot="error"
-              *ngIf="(email.dirty || email.touched) && email.errors"
-              >Kontrollieren sie Ihre E-Mail Adresse. Beipiel:
-              muster@mail.com</ion-note
-            >
-          </ion-item>
+        <form [formGroup]="credentials" (ngSubmit)="login()">
+          <ion-list>
+            <ion-item class="ion-no-padding">
+              <ion-label position="floating">E-Mail</ion-label>
+              <ion-input type="email" formControlName="email"></ion-input>
+              <ion-note
+                slot="error"
+                *ngIf="(email.dirty || email.touched) && email.errors"
+                >Kontrollieren sie Ihre E-Mail Adresse. Beipiel:
+                muster@mail.com</ion-note
+              >
+            </ion-item>
 
-          <ion-item class="ion-no-padding">
-            <ion-label position="floating">Passwort</ion-label>
-            <ion-input type="password" formControlName="password"></ion-input>
-            <ion-note
-              slot="error"
-              *ngIf="(password.dirty || password.touched) && password.errors"
-              >Das Feld darf nicht leer sein</ion-note
-            >
-          </ion-item>
-        </ion-list>
+            <ion-item class="ion-no-padding">
+              <ion-label position="floating">Passwort</ion-label>
+              <ion-input type="password" formControlName="password"></ion-input>
+              <ion-note
+                slot="error"
+                *ngIf="(password.dirty || password.touched) && password.errors"
+                >Das Feld darf nicht leer sein</ion-note
+              >
+            </ion-item>
+          </ion-list>
 
-        <ion-button type="submit" expand="block" [disabled]="!credentials.valid"
-          >Anmelden</ion-button
-        >
-      </form>
-    </div>
+          <ion-button
+            type="submit"
+            expand="block"
+            [disabled]="!credentials.valid"
+            >Anmelden</ion-button
+          >
+        </form>
+
+        <div class="ion-text-center">
+          <a routerLink="/register" color="primary">Du hast noch keinen Account?</a>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </div>
 
   <div class="deco-end decoration-background">
