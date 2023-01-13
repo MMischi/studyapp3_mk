@@ -19,19 +19,11 @@ import { Router } from "@angular/router";
   styleUrls: ["./create-studykit.page.scss"],
 })
 export class CreateStudykitPage implements OnInit {
-  constructor(
-    private service: DataService,
-    private dbService: RequestStudykitService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastController: ToastController,
-    private alertController: AlertController,
-  ) {}
-
   isStudikitEdited: boolean = false;
   errorMsgContent: string = "";
   delCardId: string = "";
   cardType: string = "";
+
   studycards: Card[] = [
     {
       id: uuidv4(),
@@ -42,12 +34,22 @@ export class CreateStudykitPage implements OnInit {
       question: "",
       answers: [],
     },
-  ];
+  ]; // element to show at the beginning
+
   studykit: Studykit = {
     id: uuidv4(),
     title: "",
     cards: this.studycards,
-  };
+  }; // element to show at the beginning
+
+  constructor(
+    private service: DataService,
+    private dbService: RequestStudykitService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastController: ToastController,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
     const routeParamStudykitId = this.route.snapshot.paramMap.get("id");
@@ -166,8 +168,6 @@ export class CreateStudykitPage implements OnInit {
       "native-input"
     )[0] as HTMLElement;
 
-    console.log(ionInput);
-
     ionInput.focus();
   }
 
@@ -194,6 +194,7 @@ export class CreateStudykitPage implements OnInit {
       this.saveStudykit();
     }
   }
+
   /**
    * checks if studykit has title
    * @returns boolean
@@ -201,6 +202,7 @@ export class CreateStudykitPage implements OnInit {
   hasTitle(): boolean {
     return this.studykit.title !== "";
   }
+
   /**
    * checks if card type is everywhere present
    * @returns boolean
@@ -213,6 +215,7 @@ export class CreateStudykitPage implements OnInit {
       return true;
     }
   }
+
   /**
    * checks if question is everywhere present
    * @returns boolean
@@ -225,6 +228,7 @@ export class CreateStudykitPage implements OnInit {
       return true;
     }
   }
+
   /**
    * checks if answer(s) is/are everywhere present
    * @returns boolean
