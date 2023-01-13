@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { v4 as uuidv4 } from "uuid";
 
 import { DataService } from "src/app/services/data.service";
-import { RequestStudykitService } from "src/app/services/firestore/db_requests/request-studykit.service";
+import { DbStudykitService } from "src/app/services/firestore/endpoints/db-studykit.service";
 
 import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
@@ -23,7 +23,7 @@ export class CreateStudykitPage implements OnInit {
   constructor(
     private auth: Auth,
     private service: DataService,
-    private dbService: RequestStudykitService,
+    private dbService: DbStudykitService,
 
     private router: Router,
     private route: ActivatedRoute,
@@ -299,7 +299,7 @@ export class CreateStudykitPage implements OnInit {
   async saveStudykit() {
     if (!this.isStudikitEdited) {
       await this.service.storeStudykit(this.studykit);
-      this.dbService.storeStudykitToDB(this.studykit);
+      this.dbService.storeStudykitDB(this.studykit);
     } else if (this.isStudikitEdited) {
       await this.service.updateStudykit(this.studykit);
     }
