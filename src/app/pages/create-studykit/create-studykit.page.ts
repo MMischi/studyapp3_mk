@@ -299,7 +299,7 @@ export class CreateStudykitPage implements OnInit {
   async saveStudykit() {
     if (!this.isStudikitEdited) {
       await this.service.storeStudykit(this.studykit);
-      this.dbService.storeStudykitDB(this.studykit);
+      if (navigator.onLine) this.dbService.storeStudykitDB(this.studykit);
     } else if (this.isStudikitEdited) {
       await this.service.updateStudykit(this.studykit);
     }
