@@ -7,26 +7,6 @@ import { Studykit } from './_interfaces/studykit';
   providedIn: 'root'
 })
 export class DataService {
-
-  public _testData: Studykit[] = [];
-  public _testStudykit: Studykit = {
-    id: null,
-    title: '',
-    cards: [{
-      id: null,
-      lastLearnedOn: undefined,
-      nextLearnDate: undefined,
-      repetitionTimes: null,
-      type: null,
-      question: '',
-      answers: [{
-        id: '',
-        text: '',
-        isRight: undefined,
-      }],
-    }]
-  };
-
   private STUDYKIT_DATA_STORAGE = 'studykits';
 
   constructor(private storage: Storage) {
