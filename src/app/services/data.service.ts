@@ -7,11 +7,13 @@ import { Studykit } from './_interfaces/studykit';
   providedIn: 'root'
 })
 export class DataService {
+
   private STUDYKIT_DATA_STORAGE = 'studykits';
 
   constructor(private storage: Storage) {
     this.init();
   }
+  
   async init() {
     await this.storage.create();
   }
@@ -26,7 +28,7 @@ export class DataService {
     return (await this.storage.get(key)) || [];
   } 
 
-  // local storage: studykit endpoints+
+  // local storage: studykit endpoints
   /**
    * get all saved studykits
    * @returns Promise<Studykit[]>
@@ -34,6 +36,7 @@ export class DataService {
   async getAllStudykits(): Promise<Studykit[]> {
     return this.getData(this.STUDYKIT_DATA_STORAGE);
   }
+
   /**
    * get one studykit by id
    * @param {string} studykitId - id of studykit
@@ -43,6 +46,7 @@ export class DataService {
     let allStudykits = await this.getAllStudykits();
     return allStudykits.filter((elem: Studykit) => elem.id === studykitId)[0]
   }
+
   /**
    * store one studykit to local storage
    * @param {Studykit} studykit 
@@ -52,6 +56,7 @@ export class DataService {
     allStudykits.push(studykit);
     await this.saveStudykits(allStudykits);
   }
+
   /**
    * delete studykit by id
    * @param {string} studykitId - id of studykit
@@ -62,6 +67,7 @@ export class DataService {
     allStudykits.splice(indexOfStudykit, 1);
     this.saveStudykits(allStudykits);
   }
+
   /**
    * update a studykit 
    * @param {Studykit} studykit - full studykit
@@ -72,6 +78,7 @@ export class DataService {
     allStudykits[indexOfStudykit] = studykit;
     this.saveStudykits(allStudykits);
   }
+
   /**
    * save all studykits
    * @param studykits 
