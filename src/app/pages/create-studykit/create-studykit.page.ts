@@ -12,6 +12,7 @@ import { AlertController, ToastController } from "@ionic/angular";
 
 import { ActivatedRoute } from "@angular/router";
 import { Router } from "@angular/router";
+import { Auth } from "@angular/fire/auth";
 
 @Component({
   selector: "app-create-studykit",
@@ -19,6 +20,17 @@ import { Router } from "@angular/router";
   styleUrls: ["./create-studykit.page.scss"],
 })
 export class CreateStudykitPage implements OnInit {
+  constructor(
+    private auth: Auth,
+    private service: DataService,
+    private dbService: RequestStudykitService,
+
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastController: ToastController,
+    private alertController: AlertController
+  ) {}
+
   isStudikitEdited: boolean = false;
   errorMsgContent: string = "";
   delCardId: string = "";
@@ -33,6 +45,10 @@ export class CreateStudykitPage implements OnInit {
       type: "",
       question: "",
       answers: [],
+
+      created_by: this.auth.currentUser.uid,
+      created_at: new Date(),
+      updated_at: new Date(),
     },
   ]; // element to show at the beginning
 
@@ -40,16 +56,11 @@ export class CreateStudykitPage implements OnInit {
     id: uuidv4(),
     title: "",
     cards: this.studycards,
-  }; // element to show at the beginning
 
-  constructor(
-    private service: DataService,
-    private dbService: RequestStudykitService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastController: ToastController,
-    private alertController: AlertController
-  ) {}
+    created_by: this.auth.currentUser.uid,
+    created_at: new Date(),
+    updated_at: new Date(),
+  }; // element to show at the beginning
 
   ngOnInit() {
     const routeParamStudykitId = this.route.snapshot.paramMap.get("id");
@@ -81,6 +92,10 @@ export class CreateStudykitPage implements OnInit {
       type: "",
       question: "",
       answers: [],
+
+      created_by: this.auth.currentUser.uid,
+      created_at: new Date(),
+      updated_at: new Date(),
     };
     this.studycards.push(card);
   }
@@ -109,6 +124,10 @@ export class CreateStudykitPage implements OnInit {
       id: uuidv4(),
       text: "",
       isRight: false,
+
+      created_by: this.auth.currentUser.uid,
+      created_at: new Date(),
+      updated_at: new Date(),
     };
     this.studycards[index].answers.push(answer);
     setTimeout(this.setFocusOnLastElement, 0);

@@ -3,15 +3,14 @@ import { Observable } from "rxjs";
 
 import { DbStudykitService } from "../endpoints/db-studykit.service";
 import { Studykit } from "../../_interfaces/studykit";
-import { StudykitDTO } from "../endpoints/dto/dto_studykit";
-import { uuidv4 } from "@firebase/util";
-import { title } from "process";
 import { Auth } from "@angular/fire/auth";
+import { Card } from "../../_interfaces/card";
 
 @Injectable({
   providedIn: "root",
 })
 export class RequestStudykitService {
+
   constructor(private endpoints: DbStudykitService, private auth: Auth) {}
 
   /**
@@ -26,15 +25,6 @@ export class RequestStudykitService {
    * redirects db request to permission layer
    */
   storeStudykitToDB(studykit: Studykit) {
-    const studykitForDB: StudykitDTO = {
-      id: uuidv4(),
-      title: studykit.title,
-      cards: [],
-      created_by: this.auth.currentUser.uid,
-      created_at: new Date(),
-      updated_at: new Date(),
-    };
-
-    this.endpoints.storeStudykitDB(studykitForDB);
+    this.endpoints.storeStudykitDB(studykit);
   }
 }

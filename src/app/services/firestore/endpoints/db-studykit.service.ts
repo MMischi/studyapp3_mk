@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 
-import { StudykitDTO } from './dto/dto_studykit';
 import { addDoc, collection, collectionData, Firestore } from '@angular/fire/firestore';
+import { Studykit } from '../../_interfaces/studykit';
 
 @Injectable({
   providedIn: 'root'
@@ -26,14 +26,14 @@ export class DbStudykitService {
    * 
    * @returns content of studykit storage
    */
-  getAllStudykitsDB(): Observable<StudykitDTO[]> {
-    return collectionData(this.getStudykitCollection(), {idField: 'id'}) as Observable<StudykitDTO[]>;
+  getAllStudykitsDB(): Observable<Studykit[]> {
+    return collectionData(this.getStudykitCollection(), {idField: 'id'}) as Observable<Studykit[]>;
   } 
 
   /**
    * store studykit to db
    */
-  storeStudykitDB(studykit: StudykitDTO) {
+  storeStudykitDB(studykit: Studykit) {
     addDoc(this.getStudykitCollection(), studykit);
   }
 }

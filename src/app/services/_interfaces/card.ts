@@ -9,4 +9,8 @@ export interface Card {
 
     question: string;
     answers: Answer[];
+
+    created_by: string;
+    created_at: Date;
+    updated_at: Date;
 }

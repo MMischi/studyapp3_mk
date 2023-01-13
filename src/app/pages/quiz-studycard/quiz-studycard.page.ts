@@ -13,6 +13,7 @@ import { DataService } from "src/app/services/data.service";
 import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
+import { Auth } from "@angular/fire/auth";
 
 interface UserTextAnswer {
   cardId: string;
@@ -30,6 +31,13 @@ interface UserMultipleChoiceAnswer {
   styleUrls: ["./quiz-studycard.page.scss"],
 })
 export class QuizStudycardPage implements OnInit {
+  constructor(
+    private auth: Auth,
+    private service: DataService,
+
+    private route: ActivatedRoute
+  ) {}
+
   studycards: Card[] = [
     {
       id: "",
@@ -39,12 +47,20 @@ export class QuizStudycardPage implements OnInit {
       type: "",
       question: "",
       answers: [],
+
+      created_by: "",
+      created_at: undefined,
+      updated_at: undefined,
     },
   ];
   studykit: Studykit = {
     id: "",
     title: "",
     cards: this.studycards,
+
+    created_by: this.auth.currentUser.uid,
+    created_at: undefined,
+    updated_at: undefined,
   };
 
   // values to describe shown cards
@@ -58,6 +74,10 @@ export class QuizStudycardPage implements OnInit {
     type: "",
     question: "",
     answers: [],
+
+    created_by: "",
+    created_at: undefined,
+    updated_at: undefined,
   }; // current shown card
 
   // values to handle answer or question
@@ -71,8 +91,6 @@ export class QuizStudycardPage implements OnInit {
   incorrectAnswers: Card[] = [];
   userTextAnswers: UserTextAnswer[] = [];
   userMultipleChoiceAnswers: UserMultipleChoiceAnswer[] = [];
-
-  constructor(private service: DataService, private route: ActivatedRoute) {}
 
   ngOnInit() {}
 

@@ -11,6 +11,7 @@ import { DataService } from "../..//services/data.service";
 import { Card } from "../../services/_interfaces/card";
 import { Studykit } from "../../services/_interfaces/studykit";
 import { Answer } from "src/app/services/_interfaces/answer";
+import { Auth } from "@angular/fire/auth";
 
 @Component({
   selector: "app-read-studycard",
@@ -19,10 +20,12 @@ import { Answer } from "src/app/services/_interfaces/answer";
 })
 export class ReadStudycardPage implements OnInit {
   constructor(
+    private auth: Auth,
     private service: DataService,
+
     private route: ActivatedRoute,
-    private toastController: ToastController,
-    private router: Router
+    private router: Router,
+    private toastController: ToastController
   ) {}
 
   studycards: Card[] = [
@@ -34,12 +37,20 @@ export class ReadStudycardPage implements OnInit {
       type: "",
       question: "",
       answers: [],
+
+      created_by: "",
+      created_at: undefined,
+      updated_at: undefined,
     },
   ];
   studykit: Studykit = {
     id: "",
     title: "",
     cards: this.studycards,
+
+    created_by: this.auth.currentUser.uid,
+    created_at: undefined,
+    updated_at: undefined,
   };
 
   // values to describe shown cards
@@ -53,6 +64,10 @@ export class ReadStudycardPage implements OnInit {
     type: "",
     question: "",
     answers: [],
+
+    created_by: "",
+    created_at: undefined,
+    updated_at: undefined,
   }; // current shown card
 
   ngOnInit() {}
@@ -108,7 +123,9 @@ export class ReadStudycardPage implements OnInit {
    * @returns boolean
    */
   areThereRightAnswers(): boolean {
-    const rightAnswers = this.cardToShow.answers.filter((elem: Answer) => elem.isRight === false);
+    const rightAnswers = this.cardToShow.answers.filter(
+      (elem: Answer) => elem.isRight === false
+    );
     return rightAnswers.length > 0;
   }
 
