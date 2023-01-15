@@ -4,6 +4,12 @@
     <ion-buttons slot="start">
       <ion-back-button text="" defaultHref="home"></ion-back-button>
     </ion-buttons>
+
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/create-studykit">
+        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -24,7 +30,11 @@
     </ion-list>
 
     <div class="ion-text-center">
-      <p>Findest du dein Lernset nicht in der Liste?</p>
+      <p>
+        <ion-text color="medium"
+          >Findest du dein Lernset nicht in der Liste?</ion-text
+        >
+      </p>
 
       <ion-button shape="round" routerLink="/create-studykit">
         <ion-icon slot="start" name="folder-open-outline"></ion-icon>
