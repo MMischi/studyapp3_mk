@@ -18,8 +18,19 @@
       </ion-card-header>
 
       <ion-card-content>
-        <form [formGroup]="credentials" (ngSubmit)="register()">
+        <form [formGroup]="credentials" (ngSubmit)="createAccount()">
           <ion-list>
+            <ion-item class="ion-no-padding">
+              <ion-label position="floating">Name</ion-label>
+              <ion-input type="name" formControlName="name"></ion-input>
+              <ion-note
+                slot="error"
+                *ngIf="(name.dirty || name.touched) && name.errors"
+                >Das Feld darf nicht leer sein und muss mindestens 4 Zeichen
+                haben.</ion-note
+              >
+            </ion-item>
+
             <ion-item class="ion-no-padding">
               <ion-label position="floating">E-Mail</ion-label>
               <ion-input type="email" formControlName="email"></ion-input>
@@ -37,7 +48,8 @@
               <ion-note
                 slot="error"
                 *ngIf="(password.dirty || password.touched) && password.errors"
-                >Das Feld darf nicht leer sein</ion-note
+                >Das Feld darf nicht leer sein und muss mindestens 6 Zeichen
+                haben.</ion-note
               >
             </ion-item>
           </ion-list>

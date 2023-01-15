@@ -67,6 +67,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/quiz-studycard/quiz-studycard.module').then( m => m.QuizStudycardPageModule),
     ...canActivate(redirectUnauthorizedToRegister),
   },
+  {
+    path: 'profile',
+    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
+  },
 ];
 
 @NgModule({

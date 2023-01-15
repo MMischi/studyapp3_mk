@@ -67,6 +67,8 @@ export class DbStudykitService {
 
   /**
    * stores studykit to db
+   * 
+   * @param {Studykit} studykit 
    */
   async storeStudykitToDB(studykit: Studykit) {
     await setDoc(doc(this.getCollection(), studykit.id), studykit);

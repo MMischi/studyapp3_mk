@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mein Profil</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-fab
+    vertical="top"
+    horizontal="end"
+    edge
+    slot="fixed"
+    (click)="updateUser()"
+  >
+    <ion-fab-button color="secondary">
+      <ion-icon name="checkmark-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <form [formGroup]="credentials">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Name</ion-label>
+        <ion-input
+          type="name"
+          formControlName="name"
+          value="{{user.nickname}}"
+        ></ion-input>
+        <ion-note
+          slot="error"
+          *ngIf="(name.dirty || name.touched) && name.errors"
+          >Das Feld darf nicht leer sein und muss mindestens 4 Zeichen
+          haben.</ion-note
+        >
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

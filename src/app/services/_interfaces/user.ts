@@ -4,6 +4,7 @@ export interface User {
     id: string;
     email: string;
     nickname: string;
-    
-    studykits: Studykit[];
+
+    created_at: Date;
+    updated_at: Date;
 }
