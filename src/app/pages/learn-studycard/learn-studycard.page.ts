@@ -112,10 +112,11 @@ export class LearnStudycardPage implements OnInit {
    * @returns { Card[] } set of cards where nextLearnDate <= today
    */
   getStudycardsWhereNextDateIsBeforeToday(allCards: Card[]): Card[] {
+    const today = new Date();
     return allCards.filter(
-      (card: Card) => {
-        card.nextLearnDate.toDateString() <= new Date().toDateString()
-      });
+      (elem: Card) =>
+        elem.nextLearnDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)
+    );
   }
 
   /* -------------------------------------- */
