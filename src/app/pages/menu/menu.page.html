@@ -9,12 +9,12 @@
 
 <ion-content>
   <div>
-    <ion-button expand="block" (click)="logout()">Abmelden</ion-button>
-  </div>
+    <ion-list>
+      <ion-item routerLink="/studykit-overview"> Lernsetübersicht </ion-item>
+    </ion-list>
 
-  <ion-list>
-    <ion-item routerLink="/studykit-overview">
-      Lernsetübersicht
-    </ion-item>
-  </ion-list>
+    <div>
+      <ion-button expand="block" (click)="logout()">Abmelden</ion-button>
+    </div>
+  </div>
 </ion-content>

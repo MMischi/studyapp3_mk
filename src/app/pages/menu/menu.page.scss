@@ -1,0 +1,11 @@
+ion-content {
+  > div {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto min-content;
+  
+    > div {
+      padding: 20px;
+    } 
+  }
+}
