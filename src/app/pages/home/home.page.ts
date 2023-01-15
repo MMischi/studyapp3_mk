@@ -42,8 +42,9 @@ export class HomePage {
   }
 
   isCardToLearn(studykit: Studykit) {
-    return studykit.cards.filter((elem: Card) => {
-      elem.nextLearnDate.toDateString() <= new Date().toDateString();
-    }).length > 0;
+    const today = new Date();
+    return studykit.cards.filter((elem: Card) =>
+      elem.nextLearnDate.setHours(0,0,0,0) === today.setHours(0,0,0,0)
+    ).length > 0;
   }
 }
