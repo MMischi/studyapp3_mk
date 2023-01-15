@@ -113,9 +113,9 @@ export class LearnStudycardPage implements OnInit {
    */
   getStudycardsWhereNextDateIsBeforeToday(allCards: Card[]): Card[] {
     return allCards.filter(
-      (card: Card) =>
+      (card: Card) => {
         card.nextLearnDate.toDateString() <= new Date().toDateString()
-    );
+      });
   }
 
   /* -------------------------------------- */
