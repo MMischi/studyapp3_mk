@@ -72,10 +72,13 @@ export class DbStudykitService {
     await setDoc(doc(this.getCollection(), studykit.id), studykit);
   }
 
+  /**
+   * deletes studykit by id from db
+   *
    * @param {string} studykitId - id of studykit
    */
-  async deleteStudykit(studykitId: string) {
-    deleteDoc(this.getStudykitByIdFromDb(studykitId));
+  async deleteStudykitFromDB(studykitId: string) {
+    await deleteDoc(this.getDocById(studykitId));
   }
 
   /**
