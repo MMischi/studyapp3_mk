@@ -10,8 +10,8 @@ import {
   setDoc,
 } from "@angular/fire/firestore";
 
-import { Studykit } from "../../_interfaces/studykit";
-import { Card } from "../../_interfaces/card";
+import { Studykit } from "../_interfaces/studykit";
+import { Card } from "../_interfaces/card";
 
 @Injectable({
   providedIn: "root",
