@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Auth } from "@angular/fire/auth";
 
-import { AuthService } from "src/app/services/auth.service";
 import { User } from "src/app/services/_interfaces/user";
 import { UserService } from "src/app/services/user/user.service";
+import { AuthService } from "src/app/services/auth/auth.service";
 
 @Component({
   selector: "app-register",
