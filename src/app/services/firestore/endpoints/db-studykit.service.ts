@@ -1,16 +1,17 @@
-import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
-
 import {
   Firestore,
-  doc,
   collection,
-  collectionData,
-  updateDoc,
-  addDoc,
+  getDocs,
+  doc,
   deleteDoc,
+  updateDoc,
+  getDoc,
+  setDoc,
 } from "@angular/fire/firestore";
+
 import { Studykit } from "../../_interfaces/studykit";
+import { Card } from "../../_interfaces/card";
 
 @Injectable({
   providedIn: "root",
@@ -24,7 +25,7 @@ export class DbStudykitService {
    * creates reference to collection
    * @returns full studykit collection
    */
-  getStudykitCollection() {
+  getCollection() {
     return collection(this.firestore, this.STUDYKIT_DATA_STORAGE);
   }
 
@@ -33,14 +34,17 @@ export class DbStudykitService {
   }
 
   /**
-   * retruns data from db storage by key (including id of object)
+   * retruns studykits from db
    *
    * @returns content of studykit storage
    */
-  getAllStudykitsDB(): Observable<Studykit[]> {
-    return collectionData(this.getStudykitCollection(), {
-      idField: "id",
-    }) as Observable<Studykit[]>;
+  async getAllStudykitsFromDB(): Promise<Studykit[]> {
+    const docsRef = await getDocs(this.getCollection());
+
+    let studykitArray: Studykit[] = [];
+    docsRef.forEach((doc) => studykitArray.push(doc.data() as Studykit));
+
+    return studykitArray;
   }
 
   /**
