@@ -6,7 +6,7 @@ import {
   getStudykitIdFromRout,
   randomizeStudycards,
 } from "../../services/_utils/helper";
-import { DataService } from "../..//services/data.service";
+import { DataService } from "src/app/services/localStorage/data.service";
 
 import { Card } from "../../services/_interfaces/card";
 import { Studykit } from "../../services/_interfaces/studykit";

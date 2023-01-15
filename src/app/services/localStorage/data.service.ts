@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Storage } from "@ionic/storage-angular";
-import { Card } from "./_interfaces/card";
-import { Studykit } from "./_interfaces/studykit";
+
+import { Card } from "../_interfaces/card";
+import { Studykit } from "../_interfaces/studykit";
 
 @Injectable({
   providedIn: "root",

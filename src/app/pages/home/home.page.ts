@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-import { DataService } from "src/app/services/data.service";
+import { DataService } from "src/app/services/localStorage/data.service";
 
 import { Studykit } from "src/app/services/_interfaces/studykit";
 import { Card } from "src/app/services/_interfaces/card";

@@ -12,8 +12,8 @@ import {
   isMultiplechoiceAnswerRight,
 } from "../../services/_utils/helper";
 
-import { DbStudykitService } from "src/app/services/firestore/endpoints/db-studykit.service";
-import { DataService } from "src/app/services/data.service";
+import { DbStudykitService } from "src/app/services/firestore/db-studykit.service";
+import { DataService } from "src/app/services/localStorage/data.service";
 
 import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";

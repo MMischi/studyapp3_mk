@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { Auth } from "@angular/fire/auth";
 
 import {
   checkanswerOfTextarea,
@@ -8,12 +9,11 @@ import {
   getStudykitIdFromRout,
   randomizeStudycards,
 } from "../../services/_utils/helper";
-import { DataService } from "src/app/services/data.service";
+import { DataService } from "src/app/services/localStorage/data.service";
 
 import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
-import { Auth } from "@angular/fire/auth";
 
 interface UserTextAnswer {
   cardId: string;
