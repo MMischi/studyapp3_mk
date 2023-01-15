@@ -105,7 +105,6 @@ export class DbStudykitService {
   async updateCardInStudykitInDB(studykitId: string, card: Card) {
     let studykit = await this.getStudykitByIdFromDB(studykitId);
     studykit = this._updateCardInStudykit(card, studykit);
-    studykit.updated_at = new Date();
     this.updateStudykitInDB(studykit);
   }
 
