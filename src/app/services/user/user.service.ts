@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { collection, doc, Firestore, getDoc, getDocs, setDoc, updateDoc } from "@angular/fire/firestore";
 
-import { AuthService } from "../auth.service";
+import { AuthService } from "../auth/auth.service";
 import { User } from "../_interfaces/user";
 
 @Injectable({
