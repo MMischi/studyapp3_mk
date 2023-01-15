@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Auth } from "@angular/fire/auth";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 
@@ -10,12 +11,13 @@ import {
   checkMultipleAnswer,
   isMultiplechoiceAnswerRight,
 } from "../../services/_utils/helper";
+
+import { DbStudykitService } from "src/app/services/firestore/endpoints/db-studykit.service";
 import { DataService } from "src/app/services/data.service";
 
 import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
-import { Auth } from "@angular/fire/auth";
 
 @Component({
   selector: "app-learn-studycard",
@@ -26,6 +28,7 @@ export class LearnStudycardPage implements OnInit {
   constructor(
     private auth: Auth,
     private service: DataService,
+    private dbService: DbStudykitService,
 
     private router: Router,
     private route: ActivatedRoute,
@@ -190,6 +193,7 @@ export class LearnStudycardPage implements OnInit {
   handleResult(isValide: boolean) {
     isValide ? this.processSuccess() : this.processFail();
     this.updateCardProperties();
+    this.updateCard();
   }
 
   /**
@@ -222,7 +226,23 @@ export class LearnStudycardPage implements OnInit {
       today.getDate() +
         this.getNextLearnDateByRepetition(this.cardToShow.repetitionTimes)
     );
+    this.cardToShow.updated_at = today;
+  }
+
+  async updateCard() {
+    await this.updateCardOnLocalStorage();
+    if (navigator.onLine) await this.updateCardkitInDB();
+  }
+
+  async updateCardOnLocalStorage() {
     await this.service.updateCardInStudykit(this.studykit.id, this.cardToShow);
+  }
+
+  async updateCardkitInDB() {
+    await this.dbService.updateCardInStudykitInDB(
+      this.studykit.id,
+      this.cardToShow
+    );
   }
 
   /**
