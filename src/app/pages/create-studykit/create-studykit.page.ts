@@ -210,7 +210,7 @@ export class CreateStudykitPage implements OnInit {
         "saveKit"
       );
     } else {
-      this.saveStudykit();
+      this.saveOrUpdateStudykit();
     }
   }
 
@@ -296,16 +296,57 @@ export class CreateStudykitPage implements OnInit {
   /**
    * saves studykit
    */
-  async saveStudykit() {
+  async saveOrUpdateStudykit() {
     if (!this.isStudikitEdited) {
-      await this.service.storeStudykit(this.studykit);
-      if (navigator.onLine) this.dbService.storeStudykitDB(this.studykit);
+      this.handleSave();
     } else if (this.isStudikitEdited) {
-      await this.service.updateStudykit(this.studykit);
+      await this.handleUpdate();
     }
-
     this.router.navigate(["/home"]);
     this.presentToast("bottom", "success", "Lernset wurde gespeichert.");
+  }
+
+  /**
+   * handle save studykit
+   */
+  async handleSave() {
+    this.storeStudykitToLocalStorage();
+    if (navigator.onLine) await this.storeStudykitToDB();
+  }
+
+  /**
+   * stores studykit data to local storage
+   */
+  async storeStudykitToLocalStorage() {
+    await this.service.storeStudykit(this.studykit);
+  }
+
+  /**
+   * stores studykit data to database 
+   */
+  async storeStudykitToDB() {
+    await this.dbService.storeStudykitToDB(this.studykit);
+  }
+
+  async handleUpdate() {
+    this.studykit.updated_at = new Date();
+    
+    await this.updateStudykitInLocalStorage();
+    if (navigator.onLine) await this.updateStudykitInDB();
+  }
+
+  /**
+   * updates studykit data in local storage
+   */
+  async updateStudykitInLocalStorage() {
+    await this.service.updateStudykit(this.studykit);
+  }
+
+  /**
+   * updates studykit data in database 
+   */
+  async updateStudykitInDB() {
+    await this.dbService.updateStudykitInDB(this.studykit);
   }
 
   /**
@@ -355,7 +396,7 @@ export class CreateStudykitPage implements OnInit {
           handler: () => {
             switch (funcName1) {
               case "saveKit":
-                this.saveStudykit();
+                this.saveOrUpdateStudykit();
                 break;
               case "deleteCard":
                 this.deleteCard();
@@ -368,7 +409,7 @@ export class CreateStudykitPage implements OnInit {
           handler: () => {
             switch (funcName2) {
               case "saveKit":
-                this.saveStudykit();
+                this.saveOrUpdateStudykit();
                 break;
               case "deleteCard":
                 this.deleteCard();
