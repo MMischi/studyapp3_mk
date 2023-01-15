@@ -23,14 +23,21 @@ export class DbStudykitService {
 
   /**
    * creates reference to collection
+   *
    * @returns full studykit collection
    */
   getCollection() {
     return collection(this.firestore, this.STUDYKIT_DATA_STORAGE);
   }
 
-  getStudykitByIdFromDb(id: string) {
-    return doc(this.firestore, `${this.STUDYKIT_DATA_STORAGE}/${id}`);
+  /**
+   * create reference to specific doc
+   *
+   * @param {string} id
+   * @returns
+   */
+  getDocById(id: string) {
+    return doc(this.firestore, this.STUDYKIT_DATA_STORAGE, id);
   }
 
   /**
@@ -48,10 +55,14 @@ export class DbStudykitService {
   }
 
   /**
-   * store studykit to db
+   * returns one studykit by id from db
+   *
+   * @param {string} studykitId - id of studykit
+   * @returns
    */
-  storeStudykitDB(studykit: Studykit) {
-    addDoc(this.getStudykitCollection(), studykit);
+  async getStudykitByIdFromDB(studykitId: string): Promise<Studykit> | null {
+    const docSnap = await getDoc(this.getDocById(studykitId));
+    return docSnap.exists() ? (docSnap.data() as Studykit) : null;
   }
 
   /**
