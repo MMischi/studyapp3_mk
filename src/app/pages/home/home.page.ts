@@ -42,11 +42,8 @@ export class HomePage {
   }
 
   isCardToLearn(studykit: Studykit) {
-    return (
-      studykit.cards.filter(
-        (elem: Card) =>
-          elem.nextLearnDate.toDateString() <= new Date().toDateString()
-      ).length > 0
-    );
+    return studykit.cards.filter((elem: Card) => {
+      elem.nextLearnDate.toDateString() <= new Date().toDateString();
+    }).length > 0;
   }
 }
