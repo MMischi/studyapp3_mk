@@ -97,6 +97,29 @@ export class DbStudykitService {
     });
   }
 
+  /**
+   * updates card in studykit by id on db
+   * @param { string } studykitId
+   * @param { Card } card
+   */
+  async updateCardInStudykitInDB(studykitId: string, card: Card) {
+    let studykit = await this.getStudykitByIdFromDB(studykitId);
+    studykit = this._updateCardInStudykit(card, studykit);
+    this.updateStudykitInDB(studykit);
   }
-  
+
+  /**
+   * updates card in given studykit 
+   * 
+   * @param {Card} card new card
+   * @param {Studykit} studykit in which card should be updated 
+   * @returns 
+   */
+  _updateCardInStudykit(card: Card, studykit: Studykit): Studykit {
+    const cardIdx: number = studykit.cards.findIndex(
+      (elem: Card) => elem.id === card.id
+    );
+    studykit.cards[cardIdx] = card;
+    return studykit;
+  }
 }
