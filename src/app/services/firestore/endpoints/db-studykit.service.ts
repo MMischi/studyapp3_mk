@@ -87,6 +87,7 @@ export class DbStudykitService {
    * @param {Studykit} studykit - full studykit
    */
   async updateStudykitInDB(studykit: Studykit) {
+    studykit.updated_at = new Date();
     updateDoc(this.getDocById(studykit.id), {
       title: studykit.title,
       cards: studykit.cards,
@@ -109,11 +110,11 @@ export class DbStudykitService {
   }
 
   /**
-   * updates card in given studykit 
-   * 
+   * updates card in given studykit
+   *
    * @param {Card} card new card
-   * @param {Studykit} studykit in which card should be updated 
-   * @returns 
+   * @param {Studykit} studykit in which card should be updated
+   * @returns
    */
   _updateCardInStudykit(card: Card, studykit: Studykit): Studykit {
     const cardIdx: number = studykit.cards.findIndex(
