@@ -79,11 +79,21 @@ export class DbStudykitService {
   }
 
   /**
-   * update a studykit on db
+   * updates a studykit on db
+   *
    * @param {Studykit} studykit - full studykit
    */
-  updateStudykitDB(studykit: Studykit) {
-    updateDoc(this.getStudykitByIdFromDb(studykit.id), { studykit });
+  async updateStudykitInDB(studykit: Studykit) {
+    updateDoc(this.getDocById(studykit.id), {
+      title: studykit.title,
+      cards: studykit.cards,
+
+      created_by: studykit.created_by,
+      created_at: studykit.created_at,
+      updated_at: studykit.updated_at,
+    });
+  }
+
   }
   
 }
