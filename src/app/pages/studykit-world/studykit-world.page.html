@@ -8,7 +8,33 @@
 </ion-header>
 
 <ion-content *ngIf="isOnline">
-  
+  <div>
+    <div>
+      <ion-searchbar
+        (ionChange)="handleSearchbarChange($event)"
+        placeholder="Suche nach einem Lernset"
+      ></ion-searchbar>
+    </div>
+
+    <div>
+      <ion-card *ngFor="let studykit of results">
+        <ion-card-header>
+          <ion-card-title>
+            <h3>{{ studykit.title }}</h3>
+            <h6>
+              <ion-text>Kartenanzahl: {{ studykit.cards.length }}</ion-text>
+            </h6>
+          </ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p>
+            <ion-text>{{ studykit.description }}</ion-text>
+          </p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>
 
 <ion-content *ngIf="!isOnline">

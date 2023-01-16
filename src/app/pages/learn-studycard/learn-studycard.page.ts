@@ -54,6 +54,7 @@ export class LearnStudycardPage implements OnInit {
   studykit: Studykit = {
     id: "",
     title: "",
+    description: "",
     cards: this.studycards,
     published: false,
 

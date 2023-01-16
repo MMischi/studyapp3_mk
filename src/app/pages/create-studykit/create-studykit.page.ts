@@ -54,6 +54,7 @@ export class CreateStudykitPage implements OnInit {
   studykit: Studykit = {
     id: uuidv4(),
     title: "",
+    description: "",
     cards: this.studycards,
     published: false,
 

@@ -1,0 +1,22 @@
+ion-content {
+  > div {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: min-content auto;
+
+    & div:nth-of-type(1) {
+        position: fixed;
+        width: 100%;
+        background-color: var(--ion-color-background, #ffffff);
+
+        z-index: 10;
+    }
+
+    & div:nth-of-type(2) {
+        margin-top: 55px;
+        overflow: scroll;
+
+        z-index: 5;
+    }
+  }
+}

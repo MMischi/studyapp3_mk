@@ -45,6 +45,38 @@ export class DbStudykitService {
   }
 
   /**
+   * returns all published studykits
+   * 
+   * @returns {Studykit | string} Studykit array or 'failed'
+   */
+  async getAllPublishedStudykitFromAllUsers(): Promise<Studykit[] | "failed"> {
+    try {
+      const q = query(
+        this.getCollection(),
+        where("published", "==", true)
+      );
+      const docsRef = await getDocs(q);
+
+      let studykitArray: Studykit[] = [];
+      docsRef.forEach((doc) => {
+        const studykit: Studykit = doc.data() as Studykit; // with timestamp instead of date
+        studykit.updated_at = new Date(
+          (studykit.updated_at as unknown as Timestamp).seconds * 1000
+        );
+        studykit.created_at = new Date(
+          (studykit.updated_at as unknown as Timestamp).seconds * 1000
+        );
+        studykitArray.push(doc.data() as Studykit);
+      });
+
+      return studykitArray;
+    } catch (e) {
+      console.log(e);
+      return "failed";
+    }
+  }
+
+  /**
    * retruns studykits from db
    *
    * @returns {Studykit | string} Studykit array or 'failed'
@@ -151,6 +183,8 @@ export class DbStudykitService {
       updateDoc(this.getDocById(studykit.id), {
         title: studykit.title,
         cards: studykit.cards,
+        description: studykit.description,
+        published: studykit.published,
 
         created_by: studykit.created_by,
         created_at: studykit.created_at,

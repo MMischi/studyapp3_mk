@@ -49,6 +49,18 @@
         </ion-input>
         <ion-note slot="error">Gib deinem Lernset einen Namen.</ion-note>
       </ion-item>
+
+      <ion-item class="studykit_name">
+        <ion-label position="stacked">Beschreibe dein Lernset:</ion-label>
+        <ion-input
+          placeholder="Hier dreht sich alles um Cookies"
+          [(ngModel)]="this.studykit.description"
+          required
+        >
+        </ion-input>
+        <ion-note slot="error">Gib deinem Lernset einen Namen.</ion-note>
+      </ion-item>
+
       <ion-item>
         <ion-label color="medium">Veröffentlichen</ion-label>
         <ion-toggle

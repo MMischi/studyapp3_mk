@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ToastController } from "@ionic/angular";
+import { DbStudykitService } from "src/app/services/firestore/db-studykit.service";
+import { Studykit } from "src/app/services/_interfaces/studykit";
 
 @Component({
   selector: "app-studykit-world",
@@ -7,7 +9,10 @@ import { ToastController } from "@ionic/angular";
   styleUrls: ["./studykit-world.page.scss"],
 })
 export class StudykitWorldPage implements OnInit {
-  constructor(private toastController: ToastController) {
+  constructor(
+    private toastController: ToastController,
+    private dbService: DbStudykitService
+  ) {
     window.addEventListener("offline", () => {
       this.isOnline = false;
     });
@@ -18,18 +23,46 @@ export class StudykitWorldPage implements OnInit {
   }
 
   isOnline: boolean;
+  studykitArray: Studykit[] = [];
+  results: Studykit[] = [...this.studykitArray];
 
   ngOnInit() {
     this.isOnline = navigator.onLine;
   }
 
   async ionViewWillEnter() {
-    if (!this.isOnline)
+    if (!this.isOnline) {
       this.presentToast(
         "bottom",
         "warning",
         "Es besteht keine Internetverbindung."
       );
+      return;
+    }
+    await this.getStudykitData();
+  }
+
+  async getStudykitData() {
+    const result = await this.dbService.getAllPublishedStudykitFromAllUsers();
+    if (result === "failed") {
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Ein Fehler bei der Datenübertragung zum Server ist aufgetreten."
+      );
+      return;
+    } else {
+      this.studykitArray = result;
+      this.results = this.studykitArray;
+      console.log(this.results);
+    }
+  }
+
+  handleSearchbarChange(event) {
+    const query = event.target.value.toLowerCase();
+    this.results = this.studykitArray.filter(
+      (elem: Studykit) => elem.title.toLowerCase().indexOf(query) > -1
+    );
   }
 
   /**
