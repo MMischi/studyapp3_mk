@@ -75,6 +75,10 @@ const routes: Routes = [
     path: 'studykit-world',
     loadChildren: () => import('./pages/studykit-world/studykit-world.module').then( m => m.StudykitWorldPageModule)
   },
+  {
+    path: 'studykit-detail/:id',
+    loadChildren: () => import('./pages/studykit-detail/studykit-detail.module').then( m => m.StudykitDetailPageModule)
+  },
 ];
 
 @NgModule({

@@ -17,7 +17,10 @@
     </div>
 
     <div>
-      <ion-card *ngFor="let studykit of results">
+      <ion-card
+        *ngFor="let studykit of results"
+        routerLink="/studykit-detail/{{ studykit.id }}"
+      >
         <ion-card-header>
           <ion-card-title>
             <h3>{{ studykit.title }}</h3>
