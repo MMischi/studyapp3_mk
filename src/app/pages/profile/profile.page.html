@@ -20,7 +20,7 @@
     </ion-fab-button>
   </ion-fab>
 
-  <form [formGroup]="credentials">
+  <form [formGroup]="profile">
     <ion-list>
       <ion-item>
         <ion-label position="stacked">Name</ion-label>
@@ -38,4 +38,8 @@
       </ion-item>
     </ion-list>
   </form>
+
+  <ion-text color="medium ion-padding"
+    >Angemeldet mit {{ user.email }}</ion-text
+  >
 </ion-content>

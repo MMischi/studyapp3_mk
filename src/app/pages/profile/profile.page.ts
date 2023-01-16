@@ -11,7 +11,7 @@ import { User } from "src/app/services/_interfaces/user";
   styleUrls: ["./profile.page.scss"],
 })
 export class ProfilePage implements OnInit {
-  credentials: FormGroup;
+  profile: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -21,6 +21,7 @@ export class ProfilePage implements OnInit {
     private toastController: ToastController
   ) {}
 
+  userId: string;
   user: User = {
     id: "",
     email: "",
@@ -30,18 +31,19 @@ export class ProfilePage implements OnInit {
   };
 
   get name() {
-    return this.credentials.get("name");
+    return this.profile.get("name");
   }
 
   async ngOnInit() {
-    this.credentials = this.fb.group({
+    this.userId = this.auth.currentUser.uid;
+    this.profile = this.fb.group({
       name: ["", [Validators.required, Validators.minLength(4)]],
     });
   }
 
   async ionViewWillEnter() {
     const result = await this.userService.getUserByIdFromDB(
-      this.auth.currentUser.uid
+      this.userId
     );
 
     if (result === "failed")
@@ -54,7 +56,7 @@ export class ProfilePage implements OnInit {
   }
 
   async updateUser() {
-    this.user.nickname = this.credentials.value.name;
+    this.user.nickname = this.profile.value.name;
 
     const result = await this.userService.updateStudykitInDB(this.user);
     if (result === "failed")
