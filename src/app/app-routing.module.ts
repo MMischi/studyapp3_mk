@@ -71,6 +71,10 @@ const routes: Routes = [
     path: 'profile',
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
   },
+  {
+    path: 'studykit-world',
+    loadChildren: () => import('./pages/studykit-world/studykit-world.module').then( m => m.StudykitWorldPageModule)
+  },
 ];
 
 @NgModule({

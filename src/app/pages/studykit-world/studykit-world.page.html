@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Lernwelt</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="isOnline">
+  
+</ion-content>
+
+<ion-content *ngIf="!isOnline">
+  <div class="ion-padding ion-text-center">
+    <ion-text>Du hast keine Internetverbindung.</ion-text>
+  </div>
+</ion-content>
