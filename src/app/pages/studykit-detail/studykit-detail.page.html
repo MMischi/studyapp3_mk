@@ -9,7 +9,19 @@
 
 <ion-content>
   <div class="ion-padding-start">
-    <ion-text color="medium">Erstellt von: {{ owner.nickname }}</ion-text>
+    <h1>{{ studykit.title }}</h1>
+    <p>
+      <ion-text>{{ studykit.description }}</ion-text>
+    </p>
+    <p>
+      <ion-text color="medium">Erstellt von: {{ owner.nickname }}</ion-text>
+    </p>
+  </div>
+
+  <div class="ion-padding" *ngIf="studykit.created_by !== userId">
+    <ion-button fill="outline" expand="block" (click)="saveStudykit()"
+      >Lernset speichern</ion-button
+    >
   </div>
 
   <div>
@@ -33,11 +45,5 @@
         </div>
       </ion-card-content>
     </ion-card>
-  </div>
-
-  <div class="ion-padding" *ngIf="studykit.created_by !== userId">
-    <ion-button fill="outline" expand="block" (click)="saveStudykit()"
-      >Lernset speichern</ion-button
-    >
   </div>
 </ion-content>
