@@ -88,6 +88,7 @@ export class DataService {
    * @param {Studykit} studykit - full studykit
    */
   async updateStudykit(studykit: Studykit) {
+    studykit.updated_at = new Date();
     let allStudykits = await this.getAllStudykits();
     let indexOfStudykit = allStudykits.findIndex(
       (elem: Studykit) => elem.id === studykit.id
@@ -110,6 +111,7 @@ export class DataService {
    * @param { Card } card
    */
   async updateCardInStudykit(studykitId: string, card: Card) {
+    card.updated_at = new Date();
     let allStudykits = await this.getAllStudykits();
     let indexOfStudykit = allStudykits.findIndex(
       (elem: Studykit) => elem.id === studykitId

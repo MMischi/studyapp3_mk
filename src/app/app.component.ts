@@ -22,15 +22,7 @@ export class AppComponent {
     });
   }
 
-  ngOnInit() {
-    navigator.onLine
-      ? ""
-      : this.presentToast(
-          "bottom",
-          "warning",
-          "Dein Smartphone ist offline. Daten werden vorläufig nur lokal gespeichert."
-        );
-  }
+  ngOnInit() {}
 
   /**
    * show toast

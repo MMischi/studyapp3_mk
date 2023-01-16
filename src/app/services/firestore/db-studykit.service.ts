@@ -171,6 +171,7 @@ export class DbStudykitService {
    * @returns
    */
   _updateCardInStudykit(card: Card, studykit: Studykit): Studykit {
+    card.updated_at = new Date();
     const cardIdx: number = studykit.cards.findIndex(
       (elem: Card) => elem.id === card.id
     );
