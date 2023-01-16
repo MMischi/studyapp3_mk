@@ -65,8 +65,6 @@ export class RegisterPage implements OnInit {
     }
 
     await this.register();
-    console.log(this.auth.currentUser);
-    await this.storeUser();
   }
 
   async register() {
@@ -79,11 +77,26 @@ export class RegisterPage implements OnInit {
       return;
     }
 
-    const user = await this.authService.register(this.credentials.value);
-
-    if (user) {
+    const result = await this.authService.register(this.credentials.value);
+    if(result === 'auth/email-already-in-use') {
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Email Adresse wird bereits genutzt."
+      );
+      return;
+    } else if (result) {
+      await this.storeUser();
       this.router.navigateByUrl("/home", { replaceUrl: true });
-    } 
+      return;
+    } else {
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Ein Fehler ist aufgetreten."
+      );
+      return;
+    }
   }
 
   async storeUser() {

@@ -13,12 +13,11 @@ export class AuthService {
   constructor(private auth: Auth) {}
 
   async register({ email, password }) {
-    console.log('register');
     try {
       return await createUserWithEmailAndPassword(this.auth, email, password);
     } catch (e) {
-      console.log(e);
-      return null;
+      if(e.code === 'auth/email-already-in-use') return 'auth/email-already-in-use';
+      else return null;
     }
   }
 
