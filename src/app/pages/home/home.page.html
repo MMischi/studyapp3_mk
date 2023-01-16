@@ -66,6 +66,7 @@
           <ion-card
             class="card first"
             routerLink="/read-studycard/{{ studykit.id }}"
+            [disabled]="studykit.cards.length === 0"
           >
             <ion-card-header>
               <ion-card-title>
@@ -78,15 +79,16 @@
         <ion-slide>
           <ion-card
             class="card second"
-            [disabled]="!isCardToLearn(studykit)"
+            [disabled]="!isCardToLearn(studykit) || studykit.cards.length === 0"
             routerLink="/learn-studycard/{{ studykit.id }}"
           >
             <ion-card-header>
               <ion-card-title>
                 <h4>Lerne mit dem Lernalgorithmus</h4>
               </ion-card-title>
-              <ion-text *ngIf="!isCardToLearn(studykit)" color="medium"
-                >Du hast heute bereits gelernt</ion-text
+              <ion-text
+                *ngIf="!isCardToLearn(studykit) || studykit.cards.length === 0"
+                >Nichts zu lernen</ion-text
               >
             </ion-card-header>
           </ion-card>
@@ -96,6 +98,7 @@
           <ion-card
             class="card third"
             routerLink="/quiz-studycard/{{ studykit.id }}"
+            [disabled]="studykit.cards.length === 0"
           >
             <ion-card-header>
               <ion-card-title>
