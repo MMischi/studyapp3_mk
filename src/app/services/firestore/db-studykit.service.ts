@@ -46,15 +46,12 @@ export class DbStudykitService {
 
   /**
    * returns all published studykits
-   * 
+   *
    * @returns {Studykit | string} Studykit array or 'failed'
    */
   async getAllPublishedStudykitFromAllUsers(): Promise<Studykit[] | "failed"> {
     try {
-      const q = query(
-        this.getCollection(),
-        where("published", "==", true)
-      );
+      const q = query(this.getCollection(), where("published", "==", true));
       const docsRef = await getDocs(q);
 
       let studykitArray: Studykit[] = [];
@@ -130,6 +127,34 @@ export class DbStudykitService {
         studykit.created_at = new Date(
           (studykit.updated_at as unknown as Timestamp).seconds * 1000
         );
+        return studykit as Studykit;
+      } else return null;
+    } catch (e) {
+      console.log(e);
+      return "failed";
+    }
+  }
+
+  /**
+   * returns one published studykit by id from db
+   *
+   * @param {string} studykitId - id of studykit
+   * @returns {Studykit | string} Studykit object or 'failed'
+   */
+  async getPublishedStudykitByIdFromDB(
+    studykitId: string
+  ): Promise<Studykit | "failed"> | null {
+    try {
+      const docSnap = await getDoc(this.getDocById(studykitId));
+      if (docSnap.exists()) {
+        const studykit = docSnap.data(); // with timestamp instead of date
+        studykit.updated_at = new Date(
+          (studykit.updated_at as unknown as Timestamp).seconds * 1000
+        );
+        studykit.created_at = new Date(
+          (studykit.updated_at as unknown as Timestamp).seconds * 1000
+        );
+        return studykit as Studykit;
       } else return null;
     } catch (e) {
       console.log(e);

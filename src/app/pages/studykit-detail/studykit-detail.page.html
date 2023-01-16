@@ -1,9 +1,43 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>studykitDetail</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>{{ studykit.title }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="home"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="ion-padding-start">
+    <ion-text color="medium">Erstellt von: {{ owner.nickname }}</ion-text>
+  </div>
 
+  <div>
+    <ion-card *ngFor="let card of studykit.cards">
+      <ion-card-content>
+        <p>{{ card.question }}</p>
+
+        <div *ngIf="card.type === 'text'">
+          <p>{{ card.answers[0] }}</p>
+        </div>
+        <div *ngIf="card.type === 'multiple'">
+          <ion-list>
+            <ion-item *ngFor="let answer of card.answers">
+              <ion-checkbox
+                slot="end"
+                checked="{{answer.isRight}}"
+              ></ion-checkbox>
+              <ion-label>{{ answer.text }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div class="ion-padding" *ngIf="studykit.created_by !== userId">
+    <ion-button fill="outline" expand="block" (click)="saveStudykit()"
+      >Lernset speichern</ion-button
+    >
+  </div>
 </ion-content>

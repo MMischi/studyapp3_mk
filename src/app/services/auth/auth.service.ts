@@ -13,9 +13,11 @@ export class AuthService {
   constructor(private auth: Auth) {}
 
   async register({ email, password }) {
+    console.log('register');
     try {
       return await createUserWithEmailAndPassword(this.auth, email, password);
     } catch (e) {
+      console.log(e);
       return null;
     }
   }
@@ -24,6 +26,7 @@ export class AuthService {
     try {
       return await signInWithEmailAndPassword(this.auth, email, password);
     } catch (e) {
+      console.log(e);
       return null;
     }
   }

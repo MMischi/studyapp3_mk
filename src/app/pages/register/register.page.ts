@@ -65,6 +65,7 @@ export class RegisterPage implements OnInit {
     }
 
     await this.register();
+    console.log(this.auth.currentUser);
     await this.storeUser();
   }
 
@@ -82,8 +83,7 @@ export class RegisterPage implements OnInit {
 
     if (user) {
       this.router.navigateByUrl("/home", { replaceUrl: true });
-    } else {
-    }
+    } 
   }
 
   async storeUser() {
