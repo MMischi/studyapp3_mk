@@ -100,6 +100,7 @@ export class DbStudykitService {
         );
       } else return null;
     } catch (e) {
+      console.log(e);
       return "failed";
     }
   }
@@ -115,6 +116,7 @@ export class DbStudykitService {
       await setDoc(doc(this.getCollection(), studykit.id), studykit);
       return "success";
     } catch (e) {
+      console.log(e);
       return "failed";
     }
   }
@@ -132,6 +134,7 @@ export class DbStudykitService {
       await deleteDoc(this.getDocById(studykitId));
       return "success";
     } catch (e) {
+      console.log(e);
       return "failed";
     }
   }
@@ -155,6 +158,7 @@ export class DbStudykitService {
       });
       return "success";
     } catch (e) {
+      console.log(e);
       return "failed";
     }
   }
@@ -178,6 +182,7 @@ export class DbStudykitService {
       this.updateStudykitInDB(studykit);
       return "success";
     } catch (e) {
+      console.log(e);
       return "failed";
     }
   }
