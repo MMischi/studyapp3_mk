@@ -309,8 +309,23 @@ export class CreateStudykitPage implements OnInit {
    * handle save studykit
    */
   async handleSave() {
+    this.deleteCardsWithEmptyQuestion();
     this.storeStudykitToLocalStorage();
     if (navigator.onLine) await this.storeStudykitToDB();
+  }
+
+  /**
+   * drops empty studycards
+   */
+  deleteCardsWithEmptyQuestion() {
+    let emptyCardsIds: number[] = [];
+    for(let i = 0; i < this.studykit.cards.length; i++) {
+      if(this.studykit.cards[i].question === '') emptyCardsIds.push(i);
+    }
+
+    emptyCardsIds.forEach((elem: number) => {
+      this.studykit.cards.splice(elem,1);
+    })
   }
 
   /**
