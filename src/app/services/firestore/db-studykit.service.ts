@@ -9,11 +9,12 @@ import {
   getDoc,
   setDoc,
   query,
+  Timestamp,
+  where,
 } from "@angular/fire/firestore";
 
 import { Studykit } from "../_interfaces/studykit";
 import { Card } from "../_interfaces/card";
-import { where } from "firebase/firestore";
 import { Auth } from "@angular/fire/auth";
 
 @Injectable({
@@ -57,10 +58,20 @@ export class DbStudykitService {
       const docsRef = await getDocs(q);
 
       let studykitArray: Studykit[] = [];
-      docsRef.forEach((doc) => studykitArray.push(doc.data() as Studykit));
+      docsRef.forEach((doc) => {
+        const studykit: Studykit = doc.data() as Studykit; // with timestamp instead of date
+        studykit.updated_at = new Date(
+          (studykit.updated_at as unknown as Timestamp).seconds * 1000
+        );
+        studykit.created_at = new Date(
+          (studykit.updated_at as unknown as Timestamp).seconds * 1000
+        );
+        studykitArray.push(doc.data() as Studykit);
+      });
 
       return studykitArray;
     } catch (e) {
+      console.log(e);
       return "failed";
     }
   }
@@ -76,10 +87,18 @@ export class DbStudykitService {
   ): Promise<Studykit | "failed"> | null {
     try {
       const docSnap = await getDoc(this.getDocById(studykitId));
-      return docSnap.exists() &&
+      if (
+        docSnap.exists() &&
         docSnap.data().created_by === this.auth.currentUser.uid
-        ? (docSnap.data() as Studykit)
-        : null;
+      ) {
+        const studykit = docSnap.data(); // with timestamp instead of date
+        studykit.updated_at = new Date(
+          (studykit.updated_at as unknown as Timestamp).seconds * 1000
+        );
+        studykit.created_at = new Date(
+          (studykit.updated_at as unknown as Timestamp).seconds * 1000
+        );
+      } else return null;
     } catch (e) {
       return "failed";
     }
