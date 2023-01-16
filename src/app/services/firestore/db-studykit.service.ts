@@ -8,10 +8,13 @@ import {
   updateDoc,
   getDoc,
   setDoc,
+  query,
 } from "@angular/fire/firestore";
 
 import { Studykit } from "../_interfaces/studykit";
 import { Card } from "../_interfaces/card";
+import { where } from "firebase/firestore";
+import { Auth } from "@angular/fire/auth";
 
 @Injectable({
   providedIn: "root",
@@ -19,7 +22,7 @@ import { Card } from "../_interfaces/card";
 export class DbStudykitService {
   private STUDYKIT_DATA_STORAGE = "studykits";
 
-  constructor(private firestore: Firestore) {}
+  constructor(private firestore: Firestore, private auth: Auth) {}
 
   /**
    * creates reference to collection
@@ -45,16 +48,20 @@ export class DbStudykitService {
    *
    * @returns {Studykit | string} Studykit array or 'failed'
    */
-  async getAllStudykitsFromDB(): Promise<Studykit[] | 'failed'> {
+  async getAllStudykitsFromDB(): Promise<Studykit[] | "failed"> {
     try {
-      const docsRef = await getDocs(this.getCollection());
+      const q = query(
+        this.getCollection(),
+        where("created_by", "==", this.auth.currentUser.uid)
+      );
+      const docsRef = await getDocs(q);
 
       let studykitArray: Studykit[] = [];
       docsRef.forEach((doc) => studykitArray.push(doc.data() as Studykit));
-  
+
       return studykitArray;
-    } catch(e) {
-      return 'failed';
+    } catch (e) {
+      return "failed";
     }
   }
 
@@ -69,7 +76,10 @@ export class DbStudykitService {
   ): Promise<Studykit | "failed"> | null {
     try {
       const docSnap = await getDoc(this.getDocById(studykitId));
-      return docSnap.exists() ? (docSnap.data() as Studykit) : null;
+      return docSnap.exists() &&
+        docSnap.data().created_by === this.auth.currentUser.uid
+        ? (docSnap.data() as Studykit)
+        : null;
     } catch (e) {
       return "failed";
     }

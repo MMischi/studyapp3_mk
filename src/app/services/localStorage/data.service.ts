@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Auth } from "@angular/fire/auth";
 import { Storage } from "@ionic/storage-angular";
 
 import { Card } from "../_interfaces/card";
@@ -10,7 +11,7 @@ import { Studykit } from "../_interfaces/studykit";
 export class DataService {
   private STUDYKIT_DATA_STORAGE = "studykits";
 
-  constructor(private storage: Storage) {
+  constructor(private storage: Storage, private auth: Auth) {
     this.init();
   }
 
@@ -34,7 +35,16 @@ export class DataService {
    * @returns Promise<Studykit[]>
    */
   async getAllStudykits(): Promise<Studykit[]> {
-    return this.getData(this.STUDYKIT_DATA_STORAGE);
+    const studykitArray: Studykit[] = await this.getData(
+      this.STUDYKIT_DATA_STORAGE
+    );
+    const resultArray: Studykit[] = [];
+
+    studykitArray.forEach((elem: Studykit) => {
+      if (elem.created_by === this.auth.currentUser.uid) resultArray.push(elem);
+    });
+
+    return resultArray;
   }
 
   /**
@@ -44,7 +54,10 @@ export class DataService {
    */
   async getStudykitById(studykitId: string): Promise<Studykit> {
     let allStudykits = await this.getAllStudykits();
-    return allStudykits.filter((elem: Studykit) => elem.id === studykitId)[0];
+    return allStudykits.filter(
+      (elem: Studykit) =>
+        elem.id === studykitId && elem.created_by === this.auth.currentUser.uid
+    )[0];
   }
 
   /**
