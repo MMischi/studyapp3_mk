@@ -35,7 +35,7 @@
   div {
     height: 110%;
     width: 100vw;
-    background-color: var(--ion-background-color);
+    background-color: var(--ion-background-color, #ffffff);
     border-top-left-radius: 50px;
   }
 }
