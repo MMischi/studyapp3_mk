@@ -43,72 +43,114 @@ export class DbStudykitService {
   /**
    * retruns studykits from db
    *
-   * @returns content of studykit storage
+   * @returns {Studykit | string} Studykit array or 'failed'
    */
-  async getAllStudykitsFromDB(): Promise<Studykit[]> {
-    const docsRef = await getDocs(this.getCollection());
+  async getAllStudykitsFromDB(): Promise<Studykit[] | 'failed'> {
+    try {
+      const docsRef = await getDocs(this.getCollection());
 
-    let studykitArray: Studykit[] = [];
-    docsRef.forEach((doc) => studykitArray.push(doc.data() as Studykit));
-
-    return studykitArray;
+      let studykitArray: Studykit[] = [];
+      docsRef.forEach((doc) => studykitArray.push(doc.data() as Studykit));
+  
+      return studykitArray;
+    } catch(e) {
+      return 'failed';
+    }
   }
 
   /**
    * returns one studykit by id from db
    *
    * @param {string} studykitId - id of studykit
-   * @returns
+   * @returns {Studykit | string} Studykit object or 'failed'
    */
-  async getStudykitByIdFromDB(studykitId: string): Promise<Studykit> | null {
-    const docSnap = await getDoc(this.getDocById(studykitId));
-    return docSnap.exists() ? (docSnap.data() as Studykit) : null;
+  async getStudykitByIdFromDB(
+    studykitId: string
+  ): Promise<Studykit | "failed"> | null {
+    try {
+      const docSnap = await getDoc(this.getDocById(studykitId));
+      return docSnap.exists() ? (docSnap.data() as Studykit) : null;
+    } catch (e) {
+      return "failed";
+    }
   }
 
   /**
    * stores studykit to db
-   * 
-   * @param {Studykit} studykit 
+   *
+   * @param {studykit} studykit
+   * @returns {string} 'success' or 'failed'
    */
-  async storeStudykitToDB(studykit: Studykit) {
-    await setDoc(doc(this.getCollection(), studykit.id), studykit);
+  async storeStudykitToDB(studykit: Studykit): Promise<"success" | "failed"> {
+    try {
+      await setDoc(doc(this.getCollection(), studykit.id), studykit);
+      return "success";
+    } catch (e) {
+      return "failed";
+    }
   }
 
   /**
    * deletes studykit by id from db
    *
    * @param {string} studykitId - id of studykit
+   * @returns {string} 'success' or 'failed'
    */
-  async deleteStudykitFromDB(studykitId: string) {
-    await deleteDoc(this.getDocById(studykitId));
+  async deleteStudykitFromDB(
+    studykitId: string
+  ): Promise<"success" | "failed"> {
+    try {
+      await deleteDoc(this.getDocById(studykitId));
+      return "success";
+    } catch (e) {
+      return "failed";
+    }
   }
 
   /**
    * updates a studykit on db
    *
    * @param {Studykit} studykit - full studykit
+   * @returns {string} 'success' or 'failed'
    */
   async updateStudykitInDB(studykit: Studykit) {
     studykit.updated_at = new Date();
-    updateDoc(this.getDocById(studykit.id), {
-      title: studykit.title,
-      cards: studykit.cards,
+    try {
+      updateDoc(this.getDocById(studykit.id), {
+        title: studykit.title,
+        cards: studykit.cards,
 
-      created_by: studykit.created_by,
-      created_at: studykit.created_at,
-      updated_at: studykit.updated_at,
-    });
+        created_by: studykit.created_by,
+        created_at: studykit.created_at,
+        updated_at: studykit.updated_at,
+      });
+      return "success";
+    } catch (e) {
+      return "failed";
+    }
   }
 
   /**
    * updates card in studykit by id on db
+   *
    * @param { string } studykitId
    * @param { Card } card
+   * @returns {string} 'success' or 'failed'
    */
-  async updateCardInStudykitInDB(studykitId: string, card: Card) {
-    let studykit = await this.getStudykitByIdFromDB(studykitId);
-    studykit = this._updateCardInStudykit(card, studykit);
-    this.updateStudykitInDB(studykit);
+  async updateCardInStudykitInDB(
+    studykitId: string,
+    card: Card
+  ): Promise<"success" | "failed"> {
+    const result = await this.getStudykitByIdFromDB(studykitId);
+    if (result === "failed") return "failed";
+
+    const studykit = this._updateCardInStudykit(card, result);
+    try {
+      this.updateStudykitInDB(studykit);
+      return "success";
+    } catch (e) {
+      return "failed";
+    }
   }
 
   /**

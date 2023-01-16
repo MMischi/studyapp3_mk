@@ -6,6 +6,7 @@ import { Auth } from "@angular/fire/auth";
 import { User } from "src/app/services/_interfaces/user";
 import { UserService } from "src/app/services/user/user.service";
 import { AuthService } from "src/app/services/auth/auth.service";
+import { ToastController } from "@ionic/angular";
 
 @Component({
   selector: "app-register",
@@ -17,10 +18,13 @@ export class RegisterPage implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
+
     private auth: Auth,
-    private userService: UserService
+    private authService: AuthService,
+    private userService: UserService,
+
+    private router: Router,
+    private toastController: ToastController
   ) {}
 
   get email() {
@@ -36,6 +40,13 @@ export class RegisterPage implements OnInit {
   }
 
   ngOnInit() {
+    if (!navigator.onLine)
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Stelle sicher, dass eine aktive Internetverbindung besteht."
+      );
+
     this.credentials = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required, Validators.minLength(6)]],
@@ -44,23 +55,47 @@ export class RegisterPage implements OnInit {
   }
 
   async createAccount() {
+    if (!navigator.onLine) {
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Stelle sicher, dass eine aktive Internetverbindung besteht."
+      );
+      return;
+    }
+
     await this.register();
     await this.storeUser();
   }
 
   async register() {
+    if (!navigator.onLine) {
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Stelle sicher, dass eine aktive Internetverbindung besteht."
+      );
+      return;
+    }
+
     const user = await this.authService.register(this.credentials.value);
 
     if (user) {
-      // authorisation successfull
       this.router.navigateByUrl("/home", { replaceUrl: true });
     } else {
-      // TODO: error handling
-      console.error("something went wrong");
     }
   }
 
   async storeUser() {
+    if (!navigator.onLine) {
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Stelle sicher, dass eine aktive Internetverbindung besteht."
+      );
+      return;
+    }
+    
     const user = this.createUser();
     await this.userService.storeUserToDB(user);
   }
@@ -74,5 +109,26 @@ export class RegisterPage implements OnInit {
       created_at: new Date(),
       updated_at: new Date(),
     };
+  }
+
+  /**
+   * Shows toast
+   * @param {string} position "top" | "middle" | "bottom"
+   * @param {string} color "danger" | "warning" | "primary" | "light" | "success"
+   * @param {string} msg individual
+   */
+  async presentToast(
+    position: "top" | "middle" | "bottom",
+    color: "danger" | "warning" | "primary" | "light" | "success",
+    msg: string
+  ) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 1500,
+      position: position,
+      color: color,
+    });
+
+    await toast.present();
   }
 }

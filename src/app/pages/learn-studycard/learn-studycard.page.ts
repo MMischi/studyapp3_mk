@@ -239,10 +239,16 @@ export class LearnStudycardPage implements OnInit {
   }
 
   async updateCardkitInDB() {
-    await this.dbService.updateCardInStudykitInDB(
+    const result = await this.dbService.updateCardInStudykitInDB(
       this.studykit.id,
       this.cardToShow
     );
+    if (result === "failed")
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Ein Fehler bei der Datenübertragung zum Server ist aufgetreten."
+      );
   }
 
   /**

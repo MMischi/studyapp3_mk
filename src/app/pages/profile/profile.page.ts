@@ -15,11 +15,12 @@ export class ProfilePage implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService,
+
     private auth: Auth,
-    private toastController: ToastController,
+    private userService: UserService,
+    private toastController: ToastController
   ) {}
-  
+
   user: User = {
     id: "",
     email: "",
@@ -27,7 +28,6 @@ export class ProfilePage implements OnInit {
     created_at: undefined,
     updated_at: undefined,
   };
-
 
   get name() {
     return this.credentials.get("name");
@@ -40,15 +40,30 @@ export class ProfilePage implements OnInit {
   }
 
   async ionViewWillEnter() {
-    this.user = await this.userService.getUserByIdFromDB(
+    const result = await this.userService.getUserByIdFromDB(
       this.auth.currentUser.uid
     );
+
+    if (result === "failed")
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Ein Fehler bei der Datenübertragung zum Server ist aufgetreten."
+      );
+    else this.user = result;
   }
 
   async updateUser() {
     this.user.nickname = this.credentials.value.name;
-    await this.userService.updateStudykitInDB(this.user);
-    this.presentToast("bottom", "success", "Daten gespeichert.")
+
+    const result = await this.userService.updateStudykitInDB(this.user);
+    if (result === "failed")
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Ein Fehler bei der Datenübertragung zum Server ist aufgetreten."
+      );
+    else this.presentToast("bottom", "success", "Daten gespeichert.");
   }
 
   /**

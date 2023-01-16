@@ -321,15 +321,21 @@ export class CreateStudykitPage implements OnInit {
   }
 
   /**
-   * stores studykit data to database 
+   * stores studykit data to database
    */
   async storeStudykitToDB() {
-    await this.dbService.storeStudykitToDB(this.studykit);
+    const result = await this.dbService.storeStudykitToDB(this.studykit);
+    if (result === "failed")
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Ein Fehler bei der Datenübertragung zum Server ist aufgetreten."
+      );
   }
 
   async handleUpdate() {
     this.studykit.updated_at = new Date();
-    
+
     await this.updateStudykitInLocalStorage();
     if (navigator.onLine) await this.updateStudykitInDB();
   }
@@ -342,10 +348,16 @@ export class CreateStudykitPage implements OnInit {
   }
 
   /**
-   * updates studykit data in database 
+   * updates studykit data in database
    */
   async updateStudykitInDB() {
-    await this.dbService.updateStudykitInDB(this.studykit);
+    const result = await this.dbService.updateStudykitInDB(this.studykit);
+    if (result === "failed")
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Ein Fehler bei der Datenübertragung zum Server ist aufgetreten."
+      );
   }
 
   /**

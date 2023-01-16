@@ -1,5 +1,13 @@
 import { Injectable } from "@angular/core";
-import { collection, doc, Firestore, getDoc, getDocs, setDoc, updateDoc } from "@angular/fire/firestore";
+import {
+  collection,
+  doc,
+  Firestore,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "@angular/fire/firestore";
 
 import { AuthService } from "../auth/auth.service";
 import { User } from "../_interfaces/user";
@@ -34,49 +42,69 @@ export class UserService {
   /**
    * retruns users from db
    *
-   * @returns content of users storage
+   * @returns {User[] | string} content of users storage | 'failed'
    */
-  async getAllUsersFromDB(): Promise<User[]> {
-    const docsRef = await getDocs(this.getCollection());
+  async getAllUsersFromDB(): Promise<User[] | "failed"> {
+    try {
+      const docsRef = await getDocs(this.getCollection());
 
-    let usersArray: User[] = [];
-    docsRef.forEach((doc) => usersArray.push(doc.data() as User));
+      let usersArray: User[] = [];
+      docsRef.forEach((doc) => usersArray.push(doc.data() as User));
 
-    return usersArray;
+      return usersArray;
+    } catch (e) {
+      return "failed";
+    }
   }
 
   /**
    * returns one user by id from db
    *
    * @param {string} userId - id of user
-   * @returns
+    * @returns {User | string} user | 'failed'
    */
-  async getUserByIdFromDB(userId: string): Promise<User> | null {
-    const docSnap = await getDoc(this.getDocById(userId));
-    return docSnap.exists() ? (docSnap.data() as User) : null;
+  async getUserByIdFromDB(userId: string): Promise<User | 'failed'> | null {
+    try {
+      const docSnap = await getDoc(this.getDocById(userId));
+      return docSnap.exists() ? (docSnap.data() as User) : null;
+    } catch(e) {
+      return 'failed';
+    }
   }
 
   /**
    * stores user to db
-   * 
-   * @param {User} user 
+   *
+   * @param {User} user
+   * @returns {string} 'success' or 'failed'
    */
-  async storeUserToDB(user: User) {
-    await setDoc(doc(this.getCollection(), user.id), user);
+  async storeUserToDB(user: User): Promise<'success' | 'failed'> {
+    try {
+      await setDoc(doc(this.getCollection(), user.id), user);
+      return 'success';
+    } catch(e) {
+      return 'failed';
+    }
   }
 
   /**
    * updates an user on db
    *
    * @param {User} user - full user
+   * @returns {string} 'success' or 'failed'
    */
-  async updateStudykitInDB(user: User) {
-    user.updated_at = new Date();
-    updateDoc(this.getDocById(user.id), {
-      nickname: user.nickname,
-
-      created_at: user.created_at,
-      updated_at: user.updated_at,
-    });
+  async updateStudykitInDB(user: User): Promise<'success' | 'failed'> {
+    try {
+      user.updated_at = new Date();
+      updateDoc(this.getDocById(user.id), {
+        nickname: user.nickname,
+  
+        created_at: user.created_at,
+        updated_at: user.updated_at,
+      });
+      return 'success';
+    } catch(e) {
+      return 'failed';
+    }
   }
 }
