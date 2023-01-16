@@ -5,6 +5,8 @@ export interface Studykit {
     title: string;
     cards: Card[];
 
+    published: boolean;
+
     created_by: string;
     created_at: Date;
     updated_at: Date;

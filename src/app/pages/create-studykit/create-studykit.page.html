@@ -49,6 +49,14 @@
         </ion-input>
         <ion-note slot="error">Gib deinem Lernset einen Namen.</ion-note>
       </ion-item>
+      <ion-item>
+        <ion-label color="medium">Veröffentlichen</ion-label>
+        <ion-toggle
+          slot="end"
+          [checked]="studykit.published"
+          (ionChange)="updatePublishState($event)"
+        ></ion-toggle>
+      </ion-item>
     </ion-list>
 
     <div>

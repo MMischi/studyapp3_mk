@@ -55,6 +55,7 @@ export class CreateStudykitPage implements OnInit {
     id: uuidv4(),
     title: "",
     cards: this.studycards,
+    published: false,
 
     created_by: this.auth.currentUser.uid,
     created_at: new Date(),
@@ -97,6 +98,14 @@ export class CreateStudykitPage implements OnInit {
       updated_at: new Date(),
     };
     this.studycards.push(card);
+  }
+
+  /**
+   * updates publish state
+   * @param e click event
+   */
+  updatePublishState(e) {
+    this.studykit.published = e.detail.checked;
   }
 
   /**

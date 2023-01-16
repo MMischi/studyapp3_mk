@@ -57,6 +57,7 @@ export class QuizStudycardPage implements OnInit {
     id: "",
     title: "",
     cards: this.studycards,
+    published: false,
 
     created_by: this.auth.currentUser.uid,
     created_at: undefined,
