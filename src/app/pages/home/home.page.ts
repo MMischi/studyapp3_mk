@@ -38,8 +38,10 @@ export class HomePage {
   }
 
   async ionViewWillEnter() {
-    this.studykits = await this.service.getAllStudykits();
-    if(this.studykit !== undefined) this.isCardToLearn(this.studykit);
+    if (this.studykit !== undefined) {
+      this.studykit = await this.service.getStudykitById(this.studykit.id);
+      this.isCardToLearn(this.studykit);
+    } else this.studykits = await this.service.getAllStudykits();
   }
 
   compareWith(o1, o2) {
@@ -55,7 +57,7 @@ export class HomePage {
     return (
       studykit.cards.filter(
         (elem: Card) =>
-          elem.nextLearnDate.setHours(0,0,0,0) <= today.setHours(0,0,0,0,)
+          elem.nextLearnDate.setHours(0, 0, 0, 0) <= today.setHours(0, 0, 0, 0)
       ).length > 0
     );
   }
@@ -157,7 +159,7 @@ export class HomePage {
       if (source === "firestore") {
         await this.dbService.storeStudykitToDB(elem);
       } else if (source === "localStorage") {
-        this.service.storeStudykit(elem);
+        await this.service.storeStudykit(elem);
       }
     });
   }
