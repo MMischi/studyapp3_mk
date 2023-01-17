@@ -91,7 +91,7 @@ export class LearnStudycardPage implements OnInit {
   async ionViewWillEnter() {
     const routeParam: string = getStudykitIdFromRout(this.route);
     if (routeParam !== null) {
-      this.initLearning(routeParam);
+      await this.initLearning(routeParam);
     }
   }
 

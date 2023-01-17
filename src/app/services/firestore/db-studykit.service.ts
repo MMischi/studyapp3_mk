@@ -125,7 +125,7 @@ export class DbStudykitService {
           (studykit.updated_at as unknown as Timestamp).seconds * 1000
         );
         studykit.created_at = new Date(
-          (studykit.updated_at as unknown as Timestamp).seconds * 1000
+          (studykit.created_at as unknown as Timestamp).seconds * 1000
         );
         return studykit as Studykit;
       } else return null;
@@ -235,7 +235,6 @@ export class DbStudykitService {
   ): Promise<"success" | "failed"> {
     const result = await this.getStudykitByIdFromDB(studykitId);
     if (result === "failed") return "failed";
-
     const studykit = this._updateCardInStudykit(card, result);
     try {
       this.updateStudykitInDB(studykit);
