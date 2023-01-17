@@ -120,7 +120,7 @@ export class LearnStudycardPage implements OnInit {
     const today = new Date();
     return allCards.filter(
       (elem: Card) =>
-        elem.nextLearnDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)
+        elem.nextLearnDate.setHours(0,0,0,0) <= today.setHours(0,0,0,0)
     );
   }
 

@@ -39,6 +39,7 @@ export class HomePage {
 
   async ionViewWillEnter() {
     this.studykits = await this.service.getAllStudykits();
+    if(this.studykit !== undefined) this.isCardToLearn(this.studykit);
   }
 
   compareWith(o1, o2) {
@@ -54,7 +55,7 @@ export class HomePage {
     return (
       studykit.cards.filter(
         (elem: Card) =>
-          elem.nextLearnDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)
+          elem.nextLearnDate.setHours(0,0,0,0) <= today.setHours(0,0,0,0,)
       ).length > 0
     );
   }
