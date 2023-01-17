@@ -54,7 +54,6 @@ export class StudykitWorldPage implements OnInit {
     } else {
       this.studykitArray = result;
       this.results = this.studykitArray;
-      console.log(this.results);
     }
   }
 
