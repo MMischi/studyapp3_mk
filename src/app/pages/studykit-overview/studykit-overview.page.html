@@ -18,6 +18,7 @@
     <ion-list>
       <ion-item-sliding *ngFor="let studykit of studykits">
         <ion-item routerLink="/edit-studykit/{{ studykit.id }}">
+          <ion-badge slot="end">{{ studykit.cards.length }}</ion-badge>
           <ion-label>{{ studykit.title }}</ion-label>
         </ion-item>
 
