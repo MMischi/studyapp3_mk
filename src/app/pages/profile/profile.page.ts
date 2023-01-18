@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { Auth } from "@angular/fire/auth";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ToastController } from "@ionic/angular";
@@ -14,11 +14,11 @@ export class ProfilePage implements OnInit {
   profile: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
+    @Inject(FormBuilder) private fb: FormBuilder,
 
-    private auth: Auth,
-    private userService: UserService,
-    private toastController: ToastController
+    @Inject(Auth) private auth: Auth,
+    @Inject(UserService) private userService: UserService,
+    @Inject(ToastController) private toastController: ToastController
   ) {}
 
   userId: string;

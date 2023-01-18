@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { Auth } from "@angular/fire/auth";
 import { ActivatedRoute } from "@angular/router";
 import { ToastController } from "@ionic/angular";
@@ -16,12 +16,12 @@ import { v4 as uuidv4 } from "uuid";
 })
 export class StudykitDetailPage implements OnInit {
   constructor(
-    private auth: Auth,
-    private route: ActivatedRoute,
-    private toastController: ToastController,
+    @Inject(Auth) private auth: Auth,
+    @Inject(ActivatedRoute) private route: ActivatedRoute,
+    @Inject(ToastController) private toastController: ToastController,
 
-    private dbService: DbStudykitService,
-    private userService: UserService
+    @Inject(DbStudykitService) private dbService: DbStudykitService,
+    @Inject(UserService) private userService: UserService
   ) {}
 
   userId: string;

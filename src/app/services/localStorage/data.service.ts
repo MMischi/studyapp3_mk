@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { Auth } from "@angular/fire/auth";
 import { Storage } from "@ionic/storage-angular";
 
@@ -11,7 +11,10 @@ import { Studykit } from "../_interfaces/studykit";
 export class DataService {
   private STUDYKIT_DATA_STORAGE = "studykits";
 
-  constructor(private storage: Storage, private auth: Auth) {
+  constructor(
+    @Inject(Storage) private storage: Storage,
+    @Inject(Auth) private auth: Auth
+  ) {
     this.init();
   }
 

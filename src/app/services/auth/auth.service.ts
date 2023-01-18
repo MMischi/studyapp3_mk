@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import {
   Auth,
   createUserWithEmailAndPassword,
@@ -10,7 +10,7 @@ import {
   providedIn: "root",
 })
 export class AuthService {
-  constructor(private auth: Auth) {}
+  constructor(@Inject(Auth) private auth: Auth) {}
 
   async register({ email, password }) {
     try {

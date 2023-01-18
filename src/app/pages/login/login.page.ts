@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -15,9 +15,9 @@ export class LoginPage implements OnInit {
   login_unsuccessful: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
+   @Inject(FormBuilder) private fb: FormBuilder,
+   @Inject(AuthService) private authService: AuthService,
+   @Inject(Router) private router: Router
   ) {}
 
   get email() {

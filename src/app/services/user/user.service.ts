@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import {
   collection,
   doc,
@@ -18,7 +18,7 @@ import { User } from "../_interfaces/user";
 export class UserService {
   private USER_DATA_STORAGE = "user";
 
-  constructor(private firestore: Firestore, private authService: AuthService) {}
+  constructor(@Inject(Firestore) private firestore: Firestore) {}
 
   /**
    * creates reference to collection

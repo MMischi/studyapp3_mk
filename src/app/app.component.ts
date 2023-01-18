@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 
@@ -8,7 +8,7 @@ import { ToastController } from "@ionic/angular";
   styleUrls: ["app.component.scss"],
 })
 export class AppComponent {
-  constructor(private toastController: ToastController) {
+  constructor(@Inject(ToastController) private toastController: ToastController) {
     window.addEventListener("offline", () => {
       this.presentToast(
         "bottom",
@@ -22,7 +22,9 @@ export class AppComponent {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('Hi, is this working?');
+  }
 
   /**
    * show toast

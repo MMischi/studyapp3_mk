@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 
 import { DbStudykitService } from "src/app/services/firestore/db-studykit.service";
 import { DataService } from "src/app/services/localStorage/data.service";
@@ -12,8 +12,8 @@ import { Studykit } from "src/app/services/_interfaces/studykit";
 })
 export class StudykitOverviewPage implements OnInit {
   constructor(
-    private service: DataService,
-    private dbService: DbStudykitService
+    @Inject(DataService) private service: DataService,
+    @Inject(DbStudykitService) private dbService: DbStudykitService
   ) {}
 
   studykits: Studykit[] = [];

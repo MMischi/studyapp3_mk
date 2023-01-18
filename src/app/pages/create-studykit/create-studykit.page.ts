@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { v4 as uuidv4 } from "uuid";
 
 import { DbStudykitService } from "src/app/services/firestore/db-studykit.service";
@@ -20,14 +20,14 @@ import { Auth } from "@angular/fire/auth";
 })
 export class CreateStudykitPage implements OnInit {
   constructor(
-    private auth: Auth,
-    private service: DataService,
-    private dbService: DbStudykitService,
+    @Inject(Auth) private auth: Auth,
+    @Inject(DataService) private service: DataService,
+    @Inject(DbStudykitService) private dbService: DbStudykitService,
 
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastController: ToastController,
-    private alertController: AlertController
+    @Inject(Router) private router: Router,
+    @Inject(ActivatedRoute) private route: ActivatedRoute,
+    @Inject(ToastController) private toastController: ToastController,
+    @Inject(AlertController) private alertController: AlertController
   ) {}
 
   isStudikitEdited: boolean = false;

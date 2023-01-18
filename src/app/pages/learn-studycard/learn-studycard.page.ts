@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { Auth } from "@angular/fire/auth";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
@@ -26,13 +26,13 @@ import { Studykit } from "src/app/services/_interfaces/studykit";
 })
 export class LearnStudycardPage implements OnInit {
   constructor(
-    private auth: Auth,
-    private service: DataService,
-    private dbService: DbStudykitService,
+    @Inject(Auth) private auth: Auth,
+    @Inject(DataService) private service: DataService,
+    @Inject(DbStudykitService) private dbService: DbStudykitService,
 
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastController: ToastController
+    @Inject(Router) private router: Router,
+    @Inject(ActivatedRoute) private route: ActivatedRoute,
+    @Inject(ToastController) private toastController: ToastController
   ) {}
 
   studycards: Card[] = [

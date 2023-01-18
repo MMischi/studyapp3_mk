@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import {
   Firestore,
   collection,
@@ -23,7 +23,10 @@ import { Auth } from "@angular/fire/auth";
 export class DbStudykitService {
   private STUDYKIT_DATA_STORAGE = "studykits";
 
-  constructor(private firestore: Firestore, private auth: Auth) {}
+  constructor(
+    @Inject(Firestore) private firestore: Firestore,
+    @Inject(Auth) private auth: Auth
+  ) {}
 
   /**
    * creates reference to collection

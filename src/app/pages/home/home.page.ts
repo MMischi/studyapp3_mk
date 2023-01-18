@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Inject } from "@angular/core";
 
 import { DataService } from "src/app/services/localStorage/data.service";
 
@@ -25,9 +25,9 @@ export class HomePage {
   };
 
   constructor(
-    private service: DataService,
-    private dbService: DbStudykitService,
-    private toastController: ToastController
+    @Inject(DataService) private service: DataService,
+    @Inject(DbStudykitService) private dbService: DbStudykitService,
+    @Inject(ToastController) private toastController: ToastController
   ) {}
 
   studykit: Studykit;

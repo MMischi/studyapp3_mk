@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Auth } from "@angular/fire/auth";
@@ -17,14 +17,14 @@ export class RegisterPage implements OnInit {
   credentials: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
+    @Inject(FormBuilder) private fb: FormBuilder,
 
-    private auth: Auth,
-    private authService: AuthService,
-    private userService: UserService,
+    @Inject(Auth) private auth: Auth,
+    @Inject(AuthService) private authService: AuthService,
+    @Inject(UserService) private userService: UserService,
 
-    private router: Router,
-    private toastController: ToastController
+    @Inject(Router) private router: Router,
+    @Inject(ToastController) private toastController: ToastController
   ) {}
 
   get email() {

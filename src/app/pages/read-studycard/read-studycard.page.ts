@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 
@@ -20,12 +20,12 @@ import { Auth } from "@angular/fire/auth";
 })
 export class ReadStudycardPage implements OnInit {
   constructor(
-    private auth: Auth,
-    private service: DataService,
+    @Inject(Auth) private auth: Auth,
+    @Inject(DataService) private service: DataService,
 
-    private route: ActivatedRoute,
-    private router: Router,
-    private toastController: ToastController
+    @Inject(ActivatedRoute) private route: ActivatedRoute,
+    @Inject(Router) private router: Router,
+    @Inject(ToastController) private toastController: ToastController
   ) {}
 
   studycards: Card[] = [

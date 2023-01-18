@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Auth } from "@angular/fire/auth";
 
@@ -32,10 +32,10 @@ interface UserMultipleChoiceAnswer {
 })
 export class QuizStudycardPage implements OnInit {
   constructor(
-    private auth: Auth,
-    private service: DataService,
+    @Inject(Auth) private auth: Auth,
+    @Inject(DataService) private service: DataService,
 
-    private route: ActivatedRoute
+    @Inject(ActivatedRoute) private route: ActivatedRoute
   ) {}
 
   studycards: Card[] = [

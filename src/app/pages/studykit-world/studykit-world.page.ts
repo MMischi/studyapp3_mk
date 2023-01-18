@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { ToastController } from "@ionic/angular";
 import { DbStudykitService } from "src/app/services/firestore/db-studykit.service";
 import { Studykit } from "src/app/services/_interfaces/studykit";
@@ -10,8 +10,8 @@ import { Studykit } from "src/app/services/_interfaces/studykit";
 })
 export class StudykitWorldPage implements OnInit {
   constructor(
-    private toastController: ToastController,
-    private dbService: DbStudykitService
+    @Inject(ToastController) private toastController: ToastController,
+    @Inject(DbStudykitService) private dbService: DbStudykitService
   ) {
     window.addEventListener("offline", () => {
       this.isOnline = false;
