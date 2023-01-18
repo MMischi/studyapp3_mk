@@ -111,6 +111,16 @@ export class StudykitDetailPage implements OnInit {
     studykitToStore.created_at = new Date();
     studykitToStore.updated_at = new Date();
 
+    studykitToStore.cards.forEach((card: Card) => {
+      card.id = uuidv4();
+      card.created_at = new Date();
+      card.updated_at = new Date();
+      card.created_by = this.auth.currentUser.uid;
+      card.lastLearnedOn = new Date();
+      card.nextLearnDate = new Date();
+      card.repetitionTimes = 0;
+    })
+
     await this.service.storeStudykit(studykitToStore);
     const result = await this.dbService.storeStudykitToDB(studykitToStore);
     if (result === "failed") {

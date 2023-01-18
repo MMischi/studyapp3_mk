@@ -35,6 +35,18 @@ export class CreateStudykitPage implements OnInit {
   delCardId: string = "";
   cardType: string = "";
 
+  answers: Answer[] = [
+    {
+      id: uuidv4(),
+      text: "",
+      isRight: true,
+
+      created_by: this.auth.currentUser.uid,
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
+  ]; // element to show at the beginning
+
   studycards: Card[] = [
     {
       id: uuidv4(),
@@ -43,7 +55,7 @@ export class CreateStudykitPage implements OnInit {
       repetitionTimes: 0,
       type: "",
       question: "",
-      answers: [],
+      answers: this.answers,
 
       created_by: this.auth.currentUser.uid,
       created_at: new Date(),
@@ -92,7 +104,17 @@ export class CreateStudykitPage implements OnInit {
       repetitionTimes: 0,
       type: "",
       question: "",
-      answers: [],
+      answers: [
+        {
+          id: uuidv4(),
+          text: "",
+          isRight: true,
+
+          created_by: this.auth.currentUser.uid,
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+      ],
 
       created_by: this.auth.currentUser.uid,
       created_at: new Date(),
@@ -329,13 +351,13 @@ export class CreateStudykitPage implements OnInit {
    */
   deleteCardsWithEmptyQuestion() {
     let emptyCardsIds: number[] = [];
-    for(let i = 0; i < this.studykit.cards.length; i++) {
-      if(this.studykit.cards[i].question === '') emptyCardsIds.push(i);
+    for (let i = 0; i < this.studykit.cards.length; i++) {
+      if (this.studykit.cards[i].question === "") emptyCardsIds.push(i);
     }
 
     emptyCardsIds.forEach((elem: number) => {
-      this.studykit.cards.splice(elem,1);
-    })
+      this.studykit.cards.splice(elem, 1);
+    });
   }
 
   /**

@@ -15,6 +15,7 @@ import {
 
 import { Studykit } from "../_interfaces/studykit";
 import { Card } from "../_interfaces/card";
+import { Answer } from "../_interfaces/answer";
 import { Auth } from "@angular/fire/auth";
 
 @Injectable({
@@ -60,12 +61,37 @@ export class DbStudykitService {
       let studykitArray: Studykit[] = [];
       docsRef.forEach((doc) => {
         const studykit: Studykit = doc.data() as Studykit; // with timestamp instead of date
-        studykit.updated_at = new Date(
+        if(!(studykit.updated_at instanceof Date)) studykit.updated_at = new Date(
           (studykit.updated_at as unknown as Timestamp).seconds * 1000
         );
-        studykit.created_at = new Date(
-          (studykit.updated_at as unknown as Timestamp).seconds * 1000
+        if(!(studykit.created_at instanceof Date)) studykit.created_at = new Date(
+          (studykit.created_at as unknown as Timestamp).seconds * 1000
         );
+
+        studykit.cards.forEach((card: Card) => {
+          if(!(card.updated_at instanceof Date)) card.updated_at = new Date(
+            (card.updated_at as unknown as Timestamp).seconds * 1000
+          );
+          if(!(card.created_at instanceof Date)) card.created_at = new Date(
+            (card.created_at as unknown as Timestamp).seconds * 1000
+          );
+          if(!(card.lastLearnedOn instanceof Date)) card.lastLearnedOn = new Date(
+            (card.lastLearnedOn as unknown as Timestamp).seconds * 1000
+          );
+          if(!(card.nextLearnDate instanceof Date)) card.nextLearnDate = new Date(
+            (card.nextLearnDate as unknown as Timestamp).seconds * 1000
+          );
+
+          card.answers.forEach((answer: Answer) => {
+            if(!(answer.updated_at instanceof Date)) answer.updated_at = new Date(
+              (answer.updated_at as unknown as Timestamp).seconds * 1000
+            );
+            if(!(answer.created_at instanceof Date)) answer.created_at = new Date(
+              (answer.created_at as unknown as Timestamp).seconds * 1000
+            );
+          });
+        });
+
         studykitArray.push(doc.data() as Studykit);
       });
 
@@ -92,13 +118,39 @@ export class DbStudykitService {
       let studykitArray: Studykit[] = [];
       docsRef.forEach((doc) => {
         const studykit: Studykit = doc.data() as Studykit; // with timestamp instead of date
-        studykit.updated_at = new Date(
+        console.log(studykit);
+        if(!(studykit.updated_at instanceof Date)) studykit.updated_at = new Date(
           (studykit.updated_at as unknown as Timestamp).seconds * 1000
         );
-        studykit.created_at = new Date(
-          (studykit.updated_at as unknown as Timestamp).seconds * 1000
+        if(!(studykit.created_at instanceof Date)) studykit.created_at = new Date(
+          (studykit.created_at as unknown as Timestamp).seconds * 1000
         );
-        studykitArray.push(doc.data() as Studykit);
+
+        studykit.cards.forEach((card: Card) => {
+          if(!(card.updated_at instanceof Date)) card.updated_at = new Date(
+            (card.updated_at as unknown as Timestamp).seconds * 1000
+          );
+          if(!(card.created_at instanceof Date)) card.created_at = new Date(
+            (card.created_at as unknown as Timestamp).seconds * 1000
+          );
+          if(!(card.lastLearnedOn instanceof Date)) card.lastLearnedOn = new Date(
+            (card.lastLearnedOn as unknown as Timestamp).seconds * 1000
+          );
+          if(!(card.nextLearnDate instanceof Date)) card.nextLearnDate = new Date(
+            (card.nextLearnDate as unknown as Timestamp).seconds * 1000
+          );
+
+          card.answers.forEach((answer: Answer) => {
+            if(!(answer.updated_at instanceof Date)) answer.updated_at = new Date(
+              (answer.updated_at as unknown as Timestamp).seconds * 1000
+            );
+            if(!(answer.created_at instanceof Date)) answer.created_at = new Date(
+              (answer.created_at as unknown as Timestamp).seconds * 1000
+            );
+          });
+        });
+        console.log(studykit);
+        studykitArray.push(studykit);
       });
 
       return studykitArray;
@@ -124,12 +176,37 @@ export class DbStudykitService {
         docSnap.data().created_by === this.auth.currentUser.uid
       ) {
         const studykit = docSnap.data(); // with timestamp instead of date
-        studykit.updated_at = new Date(
+        if(!(studykit.updated_at instanceof Date)) studykit.updated_at = new Date(
           (studykit.updated_at as unknown as Timestamp).seconds * 1000
         );
-        studykit.created_at = new Date(
+        if(!(studykit.created_at instanceof Date)) studykit.created_at = new Date(
           (studykit.created_at as unknown as Timestamp).seconds * 1000
         );
+
+        studykit.cards.forEach((card: Card) => {
+          if(!(card.updated_at instanceof Date)) card.updated_at = new Date(
+            (card.updated_at as unknown as Timestamp).seconds * 1000
+          );
+          if(!(card.created_at instanceof Date)) card.created_at = new Date(
+            (card.created_at as unknown as Timestamp).seconds * 1000
+          );
+          if(!(card.lastLearnedOn instanceof Date)) card.lastLearnedOn = new Date(
+            (card.lastLearnedOn as unknown as Timestamp).seconds * 1000
+          );
+          if(!(card.nextLearnDate instanceof Date)) card.nextLearnDate = new Date(
+            (card.nextLearnDate as unknown as Timestamp).seconds * 1000
+          );
+
+          card.answers.forEach((answer: Answer) => {
+            if(!(answer.updated_at instanceof Date)) answer.updated_at = new Date(
+              (answer.updated_at as unknown as Timestamp).seconds * 1000
+            );
+            if(!(answer.created_at instanceof Date)) answer.created_at = new Date(
+              (answer.created_at as unknown as Timestamp).seconds * 1000
+            );
+          });
+        });
+
         return studykit as Studykit;
       } else return null;
     } catch (e) {
@@ -151,12 +228,37 @@ export class DbStudykitService {
       const docSnap = await getDoc(this.getDocById(studykitId));
       if (docSnap.exists()) {
         const studykit = docSnap.data(); // with timestamp instead of date
-        studykit.updated_at = new Date(
+        if(!(studykit.updated_at instanceof Date)) studykit.updated_at = new Date(
           (studykit.updated_at as unknown as Timestamp).seconds * 1000
         );
-        studykit.created_at = new Date(
-          (studykit.updated_at as unknown as Timestamp).seconds * 1000
+        if(!(studykit.created_at instanceof Date)) studykit.created_at = new Date(
+          (studykit.created_at as unknown as Timestamp).seconds * 1000
         );
+
+        studykit.cards.forEach((card: Card) => {
+          if(!(card.updated_at instanceof Date)) card.updated_at = new Date(
+            (card.updated_at as unknown as Timestamp).seconds * 1000
+          );
+          if(!(card.created_at instanceof Date)) card.created_at = new Date(
+            (card.created_at as unknown as Timestamp).seconds * 1000
+          );
+          if(!(card.lastLearnedOn instanceof Date)) card.lastLearnedOn = new Date(
+            (card.lastLearnedOn as unknown as Timestamp).seconds * 1000
+          );
+          if(!(card.nextLearnDate instanceof Date)) card.nextLearnDate = new Date(
+            (card.nextLearnDate as unknown as Timestamp).seconds * 1000
+          );
+
+          card.answers.forEach((answer: Answer) => {
+            if(!(answer.updated_at instanceof Date)) answer.updated_at = new Date(
+              (answer.updated_at as unknown as Timestamp).seconds * 1000
+            );
+            if(!(answer.created_at instanceof Date)) answer.created_at = new Date(
+              (answer.created_at as unknown as Timestamp).seconds * 1000
+            );
+          });
+        });
+        
         return studykit as Studykit;
       } else return null;
     } catch (e) {
@@ -205,7 +307,8 @@ export class DbStudykitService {
    * @param {Studykit} studykit - full studykit
    * @returns {string} 'success' or 'failed'
    */
-  async updateStudykitInDB(studykit: Studykit) {
+  async updateStudykitInDB(studykit: Studykit): Promise<"success" | "failed"> {
+    console.log(studykit);
     studykit.updated_at = new Date();
     try {
       updateDoc(this.getDocById(studykit.id), {
