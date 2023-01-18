@@ -86,7 +86,6 @@ export class HomePage {
 
     if (isSuccessful === true) {
       this.studykits = await this.service.getAllStudykits();
-      this.presentToast("bottom", "success", "Daten erfolgreich aktualisiert.");
     } else this.presentToast(
       "bottom",
       "danger",
