@@ -30,16 +30,27 @@
         <p>{{ card.question }}</p>
 
         <div *ngIf="card.type === 'text'">
-          <p>{{ card.answers[0] }}</p>
+          <ion-list lines="none">
+            <ion-item>
+              <ion-label>{{ card.answers[0] }}</ion-label>
+            </ion-item>
+          </ion-list>
         </div>
         <div *ngIf="card.type === 'multiple'">
           <ion-list>
             <ion-item *ngFor="let answer of card.answers">
-              <ion-checkbox
-                slot="end"
-                checked="{{answer.isRight}}"
-              ></ion-checkbox>
-              <ion-label>{{ answer.text }}</ion-label>
+              <ion-icon
+                *ngIf="answer.isRight"
+                name="checkmark-circle-outline"
+                slot="start"
+              ></ion-icon>
+
+              <ion-icon
+                *ngIf="!answer.isRight"
+                name="close-circle-outline"
+                slot="start"
+              ></ion-icon>
+              <p>{{ answer.text }}</p>
             </ion-item>
           </ion-list>
         </div>

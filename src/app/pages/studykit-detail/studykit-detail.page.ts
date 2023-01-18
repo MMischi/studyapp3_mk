@@ -3,6 +3,7 @@ import { Auth } from "@angular/fire/auth";
 import { ActivatedRoute } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { DbStudykitService } from "src/app/services/firestore/db-studykit.service";
+import { DataService } from "src/app/services/localStorage/data.service";
 import { UserService } from "src/app/services/user/user.service";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
@@ -20,6 +21,7 @@ export class StudykitDetailPage implements OnInit {
     private route: ActivatedRoute,
     private toastController: ToastController,
 
+    private service: DataService,
     private dbService: DbStudykitService,
     private userService: UserService
   ) {}
@@ -109,9 +111,8 @@ export class StudykitDetailPage implements OnInit {
     studykitToStore.created_at = new Date();
     studykitToStore.updated_at = new Date();
 
-    console.log(studykitToStore);
-
-    const result = await this.dbService.storeStudykitToDB(this.studykit);
+    await this.service.storeStudykit(studykitToStore);
+    const result = await this.dbService.storeStudykitToDB(studykitToStore);
     if (result === "failed") {
       this.presentToast(
         "bottom",

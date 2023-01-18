@@ -126,7 +126,7 @@ export class ReadStudycardPage implements OnInit {
    */
   areThereRightAnswers(): boolean {
     const rightAnswers = this.cardToShow.answers.filter(
-      (elem: Answer) => elem.isRight === false
+      (elem: Answer) => elem.isRight === true
     );
     return rightAnswers.length > 0;
   }

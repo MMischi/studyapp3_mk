@@ -22,9 +22,7 @@ export class AppComponent {
     });
   }
 
-  ngOnInit() {
-    console.log('Hi, is this working?');
-  }
+  ngOnInit() {}
 
   /**
    * show toast
