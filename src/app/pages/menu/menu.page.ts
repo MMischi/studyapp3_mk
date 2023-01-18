@@ -45,22 +45,33 @@ export class MenuPage implements OnInit {
 
     const dbSummary = ["firestore", dbStudykitArray];
     const localStorageSummary = ["localStorage", localStorageStudykitArry];
-    await this.refreshStudykitCollection(dbSummary, localStorageSummary);
+    const isSuccessful: boolean = await this.refreshStudykitCollection(
+      dbSummary,
+      localStorageSummary
+    );
+
+    if (isSuccessful === true) {
+      this.presentToast("bottom", "success", "Daten erfolgreich aktualisiert.");
+    } else this.presentToast(
+      "bottom",
+      "danger",
+      "Ein Fehler bei der Datenübertragung zum Server ist aufgetreten."
+    );
   }
 
   async refreshStudykitCollection(
     array1Summary: number | (string | Studykit[])[],
     array2Summary: number | (string | Studykit[])[]
-  ) {
-    if (array1Summary[1].length > array2Summary[1].length)
-      await this.handleRefresh(array1Summary, array2Summary);
-    else await this.handleRefresh(array2Summary, array1Summary);
+  ): Promise<boolean> {
+    if (array1Summary[1].length > array2Summary[1].length){
+      return await this.handleRefresh(array1Summary, array2Summary);}
+    else return await this.handleRefresh(array2Summary, array1Summary);
   }
 
   async handleRefresh(
     longerArraySummary: number | (string | Studykit[])[],
     shorterArraySummary: number | (string | Studykit[])[]
-  ) {
+  ): Promise<boolean> {
     const longerArrayContent: Studykit[] = longerArraySummary[1];
     const shorterArrayContent: Studykit[] = shorterArraySummary[1];
 
@@ -70,19 +81,24 @@ export class MenuPage implements OnInit {
       );
 
       if (longerArrayIdx === -1) continue;
-      else
-        await this.checkUpdateSource(
+      else {
+        const result = await this.checkUpdateSource(
           longerArraySummary,
           shorterArraySummary,
           longerArrayIdx,
           0
         );
+        if(result === false) return false;
+      }
 
       shorterArrayContent.splice(0, 1);
       longerArrayContent.splice(longerArrayIdx, 1);
     }
 
-    await this.storeNoExisting(shorterArraySummary[0], longerArrayContent);
+    return await this.storeNoExisting(
+      shorterArraySummary[0],
+      longerArrayContent
+    );
   }
 
   async checkUpdateSource(
@@ -90,7 +106,7 @@ export class MenuPage implements OnInit {
     shorterArray: number | (string | Studykit[])[],
     longerArrayIdx: number,
     shorterArrayIdx: number
-  ) {
+  ): Promise<boolean> {
     const longerArrayOrigin: string = longerArray[0];
     const longerArrayContent: Studykit[] = longerArray[1];
     const shorterArrayOrigin: string = shorterArray[0];
@@ -100,34 +116,44 @@ export class MenuPage implements OnInit {
       shorterArrayContent[shorterArrayIdx].updated_at >
       longerArrayContent[longerArrayIdx].updated_at
     ) {
-      await this.handleUpdate(
+      return await this.handleUpdate(
         shorterArrayContent[shorterArrayIdx],
         shorterArrayOrigin
       );
     } else {
-      await this.handleUpdate(
+      return await this.handleUpdate(
         longerArrayContent[longerArrayIdx],
         longerArrayOrigin
       );
     }
   }
 
-  async handleUpdate(contentToUpdate: Studykit, source: string) {
+  async handleUpdate(
+    contentToUpdate: Studykit,
+    source: string
+  ): Promise<boolean> {
     if (source === "firestore") {
-      await this.dbService.updateStudykitInDB(contentToUpdate);
+      const result = await this.dbService.updateStudykitInDB(contentToUpdate);
+      if (result === "failed") return false;
     } else if (source === "localStorage") {
       await this.service.updateStudykit(contentToUpdate);
     }
+    return true;
   }
 
-  async storeNoExisting(source: string, studykitArray: Studykit[]) {
+  async storeNoExisting(
+    source: string,
+    studykitArray: Studykit[]
+  ): Promise<boolean> {
     studykitArray.forEach(async (elem: Studykit) => {
       if (source === "firestore") {
-        await this.dbService.storeStudykitToDB(elem);
+        const result = await this.dbService.storeStudykitToDB(elem);
+        if (result === "failed") return false;
       } else if (source === "localStorage") {
         await this.service.storeStudykit(elem);
       }
     });
+    return true;
   }
 
   /**
