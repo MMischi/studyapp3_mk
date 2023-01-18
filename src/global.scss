@@ -95,6 +95,10 @@ ion-list {
   --ion-item-background: transparent;
 }
 
+a {
+  color: var(--ion-color-primary-shade);
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap");
 :root {
   --ion-font-family: "Rubik", sans-serif;

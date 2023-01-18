@@ -118,7 +118,6 @@ export class DbStudykitService {
       let studykitArray: Studykit[] = [];
       docsRef.forEach((doc) => {
         const studykit: Studykit = doc.data() as Studykit; // with timestamp instead of date
-        console.log(studykit);
         if(!(studykit.updated_at instanceof Date)) studykit.updated_at = new Date(
           (studykit.updated_at as unknown as Timestamp).seconds * 1000
         );
@@ -149,7 +148,6 @@ export class DbStudykitService {
             );
           });
         });
-        console.log(studykit);
         studykitArray.push(studykit);
       });
 
@@ -308,7 +306,6 @@ export class DbStudykitService {
    * @returns {string} 'success' or 'failed'
    */
   async updateStudykitInDB(studykit: Studykit): Promise<"success" | "failed"> {
-    console.log(studykit);
     studykit.updated_at = new Date();
     try {
       updateDoc(this.getDocById(studykit.id), {

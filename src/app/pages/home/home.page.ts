@@ -38,6 +38,10 @@ export class HomePage {
   }
 
   async ionViewWillEnter() {
+    await this.tryRefreshStudykit();
+
+    console.log(this.studykits)
+
     if (this.studykit !== undefined) {
       this.studykit = await this.service.getStudykitById(this.studykit.id);
       this.isCardToLearn(this.studykit);
@@ -108,6 +112,7 @@ export class HomePage {
   ): Promise<boolean> {
     const longerArrayContent: Studykit[] = longerArraySummary[1];
     const shorterArrayContent: Studykit[] = shorterArraySummary[1];
+    console.log(longerArrayContent);
 
     for (let i: number = 0; i < shorterArrayContent.length; i++) {
       const longerArrayIdx = longerArrayContent.findIndex(
@@ -179,14 +184,15 @@ export class HomePage {
     source: string,
     studykitArray: Studykit[]
   ): Promise<boolean> {
-    studykitArray.forEach(async (elem: Studykit) => {
+    for(let studykit of studykitArray) {
       if (source === "firestore") {
-        const result = await this.dbService.storeStudykitToDB(elem);
+        const result = await this.dbService.storeStudykitToDB(studykit);
         if (result === "failed") return false;
       } else if (source === "localStorage") {
-        await this.service.storeStudykit(elem);
+        await this.service.storeStudykit(studykit);
       }
-    });
+    }
+    
     return true;
   }
 
