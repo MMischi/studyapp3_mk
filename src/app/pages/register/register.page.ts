@@ -17,14 +17,14 @@ export class RegisterPage implements OnInit {
   credentials: FormGroup;
 
   constructor(
-    @Inject(FormBuilder) private fb: FormBuilder,
+    private fb: FormBuilder,
 
-    @Inject(Auth) private auth: Auth,
-    @Inject(AuthService) private authService: AuthService,
-    @Inject(UserService) private userService: UserService,
+    private auth: Auth,
+    private authService: AuthService,
+    private userService: UserService,
 
-    @Inject(Router) private router: Router,
-    @Inject(ToastController) private toastController: ToastController
+    private router: Router,
+    private toastController: ToastController
   ) {}
 
   get email() {

@@ -32,10 +32,10 @@ interface UserMultipleChoiceAnswer {
 })
 export class QuizStudycardPage implements OnInit {
   constructor(
-    @Inject(Auth) private auth: Auth,
-    @Inject(DataService) private service: DataService,
+    private auth: Auth,
+    private service: DataService,
 
-    @Inject(ActivatedRoute) private route: ActivatedRoute
+    private route: ActivatedRoute
   ) {}
 
   studycards: Card[] = [

@@ -1,23 +1,22 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, Inject, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { AuthService } from "src/app/services/auth/auth.service";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: "app-login",
+  templateUrl: "./login.page.html",
+  styleUrls: ["./login.page.scss"],
 })
 export class LoginPage implements OnInit {
-
   credentials: FormGroup;
   login_unsuccessful: boolean = false;
 
   constructor(
-   @Inject(FormBuilder) private fb: FormBuilder,
-   @Inject(AuthService) private authService: AuthService,
-   @Inject(Router) private router: Router
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   get email() {
@@ -31,7 +30,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     this.credentials = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
-      password: ["", [Validators.required]]
+      password: ["", [Validators.required]],
     });
   }
 

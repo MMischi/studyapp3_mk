@@ -16,12 +16,12 @@ import { v4 as uuidv4 } from "uuid";
 })
 export class StudykitDetailPage implements OnInit {
   constructor(
-    @Inject(Auth) private auth: Auth,
-    @Inject(ActivatedRoute) private route: ActivatedRoute,
-    @Inject(ToastController) private toastController: ToastController,
+    private auth: Auth,
+    private route: ActivatedRoute,
+    private toastController: ToastController,
 
-    @Inject(DbStudykitService) private dbService: DbStudykitService,
-    @Inject(UserService) private userService: UserService
+    private dbService: DbStudykitService,
+    private userService: UserService
   ) {}
 
   userId: string;
@@ -58,8 +58,8 @@ export class StudykitDetailPage implements OnInit {
     email: "",
     nickname: "",
     created_at: undefined,
-    updated_at: undefined
-  }
+    updated_at: undefined,
+  };
 
   ngOnInit() {}
 
@@ -87,7 +87,9 @@ export class StudykitDetailPage implements OnInit {
   }
 
   async getOwner() {
-    const result = await this.userService.getUserByIdFromDB(this.studykit.created_by);
+    const result = await this.userService.getUserByIdFromDB(
+      this.studykit.created_by
+    );
     if (result === "failed" || result === null) {
       this.presentToast(
         "bottom",

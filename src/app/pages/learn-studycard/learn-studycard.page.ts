@@ -26,13 +26,13 @@ import { Studykit } from "src/app/services/_interfaces/studykit";
 })
 export class LearnStudycardPage implements OnInit {
   constructor(
-    @Inject(Auth) private auth: Auth,
-    @Inject(DataService) private service: DataService,
-    @Inject(DbStudykitService) private dbService: DbStudykitService,
+    private auth: Auth,
+    private service: DataService,
+    private dbService: DbStudykitService,
 
-    @Inject(Router) private router: Router,
-    @Inject(ActivatedRoute) private route: ActivatedRoute,
-    @Inject(ToastController) private toastController: ToastController
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastController: ToastController
   ) {}
 
   studycards: Card[] = [

@@ -25,9 +25,9 @@ export class HomePage {
   };
 
   constructor(
-    @Inject(DataService) private service: DataService,
-    @Inject(DbStudykitService) private dbService: DbStudykitService,
-    @Inject(ToastController) private toastController: ToastController
+    private service: DataService,
+    private dbService: DbStudykitService,
+    private toastController: ToastController
   ) {}
 
   studykit: Studykit;

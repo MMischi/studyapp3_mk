@@ -9,10 +9,7 @@ import { AuthService } from "src/app/services/auth/auth.service";
   styleUrls: ["./menu.page.scss"],
 })
 export class MenuPage implements OnInit {
-  constructor(
-    @Inject(AuthService) private authService: AuthService,
-    @Inject(Router) private router: Router
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {}
 

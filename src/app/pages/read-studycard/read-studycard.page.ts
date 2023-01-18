@@ -20,12 +20,12 @@ import { Auth } from "@angular/fire/auth";
 })
 export class ReadStudycardPage implements OnInit {
   constructor(
-    @Inject(Auth) private auth: Auth,
-    @Inject(DataService) private service: DataService,
+    private auth: Auth,
+    private service: DataService,
 
-    @Inject(ActivatedRoute) private route: ActivatedRoute,
-    @Inject(Router) private router: Router,
-    @Inject(ToastController) private toastController: ToastController
+    private route: ActivatedRoute,
+    private router: Router,
+    private toastController: ToastController
   ) {}
 
   studycards: Card[] = [

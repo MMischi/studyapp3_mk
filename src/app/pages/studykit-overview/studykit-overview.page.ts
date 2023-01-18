@@ -12,8 +12,8 @@ import { Studykit } from "src/app/services/_interfaces/studykit";
 })
 export class StudykitOverviewPage implements OnInit {
   constructor(
-    @Inject(DataService) private service: DataService,
-    @Inject(DbStudykitService) private dbService: DbStudykitService
+    private service: DataService,
+    private dbService: DbStudykitService
   ) {}
 
   studykits: Studykit[] = [];

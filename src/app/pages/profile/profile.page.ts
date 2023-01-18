@@ -14,11 +14,11 @@ export class ProfilePage implements OnInit {
   profile: FormGroup;
 
   constructor(
-    @Inject(FormBuilder) private fb: FormBuilder,
+    private fb: FormBuilder,
 
-    @Inject(Auth) private auth: Auth,
-    @Inject(UserService) private userService: UserService,
-    @Inject(ToastController) private toastController: ToastController
+    private auth: Auth,
+    private userService: UserService,
+    private toastController: ToastController
   ) {}
 
   userId: string;

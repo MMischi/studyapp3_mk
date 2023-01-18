@@ -10,8 +10,8 @@ import { Studykit } from "src/app/services/_interfaces/studykit";
 })
 export class StudykitWorldPage implements OnInit {
   constructor(
-    @Inject(ToastController) private toastController: ToastController,
-    @Inject(DbStudykitService) private dbService: DbStudykitService
+    private toastController: ToastController,
+    private dbService: DbStudykitService
   ) {
     window.addEventListener("offline", () => {
       this.isOnline = false;
