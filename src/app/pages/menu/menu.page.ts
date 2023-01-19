@@ -50,22 +50,27 @@ export class MenuPage implements OnInit {
       localStorageSummary
     );
 
-    if (isSuccessful === true) {
-      this.presentToast("bottom", "success", "Daten erfolgreich aktualisiert.");
-    } else this.presentToast(
-      "bottom",
-      "danger",
-      "Ein Fehler bei der Datenübertragung zum Server ist aufgetreten."
-    );
+    if (isSuccessful === true)
+      this.presentToast(
+        "bottom",
+        "success",
+        "Lernsets erfolgreich aktualisiert."
+      );
+    else
+      this.presentToast(
+        "bottom",
+        "danger",
+        "Ein Fehler bei der Datenübertragung zum Server ist aufgetreten."
+      );
   }
 
   async refreshStudykitCollection(
     array1Summary: number | (string | Studykit[])[],
     array2Summary: number | (string | Studykit[])[]
   ): Promise<boolean> {
-    if (array1Summary[1].length > array2Summary[1].length){
-      return await this.handleRefresh(array1Summary, array2Summary);}
-    else return await this.handleRefresh(array2Summary, array1Summary);
+    if (array1Summary[1].length > array2Summary[1].length) {
+      return await this.handleRefresh(array1Summary, array2Summary);
+    } else return await this.handleRefresh(array2Summary, array1Summary);
   }
 
   async handleRefresh(
@@ -74,6 +79,7 @@ export class MenuPage implements OnInit {
   ): Promise<boolean> {
     const longerArrayContent: Studykit[] = longerArraySummary[1];
     const shorterArrayContent: Studykit[] = shorterArraySummary[1];
+    console.log(longerArrayContent);
 
     for (let i: number = 0; i < shorterArrayContent.length; i++) {
       const longerArrayIdx = longerArrayContent.findIndex(
@@ -88,7 +94,7 @@ export class MenuPage implements OnInit {
           longerArrayIdx,
           0
         );
-        if(result === false) return false;
+        if (result === false) return false;
       }
 
       shorterArrayContent.splice(0, 1);
@@ -145,14 +151,15 @@ export class MenuPage implements OnInit {
     source: string,
     studykitArray: Studykit[]
   ): Promise<boolean> {
-    studykitArray.forEach(async (elem: Studykit) => {
+    for (let studykit of studykitArray) {
       if (source === "firestore") {
-        const result = await this.dbService.storeStudykitToDB(elem);
+        const result = await this.dbService.storeStudykitToDB(studykit);
         if (result === "failed") return false;
       } else if (source === "localStorage") {
-        await this.service.storeStudykit(elem);
+        await this.service.storeStudykit(studykit);
       }
-    });
+    }
+
     return true;
   }
 

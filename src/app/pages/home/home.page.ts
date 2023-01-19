@@ -33,14 +33,10 @@ export class HomePage {
   studykit: Studykit;
   studykits: Studykit[] = [];
 
-  async ngOnInit() {
-    await this.tryRefreshStudykit();
-  }
+  async ngOnInit() {}
 
   async ionViewWillEnter() {
     await this.tryRefreshStudykit();
-
-    console.log(this.studykits)
 
     if (this.studykit !== undefined) {
       this.studykit = await this.service.getStudykitById(this.studykit.id);
