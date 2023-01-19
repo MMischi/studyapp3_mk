@@ -5,6 +5,7 @@ import { ToastController } from "@ionic/angular";
 import { DbStudykitService } from "src/app/services/firestore/db-studykit.service";
 import { DataService } from "src/app/services/localStorage/data.service";
 import { UserService } from "src/app/services/user/user.service";
+import { Answer } from "src/app/services/_interfaces/answer";
 import { Card } from "src/app/services/_interfaces/card";
 import { Studykit } from "src/app/services/_interfaces/studykit";
 import { User } from "src/app/services/_interfaces/user";
@@ -28,6 +29,18 @@ export class StudykitDetailPage implements OnInit {
 
   userId: string;
 
+  answers: Answer[] = [
+    {
+      id: "",
+      text: "",
+      isRight: true,
+
+      created_by: this.auth.currentUser.uid,
+      created_at: undefined,
+      updated_at: undefined,
+    },
+  ]; 
+
   studycards: Card[] = [
     {
       id: "",
@@ -36,13 +49,14 @@ export class StudykitDetailPage implements OnInit {
       repetitionTimes: 0,
       type: "",
       question: "",
-      answers: [],
+      answers: this.answers,
 
       created_by: "",
       created_at: undefined,
       updated_at: undefined,
     },
   ];
+
   studykit: Studykit = {
     id: "",
     title: "",

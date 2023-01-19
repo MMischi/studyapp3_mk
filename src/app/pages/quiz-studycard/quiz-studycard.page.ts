@@ -38,6 +38,18 @@ export class QuizStudycardPage implements OnInit {
     private route: ActivatedRoute
   ) {}
 
+  answers: Answer[] = [
+    {
+      id: "",
+      text: "",
+      isRight: true,
+
+      created_by: this.auth.currentUser.uid,
+      created_at: undefined,
+      updated_at: undefined,
+    },
+  ]; 
+
   studycards: Card[] = [
     {
       id: "",
@@ -46,7 +58,7 @@ export class QuizStudycardPage implements OnInit {
       repetitionTimes: 0,
       type: "",
       question: "",
-      answers: [],
+      answers: this.answers,
 
       created_by: "",
       created_at: undefined,
@@ -135,7 +147,7 @@ export class QuizStudycardPage implements OnInit {
     } else if (this.cardToShow.type === "text") {
       this.answerSimilarity = getStringSimilarity(
         this.answerOfTextarea,
-        this.cardToShow.answers[0].toString()
+        this.cardToShow.answers[0].text.toString()
       );
       isValide = checkanswerOfTextarea(this.answerSimilarity);
       this.userTextAnswers.push({

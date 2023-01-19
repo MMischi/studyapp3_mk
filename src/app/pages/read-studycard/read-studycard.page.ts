@@ -28,6 +28,18 @@ export class ReadStudycardPage implements OnInit {
     private toastController: ToastController
   ) {}
 
+  answers: Answer[] = [
+    {
+      id: "",
+      text: "",
+      isRight: true,
+
+      created_by: this.auth.currentUser.uid,
+      created_at: undefined,
+      updated_at: undefined,
+    },
+  ]; 
+
   studycards: Card[] = [
     {
       id: "",
@@ -36,13 +48,14 @@ export class ReadStudycardPage implements OnInit {
       repetitionTimes: 0,
       type: "",
       question: "",
-      answers: [],
+      answers: this.answers,
 
       created_by: "",
       created_at: undefined,
       updated_at: undefined,
     },
   ];
+  
   studykit: Studykit = {
     id: "",
     title: "",

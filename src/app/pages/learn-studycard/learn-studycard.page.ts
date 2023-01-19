@@ -35,6 +35,18 @@ export class LearnStudycardPage implements OnInit {
     private toastController: ToastController
   ) {}
 
+  answers: Answer[] = [
+    {
+      id: "",
+      text: "",
+      isRight: true,
+
+      created_by: this.auth.currentUser.uid,
+      created_at: undefined,
+      updated_at: undefined,
+    },
+  ]; 
+
   studycards: Card[] = [
     {
       id: "",
@@ -43,7 +55,7 @@ export class LearnStudycardPage implements OnInit {
       repetitionTimes: 0,
       type: "",
       question: "",
-      answers: [],
+      answers: this.answers,
 
       created_by: "",
       created_at: undefined,
@@ -180,7 +192,7 @@ export class LearnStudycardPage implements OnInit {
     } else if (this.cardToShow.type === "text") {
       this.answerSimilarity = getStringSimilarity(
         this.answerOfTextarea,
-        this.cardToShow.answers[0].toString()
+        this.cardToShow.answers[0].text.toString()
       );
       isValide = checkanswerOfTextarea(this.answerSimilarity);
     }
